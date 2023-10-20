@@ -34,8 +34,8 @@ skp2 = dict(list(zip(skp2_en['Šifra kategorije'].astype('category'), skp2_en['A
 p16_level2 = dict(list(zip(p16_level2_en['Šifra kategorije'].astype('category'), p16_level2_en['Angleški deskriptor'])))
 
 class SurvivalDataset:
-  def __init__(self, fname, path=os.path.join(DIR_PATH, '../../data/raw/'), random_state = 11):
-    if fname.endswith('.rda'): import pyreadr; self.dataset = pyreadr.read_r(os.path.join(path, fname))[fname.split('.')[0]]
+  def __init__(self, fname, path='', random_state = 11):
+    if fname.endswith('.rda'): import pyreadr; self.dataset = pyreadr.read_r(os.path.join(path, fname))[fname.split('.')[0].split('/')[-1]]
     if fname.endswith('.csv'): self.dataset = pd.read_csv(os.path.join(path, fname))
     if fname.endswith('.xlsx'): self.dataset = pd.read_excel(os.path.join(path, fname))
     self.preprocessed = None
@@ -53,7 +53,7 @@ class SurvivalDataset:
     scaler = StandardScaler()
     df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
     df['status'] = df['status'].map({1: 0, 2:1, 0:0})
-    df.select_dtypes(include=['bool']).astype('int')
+    df[df.select_dtypes(include=['bool']).columns] = df.select_dtypes(include=['bool']).astype('int')
     self.preprocessed = df
     return df
   
