@@ -60,11 +60,13 @@ class SurvivalDataset:
   def get_survival_vector(self):
     if self.preprocessed is None: self.preprocess()
     survival_time = self.preprocessed.time.values
+    survival_status = self.preprocessed.status.values
     time_upper_limit = survival_time.max()
     time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
     for i,el in enumerate(survival_time):
       for j in range(time_tensor.shape[1]):
-        if j<el: time_tensor[i][j] = 1
+        if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = np.nan
+        elif j<el: time_tensor[i][j] = 1
         else: time_tensor[i][j] = 0
     print(f'Succesfully created time tensor of shape: {time_tensor.shape}')
     return time_tensor

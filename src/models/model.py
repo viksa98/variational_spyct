@@ -4,6 +4,14 @@ from src.models.split import learn_split, learn_split_vb
 import numpy as np
 import pyro
 
+#FIX THIS!
+def nanvar(y, dim=0):
+    mean = torch.nanmean(y, dim)
+    squared_diff = (y - mean.unsqueeze(dim)) ** 2
+    valid_count = torch.sum(~torch.isnan(y), dim)
+    variance = torch.nansum(squared_diff, dim) / (valid_count - 1) 
+    return variance
+
 def impurity(values): return torch.sum(torch.var(values, dim=0))
 
 class Spyct:
