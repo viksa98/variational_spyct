@@ -28,19 +28,14 @@ import pyro.distributions as dist
 
 DIR_PATH = os.path.abspath(os.path.dirname(__file__))
 
-#FIX THIS!
 # def weighted_variance(values, weights, weight_sum):
 #     mean = torch.matmul(weights, values) / weight_sum
 #     return -torch.sum(mean*mean)
 
 def weighted_variance(values, weights, weight_sum):
-    _list = []
-    for i in range(values.shape[1]):
-        valid_indices = ~torch.isnan(values[:, i])
-        _list.append(torch.matmul(weights[valid_indices], values[valid_indices, i]))
-    _list = [z**2 for z in [x/weight_sum.item() for x in _list]]
-    return -(sum(_list))
-
+    values = torch.nan_to_num(values, nan=0.0)
+    weighted_squares = torch.matmul(weights, values) / weight_sum
+    return -torch.sum(weighted_squares*weighted_squares)
 
 class MC_Dropout_Linear(nn.Module):
     def __init__(self, input_dim, output_dim, dropout_prob=0.2):

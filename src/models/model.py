@@ -4,7 +4,6 @@ from src.models.split import learn_split, learn_split_vb
 import numpy as np
 import pyro
 
-#FIX THIS!
 def nanvar(y, dim=0):
     mean = torch.nanmean(y, dim)
     squared_diff = (y - mean.unsqueeze(dim)) ** 2
@@ -68,7 +67,7 @@ class Spyct:
 
 class VSpyct:
     def __init__(self, max_depth=np.inf, subspace_size=1, minimum_examples_to_split=2,
-                 device='cpu', epochs=50, bs=None, lr=0.001):
+                 device='cpu', epochs=150, bs=None, lr=0.001):
         self.minimum_examples_to_split = minimum_examples_to_split
         self.root_node = None
         self.num_nodes = 0
@@ -110,9 +109,9 @@ class VSpyct:
                     node.right = VNode(depth=node.depth+1)
                     splitting_queue.append((node.left, rows_left, var_left, ))
                     splitting_queue.append((node.right, rows_right, var_right, ))
-                else: node.prototype = torch.mean((target_data[rows])[~torch.isnan(target_data[rows])], dim=0)
+                else: node.prototype = torch.nanmean(target_data[rows], dim=0)
 
-            else: node.prototype = torch.mean((target_data[rows])[~torch.isnan(target_data[rows])], dim=0)
+            else: node.prototype = torch.nanmean(target_data[rows], dim=0)
 
         self.num_nodes = order
 
