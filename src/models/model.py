@@ -12,7 +12,7 @@ def nanvar(y, dim=0):
     variance = torch.nansum(squared_diff, dim) / (valid_count - 1) 
     return variance
 
-def impurity(values): return torch.sum(torch.var(values, dim=0))
+def impurity(values): return torch.sum(nanvar(values, dim=0))
 
 class Spyct:
     def __init__(self, max_depth=np.inf, subspace_size=1, minimum_examples_to_split=2,
@@ -55,9 +55,9 @@ class Spyct:
                     node.right = Node(depth=node.depth+1)
                     splitting_queue.append((node.left, rows_left, var_left, ))
                     splitting_queue.append((node.right, rows_right, var_right, ))
-                else: node.prototype = torch.mean(target_data[rows], dim=0)
+                else: node.prototype = torch.nanmean(target_data[rows], dim=0)
 
-            else: node.prototype = torch.mean(target_data[rows], dim=0)
+            else: node.prototype = torch.nanmean(target_data[rows], dim=0)
 
         self.num_nodes = order
 
@@ -68,7 +68,7 @@ class Spyct:
 
 class VSpyct:
     def __init__(self, max_depth=np.inf, subspace_size=1, minimum_examples_to_split=2,
-                 device='cpu', epochs=150, bs=None, lr=0.001):
+                 device='cpu', epochs=50, bs=None, lr=0.001):
         self.minimum_examples_to_split = minimum_examples_to_split
         self.root_node = None
         self.num_nodes = 0
@@ -110,9 +110,9 @@ class VSpyct:
                     node.right = VNode(depth=node.depth+1)
                     splitting_queue.append((node.left, rows_left, var_left, ))
                     splitting_queue.append((node.right, rows_right, var_right, ))
-                else: node.prototype = torch.mean(target_data[rows], dim=0)
+                else: node.prototype = torch.mean((target_data[rows])[~torch.isnan(target_data[rows])], dim=0)
 
-            else: node.prototype = torch.mean(target_data[rows], dim=0)
+            else: node.prototype = torch.mean((target_data[rows])[~torch.isnan(target_data[rows])], dim=0)
 
         self.num_nodes = order
 

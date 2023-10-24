@@ -9,7 +9,7 @@ import spyct
 def train_model(model, x, y): model.fit(x,y); return model
 def model_predict(model, x): return model.predict(x)
 
-def generate_survival_function_data(num_samples, num_days=365, missing_prob=0.1, nan_start_day=369):
+def generate_survival_function_data(num_samples, num_days=60, missing_prob=0.1, nan_start_day=50):
     num_features = 5  # Replace with the actual number of features
 
     X = np.random.rand(num_samples, num_features)
@@ -21,14 +21,16 @@ def generate_survival_function_data(num_samples, num_days=365, missing_prob=0.1,
         # Introduce missing values after the specified time point
         nan_start_day = min(nan_start_day, num_days)  # Ensure nan_start_day is within the valid range
         missing_indices = np.arange(nan_start_day, num_days)
-        y[i, missing_indices] = np.nan
-
-        y[i, :nan_start_day] = survival_prob[:nan_start_day]
+        if i%2==0:
+            y[i, missing_indices] = np.nan
+            y[i, :nan_start_day] = survival_prob[:nan_start_day]
+        else:
+            y[i, :] = survival_prob
 
     return X, y
 
 # Example usage:
-num_samples = 1000
+num_samples = 150
 num_days = 365
 num_features = 10
 
