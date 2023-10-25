@@ -3,6 +3,7 @@ from src.models.node import Node, VNode
 from src.models.split import learn_split, learn_split_vb
 import numpy as np
 import pyro
+from pyro.infer import Predictive
 
 def nanvar(y, dim=0):
     mean = torch.nanmean(y, dim)
@@ -94,8 +95,19 @@ class VSpyct:
                 split_model, guide = learn_split_vb(
                     rows, descriptive_data[rows], clustering_data[rows],
                     device=self.device, epochs=self.epochs, bs=self.bs, lr=self.lr, subspace_size=self.subspace_size)
-                split_model = split_model.linear
-                split = split_model(descriptive_data[rows]).squeeze()
+                predictive = Predictive(model = split_model.linear.to(self.device),
+                            guide=guide,
+                            num_samples=50,
+                            return_sites=("linear.weight", "linear.bias"))
+                print(descriptive_data[rows].shape)
+                sdata = predictive(descriptive_data[rows].clone().detach())
+                sdata_lin = torch.mean(sdata['linear.weight'], dim=0).reshape(-1, 1).T.T
+                sdata_b = torch.mean(sdata['linear.bias'], dim=0).reshape(-1, 1).T
+                ssplit = descriptive_data[rows] @ sdata_lin + sdata_b
+                split = ssplit.reshape(-1)
+
+                # split_model = split_model.linear
+                # split = split_model(descriptive_data[rows]).squeeze()
                 
                 rows_right = rows[split > torch.tensor(0., device=self.device)]
                 var_right = impurity(clustering_data[rows_right])
@@ -103,14 +115,15 @@ class VSpyct:
                 var_left = impurity(clustering_data[rows_left])
 
                 if var_left < total_variance or var_right < total_variance:
-                    node.split_model = split_model
+                    node.split_model = split_model.linear
                     node.guide = guide
                     node.left = VNode(depth=node.depth+1)
                     node.right = VNode(depth=node.depth+1)
                     splitting_queue.append((node.left, rows_left, var_left, ))
                     splitting_queue.append((node.right, rows_right, var_right, ))
+                # potentially to be fixed
                 else: node.prototype = torch.nanmean(target_data[rows], dim=0)
-
+            # potentially to be fixed
             else: node.prototype = torch.nanmean(target_data[rows], dim=0)
 
         self.num_nodes = order

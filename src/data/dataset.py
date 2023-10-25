@@ -61,7 +61,7 @@ class SurvivalDataset:
     if self.preprocessed is None: self.preprocess()
     survival_time = self.preprocessed.time.values
     survival_status = self.preprocessed.status.values
-    time_upper_limit = survival_time.max()
+    time_upper_limit = int(survival_time.max())
     time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
     for i,el in enumerate(survival_time):
       for j in range(time_tensor.shape[1]):

@@ -30,7 +30,7 @@ def generate_survival_function_data(num_samples, num_days=60, missing_prob=0.1, 
     return X, y
 
 # Example usage:
-num_samples = 150
+num_samples = 1000
 num_days = 365
 num_features = 10
 
@@ -57,7 +57,7 @@ print(preds.shape)
 # preds_spyct = model_predict(model_spyct, X_test.numpy())
 # print(preds_spyct)
 
-i = 8
+i = 1
 plt.figure(figsize=(15,5))
 plt.plot(preds[i, :, :].mean(axis=0), label='Bayesian SPYCT')
 # plt.plot(preds_spyct[i], label = 'SPYCT')

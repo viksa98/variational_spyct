@@ -83,6 +83,7 @@ class Impurity(PyroModule):
         try:
             # Define a likelihood term with observed=0
             with pyro.plate("data", descriptive_data.shape[0]):
+                # registriraj ja varijansata kako parametar
                 obs = pyro.sample("obs", dist.Normal(impurity, 1.0), obs=torch.tensor(0.))
         except: print('NAN!')
         
