@@ -63,8 +63,8 @@ class Impurity(PyroModule):
         self.output_dim = output_dim
         self.linear = PyroModule[nn.Linear](self.input_dim, self.output_dim)
 
-        self.linear.weight = PyroSample(dist.Normal(0, 1).expand([self.output_dim, self.input_dim]).to_event(2))
-        self.linear.bias = PyroSample(dist.Normal(0, 1).expand([self.output_dim]).to_event(1))
+        self.linear.weight = PyroSample(dist.Normal(2, 1).expand([self.output_dim, self.input_dim]).to_event(2))
+        self.linear.bias = PyroSample(dist.Normal(2, 1).expand([self.output_dim]).to_event(1))
 
     def forward(self, descriptive_data, clustering_data):
         right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()
@@ -158,6 +158,7 @@ def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, 
                     optimizer,
                     loss=infer.TraceMeanField_ELBO(num_particles=10))
     losses = []
+    _steps = 0
     if bs is None: bs = rows.size(0)
     num_batches = math.ceil(rows.size(0) / bs)
     for epoch in trange(epochs, desc="Epochs"):
@@ -166,10 +167,13 @@ def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, 
             descr = descriptive_subset[b*bs:(b+1)*bs]
             clustr = clustering_data[b*bs:(b+1)*bs]
             train_loss += svi.step(descr, clustr)
+            if _steps<1:
+                param_store = pyro.get_param_store()['AutoDiagonalNormal.loc']
+            _steps+=1
         if early_stopping.is_converged(train_loss):
             print(f"Early stopping at epoch {epoch}.")
             break
         losses.append(train_loss)
         print("[iteration %04d] loss: %.4f" % (epoch+1, train_loss))
     print(model)
-    return (model.eval(), guide)
+    return (model, guide, param_store)

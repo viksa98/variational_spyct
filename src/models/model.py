@@ -48,7 +48,6 @@ class Spyct:
                 var_right = impurity(clustering_data[rows_right])
                 rows_left = rows[split <= torch.tensor(0., device=self.device)]
                 var_left = impurity(clustering_data[rows_left])
-
                 if var_left < total_variance or var_right < total_variance:
                     node.split_model = split_model
                     node.left = Node(depth=node.depth+1)
@@ -84,6 +83,7 @@ class VSpyct:
         if rows is None: rows = torch.arange(descriptive_data.shape[0])
 
         total_variance = impurity(clustering_data)
+        print(f'Total variance: {total_variance}')
         self.root_node = VNode(depth=0, root = True)
         splitting_queue = [(self.root_node, rows, total_variance)]
         order = 0
@@ -92,9 +92,15 @@ class VSpyct:
             node.order = order
             order += 1
             if total_variance > 0 and node.depth < self.max_depth and rows.size(0) >= self.minimum_examples_to_split:
-                split_model, guide = learn_split_vb(
-                    rows, descriptive_data[rows], clustering_data[rows],
-                    device=self.device, epochs=self.epochs, bs=self.bs, lr=self.lr, subspace_size=self.subspace_size)
+                if order<=1:
+                    split_model, guide, param_store = learn_split_vb(
+                        rows, descriptive_data[rows], clustering_data[rows],
+                        device=self.device, epochs=self.epochs, bs=self.bs, lr=self.lr, subspace_size=self.subspace_size)
+                    self.root_node.param_store = param_store
+                else:
+                    split_model, guide, _ = learn_split_vb(
+                        rows, descriptive_data[rows], clustering_data[rows],
+                        device=self.device, epochs=self.epochs, bs=self.bs, lr=self.lr, subspace_size=self.subspace_size)
                 predictive = Predictive(model = split_model.linear.to(self.device),
                             guide=guide,
                             num_samples=50,
@@ -113,6 +119,9 @@ class VSpyct:
                 var_right = impurity(clustering_data[rows_right])
                 rows_left = rows[split <= torch.tensor(0., device=self.device)]
                 var_left = impurity(clustering_data[rows_left])
+
+                print('Var left', var_left)
+                print('Var right', var_right)
 
                 if var_left < total_variance or var_right < total_variance:
                     node.split_model = split_model.linear
