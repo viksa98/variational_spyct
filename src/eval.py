@@ -1,6 +1,4 @@
-from utils import fix_predictions
-import sys
-sys.path.append('./')
+from src.utils import fix_predictions
 from src.data.dataset import SurvivalDataset
 import numpy as np
 import torch
@@ -19,7 +17,7 @@ class IPCWBrier:
   def evaluate(self, times_arr, predicted_probs):
     if isinstance(times_arr, torch.Tensor): times_arr = times_arr.numpy()
     if isinstance(predicted_probs, torch.Tensor): predicted_probs = predicted_probs.numpy()
-    brier_score = (self.ipcw_coeffs * np.power(times_arr - predicted_probs, 2)).mean(axis=0) / self.num_events
+    brier_score = torch.nanmean(torch.tensor(self.ipcw_coeffs) * torch.tensor(np.power(times_arr - predicted_probs, 2)), axis=0) / self.num_events
     return brier_score
 
 
