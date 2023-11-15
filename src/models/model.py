@@ -155,7 +155,7 @@ class VSpyct:
         traverse(self.root_node)
         weights = []
         for node in non_leaves:
-            predictive = Predictive(self=node.split_self.to(self.device),
+            predictive = Predictive(model=node.split_model.to(self.device),
                                     guide=node.guide,
                                     num_samples=200,
                                     return_sites=(["linear.weight"]))
