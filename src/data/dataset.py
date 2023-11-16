@@ -63,6 +63,7 @@ class SurvivalDataset:
     survival_status = self.preprocessed.status.values
     time_upper_limit = int(survival_time.max())
     time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
+    print(time_tensor.shape[1])
     for i,el in enumerate(survival_time):
       for j in range(time_tensor.shape[1]):
         if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = np.nan

@@ -63,8 +63,8 @@ class Impurity(PyroModule):
         self.output_dim = output_dim
         self.linear = PyroModule[nn.Linear](self.input_dim, self.output_dim)
 
-        self.linear.weight = PyroSample(dist.Normal(2, 1).expand([self.output_dim, self.input_dim]).to_event(2))
-        self.linear.bias = PyroSample(dist.Normal(2, 1).expand([self.output_dim]).to_event(1))
+        self.linear.weight = PyroSample(dist.Normal(0, 1).expand([self.output_dim, self.input_dim]).to_event(2))
+        self.linear.bias = PyroSample(dist.Normal(0, 1).expand([self.output_dim]).to_event(1))
 
     def forward(self, descriptive_data, clustering_data):
         right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()

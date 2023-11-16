@@ -40,7 +40,7 @@ class Node:
 
 
 class VNode:
-    def __init__(self, depth=0, root = False):
+    def __init__(self, depth=0, num_instances=0, root=False):
         self.left = None
         self.right = None
         self.prototype = None   
@@ -50,6 +50,7 @@ class VNode:
         self.depth = depth
         self.is_root = root
         self.param_store = None
+        self.num_instances = num_instances
 
     def is_leaf(self): return self.left is None and self.right is None
 
