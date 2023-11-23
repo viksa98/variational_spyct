@@ -150,7 +150,7 @@ def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, 
     adam_params = {"lr": lr }#, "betas": (0.90, 0.999)}
     optimizer = pyro.optim.Adam(adam_params)
 
-    early_stopping = EarlyStopping(patience=3, min_delta=0.1)
+    early_stopping = EarlyStopping(patience=4, min_delta=0.1)
 
     # Setup SVI
     svi = infer.SVI(model,

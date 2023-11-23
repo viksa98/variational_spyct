@@ -253,9 +253,10 @@ class HecatDataset:
 
 class ReducedDataset:
 
-    def __init__(self, path, filename):
+    def __init__(self, path, filename, random_state=11):
         self.dataset = pd.read_pickle(os.path.join(path, filename))
-        # self.dataset = self.dataset.sample(frac=0.01)
+        self.dataset = self.dataset.sample(frac=0.06)
+        self.random_state = random_state
         self.skp = pd.read_csv(os.path.join(DIR_PATH, '../../data/raw/dimSKP08.csv'))[['IDpoklicaSKP','SFpoklicaSKP']]
         self.skp.SFpoklicaSKP = self.skp.SFpoklicaSKP.astype(int).astype(str).str.zfill(4)
         self.p16_nivo = pd.read_pickle(os.path.join(DIR_PATH,'../../data/raw/p16_nivo_skp_surs.pcl'))
@@ -339,7 +340,7 @@ class ReducedDataset:
                'Entry_month_cos', 'Entry_day_cos']
 
         for_scaling = ['Age', 'Months_of_work_experience']
-        df = self.dataset
+        df = self.dataset.copy()
         df = self.drop_unnecessary_columns(df)
         df = self.rename_columns(df)
         df = self.transform_entry_date(df)
@@ -354,7 +355,7 @@ class ReducedDataset:
 #        df[colz] = OneHotEncoder().fit_transform(df[colz])
         df = pd.get_dummies(df, columns = colz)
         if to_pcl is True:
-            with open('../../data/processed/rsf_dataset_reduced_no_eps_isco2.pcl', 'wb') as f:
+            with open(os.path.join(DIR_PATH, '../../data/processed/rsf_dataset_reduced_no_eps_isco2.pcl', 'wb')) as f:
                 pickle.dump(df, f)
         return df
     
@@ -387,22 +388,46 @@ class ReducedDataset:
         
         return (train_loader, valid_loader, test_loader)
 
-
-    def rsf_split(self, test = 0.2, to_pcl = True):
-        df = self.rsf_dataset()
-        # Building training and testing sets #
-        index_train, index_test = train_test_split(range(df.shape[0]), test_size = test, random_state = 11)
-        data_train = df.iloc[index_train].reset_index( drop = True )
-        data_test  = df.iloc[index_test].reset_index( drop = True )
-
-        # Creating the X, T and E input
-        X_train, X_test = data_train.drop(['truncated', 'duration'], axis = 1) , data_test.drop(['truncated', 'duration'], axis = 1)
-        T_train, T_test = data_train['duration'].values, data_test['duration'].values
-        E_train, E_test = data_train['truncated'].values, data_test['truncated'].values
+    def rsf_split(self, test = 0.2, to_pcl = False):
+        X = self.rsf_dataset().drop(columns=['duration', 'truncated'])
+        y = self.get_survival_vector()
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test, random_state = self.random_state)
+        print(X_train.shape, y_train.shape)
         if to_pcl is True:
-            save = (X_train, T_train, E_train, X_test, T_test, E_test)
-            with open('../../data/processed/rsf_split_reduced_no_eps_isco2.pcl', 'wb') as f: pickle.dump(save, f)
-        return (X_train, T_train, E_train, X_test, T_test, E_test)
+            save = (X_train, X_test, y_train, y_test)
+            with open(os.path.join(DIR_PATH, '../../data/processed/rsf_split_reduced_no_eps_isco2.pcl', 'wb')) as f: pickle.dump(save, f)
+        return (X_train, X_test, y_train, y_test)
+        # df = self.rsf_dataset()
+        # # Building training and testing sets #
+        # index_train, index_test = train_test_split(range(df.shape[0]), test_size = test, random_state = 11)
+        # data_train = df.iloc[index_train].reset_index( drop = True )
+        # data_test  = df.iloc[index_test].reset_index( drop = True )
+
+        # # Creating the X, T and E input
+        # X_train, X_test = data_train.drop(['truncated', 'duration'], axis = 1) , data_test.drop(['truncated', 'duration'], axis = 1)
+        # T_train, T_test = data_train['duration'].values, data_test['duration'].values
+        # E_train, E_test = data_train['truncated'].values, data_test['truncated'].values
+        # return (X_train, T_train, E_train, X_test, T_test, E_test)
+
+    def get_tensors(self):
+        X_train, X_test, y_train, y_test = self.rsf_split()
+        return (torch.tensor(np.vstack(X_train.values).astype('float32')),
+                torch.tensor(np.vstack(X_test.values).astype('float32')),
+                y_train,
+                y_test)
+
+    def get_survival_vector(self):
+        survival_time = self.rsf_dataset().duration.values
+        survival_status = self.rsf_dataset().truncated.values
+        time_upper_limit = int(survival_time.max())
+        time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
+        for i,el in enumerate(survival_time):
+            for j in range(time_tensor.shape[1]):
+                if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = np.nan
+                elif j<el: time_tensor[i][j] = 1
+                else: time_tensor[i][j] = 0
+        return time_tensor
 
     def mtlr_split(self, test = 0.2):
         pass

@@ -29,6 +29,7 @@ def generate_survival_function_data(num_samples, num_days=60, missing_prob=0.1, 
 
     return X, y
 
+
 # Example usage:
 num_samples = 1000
 num_days = 365

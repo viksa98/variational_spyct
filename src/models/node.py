@@ -67,7 +67,7 @@ class VNode:
                 if splits <= 0: return self.left.predict(x)
                 else: return self.right.predict(x)
 
-    def mc_predict(self, x, num_samples=30):
+    def mc_predict(self, x, num_samples=100):
         pred_lst = []
         for i in range(num_samples):
             pred_lst.append(self.predict(x))

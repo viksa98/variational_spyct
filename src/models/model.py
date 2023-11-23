@@ -68,9 +68,9 @@ class Spyct:
 class VSpyct:
     def __init__(self, max_depth=np.inf, subspace_size=1, minimum_examples_to_split=2,
                  device='cpu', epochs=500, bs=None, lr=0.001):
-        self.minimum_examples_to_split = minimum_examples_to_split
         self.root_node = None
         self.num_nodes = 0
+        self.minimum_examples_to_split = minimum_examples_to_split
         self.device = device
         self.epochs = epochs
         self.bs = bs
@@ -134,30 +134,80 @@ class VSpyct:
                     splitting_queue.append((node.left, rows_left, var_left, ))
                     splitting_queue.append((node.right, rows_right, var_right, ))
                 # potentially to be fixed
-                else: node.prototype = torch.nanmean(target_data[rows], dim=0)
-            # potentially to be fixed
-            else: node.prototype = torch.nanmean(target_data[rows], dim=0)
+                else:
+                    # node.prototype = torch.nanmean(target_data[rows], dim=0)
+                    target_data_np = target_data.numpy()
+                    prototype = []
+                    for col in range(target_data_np.shape[1]):
+                        non_nan_values = target_data_np[rows, col][~torch.isnan(target_data[rows, col])]
+                        mean_value = np.nanmean(non_nan_values)
+                        prototype.append(mean_value)
+                    node.prototype = torch.tensor(np.array(prototype))
+            else:
+                if len(target_data.shape)==1: node.prototype = torch.nanmean(target_data[rows], dim=0)
+                else:
+                    target_data_np = target_data.numpy()
+                    prototype = []
+                    for col in range(target_data_np.shape[1]):
+                        non_nan_values = target_data_np[rows, col][~torch.isnan(target_data[rows, col])]
+                        if non_nan_values.size == 0:
+                            mean_value = 0.96 * prototype[-1]
+                        else: mean_value = np.nanmean(non_nan_values)
+                        prototype.append(mean_value)
+                    node.prototype = torch.tensor(np.array(prototype))
         self.num_nodes = order
 
     def predict(self, descriptive_data):
         raw_predictions = [self.root_node.mc_predict(descriptive_data[i]) for i in range(descriptive_data.size(0))]
         return torch.stack(raw_predictions)
+    
+    @classmethod
+    def create_edge_list(cls, root):
+        edges = []
+        cls.traverse(root, edges)
+        return edges
 
-    def feature_importances(self, k=None):
+    @classmethod
+    def traverse(cls, node, edges):
+        if node is None:
+            return
+
+        if node.left is not None:
+            edges.append((node, node.left))
+            cls.traverse(node.left, edges)
+
+        if node.right is not None:
+            edges.append((node, node.right))
+            cls.traverse(node.right, edges)
+
+    def get_nodes(self, node, list):
+        list.append(node)
+        if node.left is not None:
+            self.get_nodes(node.left, list)
+        if node.right is not None:
+            self.get_nodes(node.right, list)
+
+    def get_leaves(self, node, non_leaves):
+        if node is not None:
+            if node.left is None or node.right is None: non_leaves.append(node)
+            self.get_leaves(node.left, non_leaves)
+            self.get_leaves(node.right, non_leaves)
+
+    def feature_importances(self, num_samples=200, k=None):
         assert self.num_training_instances!=0, 'The model is not fitted! Unable to calculate feature importances.'
         non_leaves = []
-        def traverse(node):
+        def _traverse(node):
             if node is not None:
                 if node.left is not None or node.right is not None: non_leaves.append(node)
-                traverse(node.left)
-                traverse(node.right)
+                _traverse(node.left)
+                _traverse(node.right)
         
-        traverse(self.root_node)
+        _traverse(self.root_node)
         weights = []
         for node in non_leaves:
             predictive = Predictive(model=node.split_model.to(self.device),
                                     guide=node.guide,
-                                    num_samples=200,
+                                    num_samples=num_samples,
                                     return_sites=(["linear.weight"]))
             data = predictive(torch.ones(self.descriptive_data_shape[1]))['linear.weight']
             weights.append(data.mean(axis=0).numpy())
