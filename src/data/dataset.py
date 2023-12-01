@@ -255,7 +255,7 @@ class ReducedDataset:
 
     def __init__(self, path, filename, random_state=11):
         self.dataset = pd.read_pickle(os.path.join(path, filename))
-        self.dataset = self.dataset.sample(frac=0.06)
+        self.dataset = self.dataset.sample(frac=0.05)
         self.random_state = random_state
         self.skp = pd.read_csv(os.path.join(DIR_PATH, '../../data/raw/dimSKP08.csv'))[['IDpoklicaSKP','SFpoklicaSKP']]
         self.skp.SFpoklicaSKP = self.skp.SFpoklicaSKP.astype(int).astype(str).str.zfill(4)
@@ -291,10 +291,10 @@ class ReducedDataset:
         return hecat_df
 
     def rename_columns(self, df):
-        # Use the following line for ISCO3
-        df = df.rename(columns={"idosebe": "id", "StarostLeta": "Age", "MeseciDelDobe": "Months_of_work_experience", "IDSpola": "Gender", "IDObcine": "Municipality", "IDDrzave": "Country", "IDpoklicaSKP08": "Profession (ISCO)", "IdInvalidnosti": "Dissabilities", "DatumVpisaBO": "Entry_date", "IDVpisaBO": "Reason_for_PES_entry", "ePrijava": "eApplication", "IDKlasiusProgram": "Profession_program", "IDKlasiusP": "Specific_profession_category", "IDklasiusSRV": "Education_category", "IDStanjaZN": "Employment_plan_status", "IDZaposljivosti": "Employability_assessment", "IDPrenehanjaDR": "Reason for termination", "PrejemnikCSD": "Social_benefits", "PrejemnikDNDP": "Unemployment_benefits", "P16_level3": "P16_level", "Nivo": "Level", "SKP3": "ISCO"})
-        # #Use the following line for ISCO2
-        # df = df.rename(columns={"idosebe": "id", "StarostLeta": "Age", "MeseciDelDobe": "Months_of_work_experience", "IDSpola": "Gender", "IDObcine": "Municipality", "IDDrzave": "Country", "IDpoklicaSKP08": "Profession (ISCO)", "IdInvalidnosti": "Dissabilities", "DatumVpisaBO": "Entry_date", "IDVpisaBO": "Reason_for_PES_entry", "ePrijava": "eApplication", "IDKlasiusProgram": "Profession_program", "IDKlasiusP": "Specific_profession_category", "IDklasiusSRV": "Education_category", "IDStanjaZN": "Employment_plan_status", "IDZaposljivosti": "Employability_assessment", "IDPrenehanjaDR": "Reason for termination", "PrejemnikCSD": "Social_benefits", "PrejemnikDNDP": "Unemployment_benefits", "P16_level2": "P16_level", "Nivo": "Level", "SKP2": "ISCO"})
+        # # Use the following line for ISCO3
+        # df = df.rename(columns={"idosebe": "id", "StarostLeta": "Age", "MeseciDelDobe": "Months_of_work_experience", "IDSpola": "Gender", "IDObcine": "Municipality", "IDDrzave": "Country", "IDpoklicaSKP08": "Profession (ISCO)", "IdInvalidnosti": "Dissabilities", "DatumVpisaBO": "Entry_date", "IDVpisaBO": "Reason_for_PES_entry", "ePrijava": "eApplication", "IDKlasiusProgram": "Profession_program", "IDKlasiusP": "Specific_profession_category", "IDklasiusSRV": "Education_category", "IDStanjaZN": "Employment_plan_status", "IDZaposljivosti": "Employability_assessment", "IDPrenehanjaDR": "Reason for termination", "PrejemnikCSD": "Social_benefits", "PrejemnikDNDP": "Unemployment_benefits", "P16_level3": "P16_level", "Nivo": "Level", "SKP3": "ISCO"})
+        #Use the following line for ISCO2
+        df = df.rename(columns={"idosebe": "id", "StarostLeta": "Age", "MeseciDelDobe": "Months_of_work_experience", "IDSpola": "Gender", "IDObcine": "Municipality", "IDDrzave": "Country", "IDpoklicaSKP08": "Profession (ISCO)", "IdInvalidnosti": "Dissabilities", "DatumVpisaBO": "Entry_date", "IDVpisaBO": "Reason_for_PES_entry", "ePrijava": "eApplication", "IDKlasiusProgram": "Profession_program", "IDKlasiusP": "Specific_profession_category", "IDklasiusSRV": "Education_category", "IDStanjaZN": "Employment_plan_status", "IDZaposljivosti": "Employability_assessment", "IDPrenehanjaDR": "Reason for termination", "PrejemnikCSD": "Social_benefits", "PrejemnikDNDP": "Unemployment_benefits", "P16_level2": "P16_level", "Nivo": "Level", "SKP2": "ISCO"})
         return df
     
     def drop_unnecessary_columns(self, hecat_df):

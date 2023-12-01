@@ -32,10 +32,17 @@ DIR_PATH = os.path.abspath(os.path.dirname(__file__))
 #     mean = torch.matmul(weights, values) / weight_sum
 #     return -torch.sum(mean*mean)
 
+# def weighted_variance(values, weights, weight_sum):
+#     values = torch.nan_to_num(values, nan=0.0)
+#     weighted_squares = torch.matmul(weights, values) / weight_sum
+#     print(f'values_shape: {values.shape}\nweights_shape: {weights.shape}')
+#     return -torch.sum(weighted_squares*weighted_squares)
+
 def weighted_variance(values, weights, weight_sum):
     values = torch.nan_to_num(values, nan=0.0)
-    weighted_squares = torch.matmul(weights, values) / weight_sum
-    return -torch.sum(weighted_squares*weighted_squares)
+    weights = weights.view(weights.shape[0], 1)
+    weighted_squares = weights*values
+    return torch.sum((weighted_squares-weighted_squares.mean(axis=0))**2)/ weight_sum
 
 class MC_Dropout_Linear(nn.Module):
     def __init__(self, input_dim, output_dim, dropout_prob=0.2):
@@ -57,8 +64,9 @@ class MC_Dropout_Linear(nn.Module):
             return outputs
 
 class Impurity(PyroModule):
-    def __init__(self, input_dim, output_dim):
+    def __init__(self, input_dim, output_dim, device='cpu'):
         super(Impurity, self).__init__()
+        self.device = device
         self.input_dim = input_dim
         self.output_dim = output_dim
         self.linear = PyroModule[nn.Linear](self.input_dim, self.output_dim)
@@ -66,9 +74,11 @@ class Impurity(PyroModule):
         self.linear.weight = PyroSample(dist.Normal(0, 1).expand([self.output_dim, self.input_dim]).to_event(2))
         self.linear.bias = PyroSample(dist.Normal(0, 1).expand([self.output_dim]).to_event(1))
 
+    #fix this with the guide
     def forward(self, descriptive_data, clustering_data):
+        sigma = pyro.sample("sigma", dist.Normal(1., 10.))
         right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()
-        left_selection = 1 - right_selection
+        left_selection = torch.tensor(1., device=self.device) - right_selection
 
         right_weight_sum = torch.sum(right_selection)
         left_weight_sum = torch.sum(left_selection)
@@ -84,7 +94,7 @@ class Impurity(PyroModule):
             # Define a likelihood term with observed=0
             with pyro.plate("data", descriptive_data.shape[0]):
                 # registriraj ja varijansata kako parametar
-                obs = pyro.sample("obs", dist.Normal(impurity, 1.0), obs=torch.tensor(0.))
+                obs = pyro.sample("obs", dist.Normal(impurity, sigma), obs=torch.tensor(0.))
         except: print('NAN!')
         
         
@@ -136,21 +146,21 @@ def learn_split(rows, descriptive_data, clustering_data, device, epochs, bs, lr,
 
     return model.to(device).eval()
 
-def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, lr, subspace_size, enable_validation=False):
+def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, lr, subspace_size, patience=4, enable_validation=False):
     pyro.enable_validation(enable_validation)
     selected_attributes = np.random.choice(a=[False, True],
                                            size=descriptive_data.size(1),
                                            p=[1-subspace_size, subspace_size])
     descriptive_subset = descriptive_data[:, selected_attributes]
 
+    pyro.clear_param_store()
     model = Impurity(input_dim=descriptive_subset.size(1), output_dim=1).to(device)
     print(model)
-    pyro.clear_param_store()
     guide = AutoDiagonalNormal(model)
     adam_params = {"lr": lr }#, "betas": (0.90, 0.999)}
     optimizer = pyro.optim.Adam(adam_params)
 
-    early_stopping = EarlyStopping(patience=4, min_delta=0.1)
+    early_stopping = EarlyStopping(patience=patience, min_delta=0.1)
 
     # Setup SVI
     svi = infer.SVI(model,

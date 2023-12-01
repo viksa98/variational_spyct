@@ -14,7 +14,7 @@ def load_and_prediction(model, guide, x_test, num_samples = 1, device = 'cpu'):
     return data
 
 class Node:
-    def __init__(self, depth=0, enable_mc_dropout=False):
+    def __init__(self, depth=0, enable_mc_dropout=False, num_instances=0):
         self.left = None
         self.right = None
         self.prototype = None
@@ -22,6 +22,7 @@ class Node:
         self.order = None
         self.depth = depth
         self.enable_mc_dropout = enable_mc_dropout
+        self.num_instances = num_instances
 
     def predict(self, x):
         if self.is_leaf():
@@ -29,7 +30,7 @@ class Node:
         else:
             splits = self.split_model(x, self.enable_mc_dropout)
             print(splits.shape)
-            print(f'splits: {splits}')
+            # print(f'splits: {splits}')
             if splits.shape[0]>1:
                 return torch.stack([self.left.predict(x) if split<=0 else self.right.predict(x) for split in splits])
             else:
@@ -59,17 +60,16 @@ class VNode:
             return self.prototype
         else:
             data = load_and_prediction(self.split_model, self.guide, x)
-            splits = data['linear.weight'] @ x + data['linear.bias']
+            splits = (data['linear.weight'] @ x + data['linear.bias']).sigmoid()
             splits = splits.reshape(-1)
             if splits.shape[0]>1:
-                return torch.stack([self.left.predict(x) if split<=0 else self.right.predict(x) for split in splits])
+                return torch.stack([self.left.predict(x) if split<=0.5 else self.right.predict(x) for split in splits])
             else:
-                if splits <= 0: return self.left.predict(x)
+                if splits <= 0.5: return self.left.predict(x)
                 else: return self.right.predict(x)
 
-    def mc_predict(self, x, num_samples=100):
+    def mc_predict(self, x, num_samples=50):
         pred_lst = []
         for i in range(num_samples):
             pred_lst.append(self.predict(x))
-        # print(len(pred_lst))
         return torch.stack(pred_lst)

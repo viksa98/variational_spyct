@@ -27,17 +27,19 @@ class Spyct:
         self.max_depth = max_depth
         self.subspace_size = subspace_size
 
-    def fit(self, descriptive_data, target_data, clustering_data=None, rows=None):
+    def fit(self, descriptive_data, target_data, clustering_data=None, rows=None, enable_mc_dropout=True):
         if clustering_data is None: clustering_data = target_data
         if rows is None: rows = torch.arange(descriptive_data.shape[0])
 
+        self.num_training_instances = descriptive_data.shape[0]
         total_variance = impurity(clustering_data)
-        self.root_node = Node(depth=0, enable_mc_dropout=True)
+        self.root_node = Node(depth=0, enable_mc_dropout=enable_mc_dropout)
         splitting_queue = [(self.root_node, rows, total_variance)]
         order = 0
         while splitting_queue:
             node, rows, total_variance = splitting_queue.pop()
             node.order = order
+            node.num_instances = rows.shape[0]
             order += 1
             if total_variance > 0 and node.depth < self.max_depth and rows.size(0) >= self.minimum_examples_to_split:
                 split_model = learn_split(
@@ -63,6 +65,26 @@ class Spyct:
     def predict(self, descriptive_data):
         raw_predictions = [self.root_node.predict(descriptive_data[i]) for i in range(descriptive_data.size(0))]
         return torch.stack(raw_predictions)
+    
+    def feature_importances(self, num_samples=200, k=None):
+        non_leaves = []
+        def _traverse(node):
+            if node is not None:
+                if node.left is not None or node.right is not None: non_leaves.append(node)
+                _traverse(node.left)
+                _traverse(node.right)
+        
+        _traverse(self.root_node)
+        weights = []
+        for node in non_leaves:
+            weights.append(node.split_model.linear.weight.detach().numpy())
+        weights = np.abs(np.array(weights))
+        weights = weights.reshape(weights.shape[0], -1)
+        weights_normalized = (weights - weights.min()) / (weights.max() - weights.min() + 0.0001)
+        importances = torch.zeros((weights_normalized.shape[1]))
+        for i, node in enumerate(non_leaves): importances += node.num_instances/self.num_training_instances*(weights_normalized[i, :]/np.linalg.norm(weights_normalized[i, :]))
+        if k is not None: return dict(zip(torch.topk(importances, k=k).indices.tolist(), torch.topk(importances, k=k).values.tolist()))
+        else: return importances
 
 
 class VSpyct:
@@ -107,26 +129,27 @@ class VSpyct:
                         device=self.device, epochs=self.epochs, bs=self.bs, lr=self.lr, subspace_size=self.subspace_size)
                 predictive = Predictive(model = split_model.linear.to(self.device),
                             guide=guide,
-                            num_samples=50,
+                            num_samples=30,
                             return_sites=("linear.weight", "linear.bias"))
                 sdata = predictive(descriptive_data[rows].clone().detach())
                 sdata_lin = torch.mean(sdata['linear.weight'], dim=0).reshape(-1, 1).T.T
                 sdata_b = torch.mean(sdata['linear.bias'], dim=0).reshape(-1, 1).T
-                ssplit = descriptive_data[rows] @ sdata_lin + sdata_b
+                ssplit = (descriptive_data[rows] @ sdata_lin + sdata_b).sigmoid()
                 split = ssplit.reshape(-1)
+                # print(split.numpy().tolist())
 
                 # split_model = split_model.linear
                 # split = split_model(descriptive_data[rows]).squeeze()
                 
-                rows_right = rows[split > torch.tensor(0., device=self.device)]
+                rows_right = rows[split > torch.tensor(0.5, device=self.device)]
                 var_right = impurity(clustering_data[rows_right])
-                rows_left = rows[split <= torch.tensor(0., device=self.device)]
+                rows_left = rows[split <= torch.tensor(0.5, device=self.device)]
                 var_left = impurity(clustering_data[rows_left])
 
-                print('Var left', var_left)
-                print('Var right', var_right)
+                print('Rows left: ', rows_left.shape, 'Var left', var_left)
+                print('Rows right: ', rows_right.shape, 'Var right', var_right)
 
-                if var_left < total_variance or var_right < total_variance:
+                if (var_left < total_variance or var_right < total_variance) and (self.minimum_examples_to_split < rows_right.shape[0] and self.minimum_examples_to_split < rows_left.shape[0]):
                     node.split_model = split_model.linear
                     node.guide = guide
                     node.left = VNode(depth=node.depth+1)
@@ -144,15 +167,14 @@ class VSpyct:
                         prototype.append(mean_value)
                     node.prototype = torch.tensor(np.array(prototype))
             else:
+                # node.prototype = torch.nanmean(target_data[rows], dim=0)
                 if len(target_data.shape)==1: node.prototype = torch.nanmean(target_data[rows], dim=0)
                 else:
                     target_data_np = target_data.numpy()
                     prototype = []
                     for col in range(target_data_np.shape[1]):
                         non_nan_values = target_data_np[rows, col][~torch.isnan(target_data[rows, col])]
-                        if non_nan_values.size == 0:
-                            mean_value = 0.96 * prototype[-1]
-                        else: mean_value = np.nanmean(non_nan_values)
+                        mean_value = np.nanmean(non_nan_values)
                         prototype.append(mean_value)
                     node.prototype = torch.tensor(np.array(prototype))
         self.num_nodes = order
@@ -210,8 +232,8 @@ class VSpyct:
                                     num_samples=num_samples,
                                     return_sites=(["linear.weight"]))
             data = predictive(torch.ones(self.descriptive_data_shape[1]))['linear.weight']
-            weights.append(data.mean(axis=0).numpy())
-        weights = np.array(weights)
+            weights.append(data.mean(axis=0).numpy()/data.var(axis=0).numpy())
+        weights = np.abs(np.array(weights))
         weights = weights.reshape(weights.shape[0], -1)
         weights_normalized = (weights - weights.min()) / (weights.max() - weights.min() + 0.0001)
         importances = torch.zeros((weights_normalized.shape[1]))
