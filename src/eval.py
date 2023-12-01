@@ -1,3 +1,5 @@
+import sys
+sys.path.append('.')
 from src.utils import fix_predictions
 from src.data.dataset import SurvivalDataset
 import numpy as np

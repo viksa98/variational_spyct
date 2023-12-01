@@ -35,7 +35,6 @@ DIR_PATH = os.path.abspath(os.path.dirname(__file__))
 # def weighted_variance(values, weights, weight_sum):
 #     values = torch.nan_to_num(values, nan=0.0)
 #     weighted_squares = torch.matmul(weights, values) / weight_sum
-#     print(f'values_shape: {values.shape}\nweights_shape: {weights.shape}')
 #     return -torch.sum(weighted_squares*weighted_squares)
 
 def weighted_variance(values, weights, weight_sum):
@@ -76,7 +75,7 @@ class Impurity(PyroModule):
 
     #fix this with the guide
     def forward(self, descriptive_data, clustering_data):
-        sigma = pyro.sample("sigma", dist.Normal(1., 10.))
+        # sigma = pyro.sample("sigma", dist.Normal(1., 10.))
         right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()
         left_selection = torch.tensor(1., device=self.device) - right_selection
 
@@ -94,7 +93,7 @@ class Impurity(PyroModule):
             # Define a likelihood term with observed=0
             with pyro.plate("data", descriptive_data.shape[0]):
                 # registriraj ja varijansata kako parametar
-                obs = pyro.sample("obs", dist.Normal(impurity, sigma), obs=torch.tensor(0.))
+                obs = pyro.sample("obs", dist.Normal(impurity, 1.0), obs=torch.tensor(0.))
         except: print('NAN!')
         
         
