@@ -8,6 +8,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split
 import pickle
 from torch.utils.data import Dataset, DataLoader
+from tqdm import tqdm
 
 DIR_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -41,30 +42,30 @@ class SurvivalDataset:
     self.preprocessed = None
     self.random_state = random_state
 
-  def preprocess(self):
+  def preprocess(self, time = 'time', status = 'status'):
     if self.preprocessed is not None: return self.preprocessed
     df = self.dataset.copy()
     df = df.drop(columns=['id']) if 'id' in df.columns else df
     object_cols = df.select_dtypes(include=['object', 'category']).columns
     df = pd.get_dummies(df, columns=object_cols)
     df = df.fillna(df.mean())
-    numeric_cols = df.select_dtypes(include=['number']).drop(columns=['time', 'status']).columns
+    numeric_cols = df.select_dtypes(include=['number']).drop(columns=[time, status]).columns
     from sklearn.preprocessing import StandardScaler
     scaler = StandardScaler()
     df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
-    df['status'] = df['status'].map({1: 0, 2:1, 0:0})
+    if 2 in df[status].tolist(): df[status] = df[status].map({1: 0, 2:1, 0:0})
     df[df.select_dtypes(include=['bool']).columns] = df.select_dtypes(include=['bool']).astype('int')
     self.preprocessed = df
     return df
   
-  def get_survival_vector(self):
-    if self.preprocessed is None: self.preprocess()
-    survival_time = self.preprocessed.time.values
-    survival_status = self.preprocessed.status.values
+  def get_survival_vector(self, time = 'time', status = 'status'):
+    if self.preprocessed is None: self.preprocess(time, status)
+    survival_time = self.preprocessed[time].values
+    survival_status = self.preprocessed[status].values
     time_upper_limit = int(survival_time.max())
     time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
     print(time_tensor.shape[1])
-    for i,el in enumerate(survival_time):
+    for i,el in tqdm(enumerate(survival_time)):
       for j in range(time_tensor.shape[1]):
         if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = np.nan
         elif j<el: time_tensor[i][j] = 1
@@ -72,34 +73,34 @@ class SurvivalDataset:
     print(f'Succesfully created time tensor of shape: {time_tensor.shape}')
     return time_tensor
     
-  def split_xy(self, test = 0.2):
-    if self.preprocessed is None: self.preprocess()
-    X = self.preprocessed.drop(columns=['time', 'status'])
-    y = self.get_survival_vector()
+  def split_xy(self, time = 'time', status = 'status', test = 0.2):
+    if self.preprocessed is None: self.preprocess(time, status)
+    X = self.preprocessed.drop(columns=[time, status])
+    y = self.get_survival_vector(time, status)
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test, random_state = self.random_state)
     print(X_train.shape, y_train.shape)
     return (X_train, X_test, y_train, y_test)
 
-  def get_tensors(self):
-    if self.preprocessed is None: self.preprocess()
-    X_train, X_test, y_train, y_test = self.split_xy()
+  def get_tensors(self, time = 'time', status = 'status'):
+    if self.preprocessed is None: self.preprocess(time, status)
+    X_train, X_test, y_train, y_test = self.split_xy(time, status)
     return (torch.tensor(np.vstack(X_train.values).astype('float32')),
             torch.tensor(np.vstack(X_test.values).astype('float32')),
             y_train,
             y_test)
 
-  def pysurvival_split(self, test = 0.2):
-    if self.preprocessed is None: self.preprocess()
+  def pysurvival_split(self, time = 'time', status = 'status', test = 0.2):
+    if self.preprocessed is None: self.preprocess(time, status)
     df = self.preprocessed.copy()
     from sklearn.model_selection import train_test_split
     index_train, index_test = train_test_split(range(df.shape[0]), test_size = test, random_state = self.random_state)
     data_train = df.iloc[index_train].reset_index( drop = True )
     data_test  = df.iloc[index_test].reset_index( drop = True )
     # Creating the X, T and E input
-    X_train, X_test = data_train.drop(['time', 'status'], axis = 1) , data_test.drop(['time', 'status'], axis = 1)
-    T_train, T_test = data_train['time'].values, data_test['time'].values
-    E_train, E_test = data_train['status'].values, data_test['status'].values
+    X_train, X_test = data_train.drop([time, status], axis = 1) , data_test.drop([time, status], axis = 1)
+    T_train, T_test = data_train[time].values, data_test[time].values
+    E_train, E_test = data_train[status].values, data_test[status].values
     return (X_train, T_train, E_train, X_test, T_test, E_test)
 
 

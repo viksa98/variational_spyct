@@ -183,6 +183,6 @@ def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, 
             print(f"Early stopping at epoch {epoch}.")
             break
         losses.append(train_loss)
-        print("[iteration %04d] loss: %.4f" % (epoch+1, train_loss))
+        # print("[iteration %04d] loss: %.4f" % (epoch+1, train_loss))
     print(model)
     return (model, guide, param_store)

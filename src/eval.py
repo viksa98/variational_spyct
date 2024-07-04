@@ -8,18 +8,40 @@ import torch
 class IPCWBrier:
   def __init__(self, times, event_observed):
     from lifelines import KaplanMeierFitter
+    from scipy.interpolate import interp1d
     self.times = times
     self.event_observed = event_observed
     self.num_events = sum(event_observed)
     self.kmf = KaplanMeierFitter()
     self.kmf.fit(self.times, self.event_observed)
-    cumulative_censoring_probs = 1 - self.kmf.survival_function_.values
-    self.ipcw_coeffs = (1 / cumulative_censoring_probs)[1:]
+    
+    # Calculate cumulative censoring probabilities
+    cumulative_censoring_probs = 1 - self.kmf.survival_function_.values.flatten()
+    
+    # Get the time points corresponding to the survival function estimates
+    kmf_times = self.kmf.survival_function_.index.values
+    
+    # Interpolate to match the original number of time points
+    # Create an interpolation function based on the kmf times and the cumulative censoring probabilities
+    interp_func = interp1d(kmf_times, cumulative_censoring_probs, fill_value="extrapolate")
+    
+    # Use the interpolation function to estimate ipcw_coeffs for each original time point
+    self.ipcw_coeffs = interp_func(self.times)
+    
+    # Add a small epsilon value to avoid division by zero
+    epsilon = 1e-10
+    self.ipcw_coeffs = np.clip(self.ipcw_coeffs, epsilon, 1)
+    
+    # Inverse to get IPCW coefficients
+    self.ipcw_coeffs = 1 / self.ipcw_coeffs
 
   def evaluate(self, times_arr, predicted_probs):
     if isinstance(times_arr, torch.Tensor): times_arr = times_arr.numpy()
     if isinstance(predicted_probs, torch.Tensor): predicted_probs = predicted_probs.numpy()
-    brier_score = torch.nanmean(torch.tensor(self.ipcw_coeffs) * torch.tensor(np.power(times_arr - predicted_probs, 2)), axis=0) / self.num_events
+    diff = torch.tensor(np.power(times_arr - predicted_probs, 2))
+    ipcw_coeffs = torch.tensor(self.ipcw_coeffs, dtype=torch.float32)  # Ensure it's a PyTorch tensor
+    ipcw_coeffs = ipcw_coeffs.unsqueeze(-1)
+    brier_score = torch.nanmean(ipcw_coeffs * diff, axis=0) / self.num_events
     return brier_score
 
 

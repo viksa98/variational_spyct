@@ -1,0 +1,155 @@
+\begin{thebibliography}{16}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Andonovikj et~al.(2024)Andonovikj, Boškoski, Džeroski and
+  Boshkoska}]{Andonovikj_2024}
+\bibinfo{author}{Andonovikj, V.}, \bibinfo{author}{Boškoski, P.},
+  \bibinfo{author}{Džeroski, S.}, \bibinfo{author}{Boshkoska, B.M.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Survival analysis as semi-supervised multi-target
+  regression for time-to-employment prediction using oblique predictive
+  clustering trees}.
+\newblock \bibinfo{journal}{Expert Systems with Applications}
+  \bibinfo{volume}{235}, \bibinfo{pages}{121246}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.eswa.2023.121246},
+  \DOIprefix\doi{10.1016/j.eswa.2023.121246}.
+%Type = Article
+\bibitem[{Blei et~al.(2017)Blei, Kucukelbir and McAuliffe}]{Blei_2017}
+\bibinfo{author}{Blei, D.M.}, \bibinfo{author}{Kucukelbir, A.},
+  \bibinfo{author}{McAuliffe, J.D.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Variational inference: A review for statisticians}.
+\newblock \bibinfo{journal}{Journal of the American Statistical Association}
+  \bibinfo{volume}{112}, \bibinfo{pages}{859–877}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1080/01621459.2017.1285773},
+  \DOIprefix\doi{10.1080/01621459.2017.1285773}.
+%Type = Article
+\bibitem[{Brentnall and Cuzick(2016)}]{brentnall2018use}
+\bibinfo{author}{Brentnall, A.R.}, \bibinfo{author}{Cuzick, J.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Use of the concordance index for predictors of
+  censored survival data}.
+\newblock \bibinfo{journal}{Stat Methods Med Res} \bibinfo{volume}{27},
+  \bibinfo{pages}{2359--2373}.
+\newblock \DOIprefix\doi{10.1177/0962280216680245}.
+%Type = Article
+\bibitem[{Gerds and Schumacher(2006)}]{gerds2006consistent}
+\bibinfo{author}{Gerds, T.A.}, \bibinfo{author}{Schumacher, M.},
+  \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{Consistent estimation of the expected brier score in
+  general survival models with right-censored event times}.
+\newblock \bibinfo{journal}{Biom. J.} \bibinfo{volume}{48},
+  \bibinfo{pages}{1029--1040}.
+\newblock \DOIprefix\doi{10.1002/bimj.200610301}.
+%Type = Book
+\bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, Friedman and
+  Friedman}]{elstatl}
+\bibinfo{author}{Hastie, T.}, \bibinfo{author}{Tibshirani, R.},
+  \bibinfo{author}{Friedman, J.H.}, \bibinfo{author}{Friedman, J.H.},
+  \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{The elements of statistical learning: data mining,
+  inference, and prediction}. volume~\bibinfo{volume}{2}.
+\newblock \bibinfo{publisher}{Springer}.
+%Type = Article
+\bibitem[{Hoffman et~al.(2013)Hoffman, Blei, Wang and
+  Paisley}]{hoffman2013stochastic}
+\bibinfo{author}{Hoffman, M.D.}, \bibinfo{author}{Blei, D.M.},
+  \bibinfo{author}{Wang, C.}, \bibinfo{author}{Paisley, J.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Stochastic variational inference}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research} .
+%Type = Article
+\bibitem[{Kingma and Ba(2014)}]{kingma2014adam}
+\bibinfo{author}{Kingma, D.P.}, \bibinfo{author}{Ba, J.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Adam: A method for stochastic optimization}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:1412.6980} .
+%Type = Article
+\bibitem[{Kocev et~al.(2013)Kocev, Vens, Struyf and Džeroski}]{Kocev_2013}
+\bibinfo{author}{Kocev, D.}, \bibinfo{author}{Vens, C.},
+  \bibinfo{author}{Struyf, J.}, \bibinfo{author}{Džeroski, S.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Tree ensembles for predicting structured outputs}.
+\newblock \bibinfo{journal}{Pattern Recognition} \bibinfo{volume}{46},
+  \bibinfo{pages}{817–833}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.patcog.2012.09.023},
+  \DOIprefix\doi{10.1016/j.patcog.2012.09.023}.
+%Type = Article
+\bibitem[{Kvamme and Borgan(2023)}]{trickbrier}
+\bibinfo{author}{Kvamme, H.}, \bibinfo{author}{Borgan, {\O}.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{The brier score under administrative censoring:
+  problems and a solution}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research}
+  \bibinfo{volume}{24}, \bibinfo{pages}{1--26}.
+%Type = Article
+\bibitem[{Plumb et~al.(2018)Plumb, Molitor and Talwalkar}]{plumb2018model}
+\bibinfo{author}{Plumb, G.}, \bibinfo{author}{Molitor, D.},
+  \bibinfo{author}{Talwalkar, A.S.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Model agnostic supervised local explanations}.
+\newblock \bibinfo{journal}{Advances in neural information processing systems}
+  \bibinfo{volume}{31}.
+%Type = Inproceedings
+\bibitem[{Sashank et~al.(2018)Sashank, Satyen and
+  Sanjiv}]{sashank2018convergence}
+\bibinfo{author}{Sashank, J.R.}, \bibinfo{author}{Satyen, K.},
+  \bibinfo{author}{Sanjiv, K.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{On the convergence of adam and beyond}, in:
+  \bibinfo{booktitle}{International conference on learning representations}.
+%Type = Article
+\bibitem[{Stepisnik et~al.(2020)Stepisnik, Osojnik, Dzeroski and
+  Kocev}]{Stepisnik_2020}
+\bibinfo{author}{Stepisnik, T.}, \bibinfo{author}{Osojnik, A.},
+  \bibinfo{author}{Dzeroski, S.}, \bibinfo{author}{Kocev, D.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Option predictive clustering trees for multi-target
+  regression}.
+\newblock \bibinfo{journal}{Computer Science and Information Systems}
+  \bibinfo{volume}{17}, \bibinfo{pages}{459–486}.
+\newblock \URLprefix \url{http://dx.doi.org/10.2298/CSIS190928006S},
+  \DOIprefix\doi{10.2298/csis190928006s}.
+%Type = Article
+\bibitem[{Stepišnik and Kocev(2021)}]{Stepi_nik_2021}
+\bibinfo{author}{Stepišnik, T.}, \bibinfo{author}{Kocev, D.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Oblique predictive clustering trees}.
+\newblock \bibinfo{journal}{Knowledge-Based Systems} \bibinfo{volume}{227},
+  \bibinfo{pages}{107228}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.knosys.2021.107228},
+  \DOIprefix\doi{10.1016/j.knosys.2021.107228}.
+%Type = Inproceedings
+\bibitem[{Tan et~al.(2020)Tan, Soloviev, Hooker and Wells}]{Tan_2020}
+\bibinfo{author}{Tan, S.}, \bibinfo{author}{Soloviev, M.},
+  \bibinfo{author}{Hooker, G.}, \bibinfo{author}{Wells, M.T.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Tree space prototypes: Another look at making tree
+  ensembles interpretable}, in: \bibinfo{booktitle}{Proceedings of the 2020
+  ACM-IMS on Foundations of Data Science Conference}, \bibinfo{publisher}{ACM}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1145/3412815.3416893},
+  \DOIprefix\doi{10.1145/3412815.3416893}.
+%Type = Manual
+\bibitem[{Therneau(2017)}]{survival-package}
+\bibinfo{author}{Therneau, T.M.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{A Package for Survival Analysis in R}.
+\newblock \URLprefix \url{https://CRAN.R-project.org/package=survival}.
+%Type = Article
+\bibitem[{Zhao et~al.(2019)Zhao, Wu, Lee and Cui}]{Zhao_2019}
+\bibinfo{author}{Zhao, X.}, \bibinfo{author}{Wu, Y.}, \bibinfo{author}{Lee,
+  D.L.}, \bibinfo{author}{Cui, W.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{iforest: Interpreting random forests via visual
+  analytics}.
+\newblock \bibinfo{journal}{IEEE Transactions on Visualization and Computer
+  Graphics} \bibinfo{volume}{25}, \bibinfo{pages}{407–416}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1109/TVCG.2018.2864475},
+  \DOIprefix\doi{10.1109/tvcg.2018.2864475}.
+
+\end{thebibliography}
