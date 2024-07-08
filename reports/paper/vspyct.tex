@@ -296,14 +296,15 @@ p(x)=\int_{\theta} p(x|\theta)p(\theta) \,dx,
 This integral rarely yields a closed-form solution.
 For cases with multiple dimensions, the computational burden often renders Monte Carlo methods infeasible.
 The VB approach offers an approximation to this issue by closely mimicking the true posterior $p(\theta|x)$ with an approximate distribution $q_{\omega^*}(\theta)$. This variational distribution is part of a family of distributions $q_\omega(\theta)\in \mathcal{Q}$, parameterized by $\omega \in \Omega$, where $\Omega$ represents the potential latent parameter values.
-Typically, the mean-field variational family is utilized, assuming independence among the parameters $\omega$. To find the optimal $\omega^*$, one minimises the Kullback–Leibler (KL) divergence $KL(q_\omega(\theta) \parallel p(\theta|x))$:
+Typically, the mean-field variational family is utilized, assuming independence among the parameters $\omega$\pbnote{Add citation}. 
+To find the optimal $\omega^*$, one minimises the Kullback–Leibler (KL)\pbnote{Use glossaries} divergence $KL(q_\omega(\theta) \parallel p(\theta|x))$:
 
 \begin{equation}
 \omega^* = \argmin_{\omega \in \Omega}KL(q_\omega(\theta) \parallel p(\theta|x))
 \label{eq:optim}
 \end{equation}
 
-Given the unknown nature of the true posterior, a rearrangement is needed to compute the KL divergence, simplifying to:
+Given the unknown nature of the true posterior, a rearrangement is needed to compute the KL divergence, simplifying to \pbnote{mislam deka ne ti treba celiot derivation. Može da napraviš referenca do PML2 od Murphy in da go dadeš samo poslediont red}:
 
 \begin{align*}
 KL(q_\omega(\theta) \parallel p(\theta|x)) &= \mathbb{E}_q\left[\log \frac{q_\omega (\theta)}{p(\theta|x)}\right] \\
@@ -315,16 +316,17 @@ KL(q_\omega(\theta) \parallel p(\theta|x)) &= \mathbb{E}_q\left[\log \frac{q_\om
 \label{eq:kl_divergence}
 \end{align*}
 
-Maximising the ELBO inversely minimises the KL divergence, with $\log p(x)$ remaining constant and excluded from the optimisation.
-Typically, the ELBO maximisation criterion is non-convex, with no assurance of global extremum convergence by optimisation algorithms.
-Various algorithms have been employed for this challenge, including coordinate ascent variational inference and stochastic variational inference~\cite{hoffman2013stochastic}, with the latter's gradient calculated as per the black-box variational inference~\cite{sashank2018convergence}.
-The adoption of an approximate variational distribution introduces bias contingent on the chosen variational family $\mathcal{Q}$, necessitating a decision grounded in empirical evidence or expert knowledge.
+Maximising the ELBO\pbnote{Use package glossaries for abbreviations} inversely minimises the KL divergence, with $\log p(x)$ remaining constant and excluded from the optimisation \pbnote{why is it excluded, explain}.
+Typically, the ELBO maximisation criterion is non-convex, with no assurance of global extremum convergence by optimisation algorithms \pbnote{True, add citation}.
+Various algorithms have been employed for this challenge, including coordinate ascent variational inference and stochastic variational inference~\citep{hoffman2013stochastic}, with the latter's gradient calculated as per the black-box variational inference~\citep{sashank2018convergence}.
+\pbnote{Ne se samo tie. Vidi tuka \url{https://probml.github.io/pml-book/book2.html} chapter 10}
+The adoption of an approximate variational distribution introduces bias \pbnote{True, but explain where the bias is} contingent on the chosen variational family $\mathcal{Q}$, necessitating a decision grounded in empirical evidence or expert knowledge.
 Despite this bias, VB's computational efficiency significantly surpasses traditional methods like Monte Carlo integration.
 In our work, the ADAM optimiser~\citep{kingma2014adam} is used to facilitate the ELBO optimisation.
 
 
 \subsection{Semi-supervised Multi-target Regression in Survival Analysis}
-
+\pbnote{Do we need this subsection here? Maybe put the name to methodology, 3.1. is VB and then continue directly to 4. This subsection can go into results or application and you can actually reference it from ESWA paper}
 Survival analysis primarily focuses on time-to-event data, where not all events are fully observed due to some form of censoring that halts observation before the event transpires.
 The most prevalent form of censoring in this context is right-censoring, which occurs when there is incomplete knowledge about the survival time at the end of the follow-up period.
 As a result, each survival record is characterised by three elements: the actual survival time $T$, its observed component $t$, and a binary indicator $\delta$, which is defined as:
@@ -347,12 +349,12 @@ This scenario of censored examples introduces missing data, which makes such dat
 
 As a main part of the \gls{vspyct} model lies the oblique tree structure, which is a form of a \gls{pct} where splits are made using linear combinations of the input features rather than single features.
 This allows for more complex decision boundaries, capturing intricate patterns in the data with fewer nodes compared to axis-aligned trees.
-However, unlike traditional oblique trees that fix the parameters of these linear combinations, \gls{vspyct} introduces a probabilistic twist: the parameters of the splits are not single fixed values but are instead modelled as random variables with Gaussian distributions.
-This probabilistic representation captures the uncertainty in the model parameters, a feature that is particularly useful in scenarios with noisy data.
-The construction of the \gls{vspyct} begins with a root node and iteratively expands by adding internal nodes or leaves through a learning process based on the variational Bayes method.
+However, unlike traditional oblique trees that fix the parameters of these linear combinations, \gls{vspyct} introduces a probabilistic twist: the parameters of the splits are \mpop{not single fixed values but are instead}{} modelled as random variables \pbnote*{It does not need to be Gaussian}{with Gaussian distributions}.
+This probabilistic representation captures the uncertainty in the model parameters \pbnote*{Why noisy data, what if we have perfect data but wrong model}{, a feature that is particularly useful in scenarios with noisy data}.
+The construction of the \gls{vspyct} \pbnote{here you can say that the consutrction follows SPYCT, because the process is the same. Only the optimisation step is different. Explain this better here}begins with a root node and iteratively expands by adding internal nodes or leaves through a learning process based on the variational Bayes method.
 Each node represents a binary decision point where instances are split into two child nodes.
 At each internal node, a variational Bayes approach is used to learn the parameters of an oblique split.
-This involves optimising the parameters of a linear model that best divides the data to minimise the ELBO.
+\pbnote*{Keep ELBO until later. Here explain the basic SPYCT, there are no stochastic parts here yet} {This involves optimising the parameters of a linear model that best divides the data to minimise the ELBO.}
 The linear model is defined as:
 
 \begin{equation}
@@ -361,6 +363,10 @@ f(\mathbf{x})=\sigma \left(\mathbf{w}^T \mathbf{x} + b \right)
 \end{equation}
 
 where $\mathbf{x} \in \mathbb{R}^N$ is the feature vector, $\mathbf{w} \in \mathbb{R}^N$ represents the weights, $b \in \mathbb{R}$ is the bias, and $\sigma(\cdot)$ denotes the sigmoid function ensuring the output lies in $(0, 1)$, indicating the probability of branching to the right child node.
+
+
+\pbnote{The part below should be separate. Above explain how the mechanism of SPYCT works. Below you can point out the main difference. May be merge this with the next subsection, but it shoud le rewritten carefully.
+Here you are missing your key idea. How to minimise the impurity function. You got an idea that you should put the target value at 0 and run ELBO on it. This is missing here.}
 The learning process involves defining a prior distribution over the weights and biases, typically Gaussian, and updating this to a posterior distribution given the observed data through variational inference.
 The ELBO is optimised using stochastic gradient descent, with the learning rate $\alpha$ and potentially variable batch sizes $B$.
 The split at each node is determined by evaluating the learned linear model on the descriptive data.
@@ -416,7 +422,7 @@ The procedure for learning a split using the VB method is given in Algorithm~\re
 \end{algorithmic}
 \end{algorithm}
 
-
+\pbnote{Algorithm Impurity is not referenced anywhere in the text. Do you need it at all?}
 \begin{algorithm}[h!]
 \caption{Impurity}
 \begin{algorithmic}[1]
@@ -437,6 +443,9 @@ The procedure for learning a split using the VB method is given in Algorithm~\re
 \subsection{Making a prediction}
 
 The procedure for making a prediction for a new instance using the \gls{vspyct} model is given in Algorithm~\ref{alg:make_pred}.
+\pbnote{How? What do you get from predictive? Why do you need predictive, why not just using the estimated model parameters directly? This subsection is not written OK!} 
+\pbnote{What is prototype in Algorithm~\ref{alg:make_pred}?} 
+\pbnote{Can you write this in a mathematical form}
 It involves traversing the tree from the root to a leaf, at each internal node using the variational posterior to sample parameters and compute the probability of branching right or left.
 The prediction of the reached leaf's prototype is returned as the output.
 Operationally, when a new data point is to be classified or a prediction is to be made, it traverses the tree from the root to a leaf.
@@ -485,25 +494,26 @@ In this section, we analyse the time complexity of learning a split in \gls{vspy
 Our analysis focuses on the computational expense associated with determining a split, as this represents the principal distinction between the two approaches.
 In the predictive clustering framework, the set of clustering attributes $K$, which contributes to the variance calculation, encompasses both the features and the target variables.
 As a result, $K$ equals $N + T$, with $N$ representing the feature count and $T$ denoting the target count.
-The time complexity for learning in \glspl{spyct} can be expressed as $\mathcal{O}(NI_o(D+K))$, wherein $I_o$ stands for the iteration count needed for optimisation.
+The time complexity for learning in \glspl{spyct} can be expressed as $\mathcal{O}(NI_o(D+K))$, wherein $I_o$ stands for the iteration count needed for optimisation\pbnote{Citation}.
 Notably, the computational demand for the \glspl{spyct}' gradient-based version increases linearly with the attribute count.
 
 The introduction of variational Bayes method in the architecture of \gls{spyct} to create \gls{vspyct} adds a new layer of computational complexity.
 Specifically, the variational approach requires iterating over the dataset multiple times to optimise the ELBO for each split.
 This iterative process involves sampling from the posterior distributions of split parameters, evaluating the ELBO, and updating the parameters accordingly.
-Consequently, the time complexity for learning a split in \gls{vspyct} can be described as $\mathcal{O}(MI_oNI_{vb})$, where $M$ is the number of Monte Carlo samples used to approximate the posterior distributions, $I_{vb}$ represents the number of iterations required for variational inference to converge, and the other variables retain their meanings from the \gls{spyct} context.
+Consequently, the time complexity for learning a split in \gls{vspyct} can be described as $\mathcal{O}(MI_oNI_{vb})$, where $M$ is the number of Monte Carlo samples used to approximate the posterior distributions, $I_{vb}$ represents the number of iterations required for variational inference to converge, and the other variables retain their meanings from the \gls{spyct} context \pbnote{This is great but you have to explain how did you get to this complexity. Can you write the derivation}.
 
 Comparing \glspl{vspyct} to \glspl{spyct}, the introduction of variational Bayes method increases the computational load due to the necessity of Monte Carlo sampling and iterative ELBO optimisation.
 However, this additional complexity is counterbalanced by the enhanced predictive performance, model interpretability, and uncertainty quantification offered by \glspl{vspyct}.
 %While \glspl{spyct} are computationally efficient due to their linear scaling with the number of attributes and utilisation of gradient-based optimisation, \glspl{vspyct} leverage the power of variational inference to provide a deeper understanding of the data and model behaviour, even if at the cost of increased time complexity.
 
+\pbnote{Maybe this paragraph can go to conclusion or discussion}
 The choice between using \glspl{vspyct} over \glspl{spyct} hinges on the specific requirements of the application scenario.
 For tasks where model interpretability and uncertainty quantification are paramount, and computational resources are sufficient, \glspl{vspyct} offer a compelling advantage.
 Conversely, for applications where computational efficiency is critical, and the interpretability requirements are less stringent, \glspl{spyct} may still be favourable.
 
 \subsection{Feature importance}
 
-Feature importance is derived from the aggregated impact of features across all splits, quantified by examining the variational posterior distributions of the weights.
+\pbnote*{Complex sentence}{Feature importance is derived from the aggregated impact of features across all splits, quantified by examining the variational posterior distributions of the weights.}
 The importance of each feature is proportional to its contribution to reducing impurity across splits.
 
 Given a \gls{vspyct} model, the feature importances are derived from the variational parameters defining the split decisions across the tree.
@@ -513,19 +523,20 @@ This is encapsulated by the following formula:
 \begin{equation}
 \text{Imp}(T) = \sum_{s \in T} \left( \frac{s_n}{N} \right) \left( \frac{\mathbb{E}[\mathbf{w}_s]}{|\mathbb{E}[\mathbf{w}_s]|_1} \right)
 \end{equation}
-
-where $T$ represents the variational oblique predictive clustering tree, $s$ iterates over the set of split nodes within $T$, $s_n$ is the number of training examples that passed through node $s$, $N$ denotes the total number of training examples used in the tree, $\mathbf{w}_s$ symbolizes the weight vector defining the oblique split at node $s$, treated as a random variable with a Gaussian distribution, $\mathbb{E}[\mathbf{w}_s]$ signifies the expected value (mean) of the weight vector $\mathbf{w}_s$, calculated from its posterior distribution as inferred by the variational Bayesian method.
-The normalization factor $|\mathbb{E}[\mathbf{w}_s]|_1$ ensures the comparability of feature importances by scaling them relative to the aggregate magnitude of expected weights.
+where $s$ is a split in the variational oblique predictive clustering tree $T$, $s_n$ is the number of training examples that passed through node $s$, \pbnote*{Shoudn't this be $N_s$}{$N$} denotes the total number of training examples used in the tree, $\mathbf{w}_s$ symbolizes the weight vector defining the oblique split at node $s$\mpop{, treated as a random variable with a Gaussian distribution}{}, $\mathbb{E}[\mathbf{w}_s]$ signifies the expected value \mpop{(mean)}{ }of the weight vector $\mathbf{w}_s$, calculated from its \pbnote*{Careful, posterior or vairational or predictive}{posterior} distribution as inferred by the variational Bayesian method.
+The normalization factor \pbnote*{What does $_1$ mean? Can you give a complete definition}{$|\mathbb{E}[\mathbf{w}_s]|_1$} ensures the comparability of feature importances by scaling them relative to the aggregate magnitude of expected weights.
 This formulation accounts for the stochastic nature of each parameter, reflecting the central tendency of the distributions defining the split hyperplanes.
 
-For practical computation, the expected weights $\mathbb{E}[\mathbf{w}_s]$ are obtained by sampling from the posterior distributions inferred during the learning process.
-Each weight vector $\mathbf{w}_s$ is drawn such that $\mathbf{w}_s \sim q(\mathbf{w}_s|\mathcal{D})$, where $q(\mathbf{w}_s|\mathcal{D})$ represents the variational approximation to the posterior distribution of weights given the data $\mathcal{D}$.
+For practical computation, the expected weights $\mathbb{E}[\mathbf{w}_s]$ are obtained by sampling from the \pbnote*{Again which? Where in the code is this?}{posterior} distributions inferred during the learning process.
+Each weight vector $\mathbf{w}_s$ is drawn such that $\mathbf{w}_s \sim q(\mathbf{w}_s|\mathcal{D})$, where $q(\mathbf{w}_s|\mathcal{D})$ represents the \pbnote*{so, variational approximation not the posterior}{variational approximation} to the posterior distribution of weights given the data $\mathcal{D}$.
 The importance of each feature is then a function of these expected weights, modulated by the frequency of training instances influencing each split, thereby emphasising the splits that impact a larger portion of the data.
 This mathematical framework for computing feature importances in \gls{vspyct} not only highlights the contribution of individual features to the model's decision-making process but also integrates the inherent uncertainty of these contributions, offering a richer, more nuanced understanding of feature relevance within a probabilistic modelling context.
 
+\pbnote{This is rather complex subsection it needs more bachground. How did you come up with the idea of this relation, provide simple toy example with 2 or 3 weights to explain how this works}
+
 
 \section{Data and evaluation metric}
-
+\pbnote{Now I understand. Why did you focus only on survival data. If I remember correctly you calculated the performance on different data sets not just survival. If we leave it only on this it will not go OK with the review.}
 
 \subsection{Data}
 
