@@ -110,3 +110,5 @@ models/vspyct_reduced_v1.pcl
 *.run.xml
 *.loc
 *.soc
+*.synctex.gz
+*.pytxcode

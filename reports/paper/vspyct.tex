@@ -288,7 +288,7 @@ p(x)=\int_{\theta} p(x|\theta)p(\theta) \,dx,
 
 This integral rarely yields a closed-form solution.
 For cases with multiple dimensions, the computational burden often renders Monte Carlo methods infeasible.
-The VB approach offers an approximation to this issue by closely mimicking the true posterior $p(\theta|x)$ with an approximate distribution $q_{\omega^*}(\theta)$. This variational distribution is part of a family of distributions $q_\omega(\theta)\in \mathcal{Q}$, parameterized by $\omega \in \Omega$, where $\Omega$ represents the potential latent parameter values.
+The VB approach offers an approximation to this issue by closely mimicking the true posterior $p(\theta|x)$ with an approximate distribution $q_{\omega^*}(\theta)$. This variational distribution is part of a family of distributions $q_\omega(\theta)\in \mathcal{Q}$, parameterised by $\omega \in \Omega$, where $\Omega$ represents the potential latent parameter values.
 Typically, the mean-field variational family is utilised, assuming independence among the parameters $\omega$~\citep{Blei_2017}. 
 To find the optimal $\omega^*$, one minimises the \gls{kl} divergence $KL(q_\omega(\theta) \parallel p(\theta|x))$:
 
@@ -400,8 +400,8 @@ The algorithm involves initialising the variational parameters, performing Monte
     \State \textbf{Output:} $\Theta = \{\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w, \mu_b, \sigma_b^2\}$ (variational parameters)
  
     \Procedure{LearnSplit}{$\mathcal{D}, \theta, E, \lambda, \beta, \sigma$}
-        \State Initialize $\Theta = \{\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w, \mu_b, \sigma_b^2\}$ \Comment{Initialize variational parameters}
-        \State Initialize optimizer: $\alpha \gets \lambda$
+        \State Initialise $\Theta = \{\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w, \mu_b, \sigma_b^2\}$ \Comment{Initialise variational parameters}
+        \State Initialise optimiser: $\alpha \gets \lambda$
         \For{$e \in \{1, \dots, E\}$} \Comment{Iterate over epochs}
             \For{each mini-batch $\mathcal{B} \subseteq \mathcal{D}$ of size $\beta$}
                 \State Sample $\mathbf{w} \sim \mathcal{N}(\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w)$, $b \sim \mathcal{N}(\mu_b, \sigma_b^2)$
@@ -454,7 +454,7 @@ This value $\hat{y}$ serves as the prediction for any new instance that reaches 
 \State \textbf{Output:} Prediction $\hat{y}$
 
 \Function{MC\_Predict}{$\Omega$, $\mathbf{x}$, $M$}
-    \State Initialize $\hat{y}_{\text{sum}} = 0$
+    \State Initialise $\hat{y}_{\text{sum}} = 0$
     \For{$m = 1$ to $M$}
         \State $\hat{y}_{\text{sum}} \gets \hat{y}_{\text{sum}} + \text{Predict}(\Omega, \mathbf{x}, m)$
     \EndFor
@@ -534,9 +534,9 @@ Suppose that at the root node, the mean weights associated with \textit{age} and
 The importance at this node will now reflect the ratio \( \frac{\mathbb{E}[w]}{\text{Var}(w)} \), such that a feature with a relatively high mean weight but also a high variance will not necessarily dominate one with a slightly lower mean but substantially more stable (lower variance) weights.
 Thus, if \textit{salary} maintains a higher \(\frac{\mathbb{E}[w]}{\text{Var}(w)}\) ratio than \textit{age}, it indicates that \textit{salary} is not only influential but also more reliably so at this particular node.
 
-However, the overall feature importance is derived by aggregating these normalized ratios across all splits within the tree.
+However, the overall feature importance is derived by aggregating these normalised ratios across all splits within the tree.
 Even if \textit{salary} appears strongly influential at the root node, the final importance calculation considers both the magnitude and the stability of the weights across all nodes.
-A feature consistently demonstrating a favorable \(\frac{\mathbb{E}[w]}{\text{Var}(w)}\) ratio throughout multiple splits will be deemed more important globally.
+A feature consistently demonstrating a favourable \(\frac{\mathbb{E}[w]}{\text{Var}(w)}\) ratio throughout multiple splits will be deemed more important globally.
 In this way, the final importance assessment accounts for both the strength and certainty of each feature’s contribution to the model’s decision-making process.
 
 
@@ -589,7 +589,7 @@ The performance of the models was evaluated using appropriate metrics for each p
 \]
 where \( y_i \) denotes the true value, \(\hat{y}_i\) is the predicted value, and \(N\) is the total number of instances. A lower \textit{MAE} indicates better predictive accuracy.
 
-For multi-target regression, a normalized Mean Absolute Error (\textit{NMAE}) was used to ensure comparability across targets with different value ranges. Letting \(y_{ij}\) and \(\hat{y}_{ij}\) be the true and predicted values for the \(j\)-th target of the \(i\)-th instance, and \(T\) be the total number of target variables, the \(\textit{NMAE}\) is defined as:
+For multi-target regression, a normalised Mean Absolute Error (\textit{NMAE}) was used to ensure comparability across targets with different value ranges. Letting \(y_{ij}\) and \(\hat{y}_{ij}\) be the true and predicted values for the \(j\)-th target of the \(i\)-th instance, and \(T\) be the total number of target variables, the \(\textit{NMAE}\) is defined as:
 \[
 \textit{NMAE} = \frac{1}{T} \sum_{j=1}^{T} \left( \frac{\frac{1}{N} \sum_{i=1}^{N} | y_{ij} - \hat{y}_{ij} |}{\max_i(y_{ij}) - \min_i(y_{ij})} \right)
 \]
