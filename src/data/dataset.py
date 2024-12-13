@@ -256,7 +256,7 @@ class ReducedDataset:
 
     def __init__(self, path, filename, random_state=11):
         self.dataset = pd.read_pickle(os.path.join(path, filename))
-        self.dataset = self.dataset.sample(frac=0.05)
+        self.dataset = self.dataset.sample(frac=0.005)
         self.random_state = random_state
         self.skp = pd.read_csv(os.path.join(DIR_PATH, '../../data/raw/dimSKP08.csv'))[['IDpoklicaSKP','SFpoklicaSKP']]
         self.skp.SFpoklicaSKP = self.skp.SFpoklicaSKP.astype(int).astype(str).str.zfill(4)

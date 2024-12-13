@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{18}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -25,6 +25,17 @@
 \newblock \URLprefix \url{http://dx.doi.org/10.1016/j.eswa.2023.121246},
   \DOIprefix\doi{10.1016/j.eswa.2023.121246}.
 %Type = Article
+\bibitem[{Bernardo et~al.(2003)Bernardo, Bayarri, Berger, Dawid, Heckerman,
+  Smith, West et~al.}]{bernardo2003variational}
+\bibinfo{author}{Bernardo, J.}, \bibinfo{author}{Bayarri, M.},
+  \bibinfo{author}{Berger, J.}, \bibinfo{author}{Dawid, A.},
+  \bibinfo{author}{Heckerman, D.}, \bibinfo{author}{Smith, A.},
+  \bibinfo{author}{West, M.}, et~al., \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{The variational bayesian em algorithm for incomplete
+  data: with application to scoring graphical model structures}.
+\newblock \bibinfo{journal}{Bayesian statistics} \bibinfo{volume}{7},
+  \bibinfo{pages}{210}.
+%Type = Article
 \bibitem[{Blei et~al.(2017)Blei, Kucukelbir and McAuliffe}]{Blei_2017}
 \bibinfo{author}{Blei, D.M.}, \bibinfo{author}{Kucukelbir, A.},
   \bibinfo{author}{McAuliffe, J.D.}, \bibinfo{year}{2017}.
@@ -33,33 +44,13 @@
   \bibinfo{volume}{112}, \bibinfo{pages}{859–877}.
 \newblock \URLprefix \url{http://dx.doi.org/10.1080/01621459.2017.1285773},
   \DOIprefix\doi{10.1080/01621459.2017.1285773}.
-%Type = Article
-\bibitem[{Brentnall and Cuzick(2016)}]{brentnall2018use}
-\bibinfo{author}{Brentnall, A.R.}, \bibinfo{author}{Cuzick, J.},
-  \bibinfo{year}{2016}.
-\newblock \bibinfo{title}{Use of the concordance index for predictors of
-  censored survival data}.
-\newblock \bibinfo{journal}{Stat Methods Med Res} \bibinfo{volume}{27},
-  \bibinfo{pages}{2359--2373}.
-\newblock \DOIprefix\doi{10.1177/0962280216680245}.
-%Type = Article
-\bibitem[{Gerds and Schumacher(2006)}]{gerds2006consistent}
-\bibinfo{author}{Gerds, T.A.}, \bibinfo{author}{Schumacher, M.},
-  \bibinfo{year}{2006}.
-\newblock \bibinfo{title}{Consistent estimation of the expected brier score in
-  general survival models with right-censored event times}.
-\newblock \bibinfo{journal}{Biom. J.} \bibinfo{volume}{48},
-  \bibinfo{pages}{1029--1040}.
-\newblock \DOIprefix\doi{10.1002/bimj.200610301}.
-%Type = Book
-\bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, Friedman and
-  Friedman}]{elstatl}
-\bibinfo{author}{Hastie, T.}, \bibinfo{author}{Tibshirani, R.},
-  \bibinfo{author}{Friedman, J.H.}, \bibinfo{author}{Friedman, J.H.},
-  \bibinfo{year}{2009}.
-\newblock \bibinfo{title}{The elements of statistical learning: data mining,
-  inference, and prediction}. volume~\bibinfo{volume}{2}.
-\newblock \bibinfo{publisher}{Springer}.
+%Type = Inproceedings
+\bibitem[{Gershman and Goodman(2014)}]{gershman2014amortized}
+\bibinfo{author}{Gershman, S.}, \bibinfo{author}{Goodman, N.},
+  \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Amortized inference in probabilistic reasoning}, in:
+  \bibinfo{booktitle}{Proceedings of the annual meeting of the cognitive
+  science society}.
 %Type = Article
 \bibitem[{Hoffman et~al.(2013)Hoffman, Blei, Wang and
   Paisley}]{hoffman2013stochastic}
@@ -68,6 +59,14 @@
   \bibinfo{year}{2013}.
 \newblock \bibinfo{title}{Stochastic variational inference}.
 \newblock \bibinfo{journal}{Journal of Machine Learning Research} .
+%Type = Inproceedings
+\bibitem[{Kim et~al.(2018)Kim, Wiseman, Miller, Sontag and Rush}]{kim2018semi}
+\bibinfo{author}{Kim, Y.}, \bibinfo{author}{Wiseman, S.},
+  \bibinfo{author}{Miller, A.}, \bibinfo{author}{Sontag, D.},
+  \bibinfo{author}{Rush, A.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Semi-amortized variational autoencoders}, in:
+  \bibinfo{booktitle}{International Conference on Machine Learning},
+  \bibinfo{organization}{PMLR}. pp. \bibinfo{pages}{2678--2687}.
 %Type = Article
 \bibitem[{Kingma and Ba(2014)}]{kingma2014adam}
 \bibinfo{author}{Kingma, D.P.}, \bibinfo{author}{Ba, J.}, \bibinfo{year}{2014}.
@@ -83,14 +82,31 @@
   \bibinfo{pages}{817–833}.
 \newblock \URLprefix \url{http://dx.doi.org/10.1016/j.patcog.2012.09.023},
   \DOIprefix\doi{10.1016/j.patcog.2012.09.023}.
-%Type = Article
-\bibitem[{Kvamme and Borgan(2023)}]{trickbrier}
-\bibinfo{author}{Kvamme, H.}, \bibinfo{author}{Borgan, {\O}.},
-  \bibinfo{year}{2023}.
-\newblock \bibinfo{title}{The brier score under administrative censoring:
-  problems and a solution}.
-\newblock \bibinfo{journal}{Journal of Machine Learning Research}
-  \bibinfo{volume}{24}, \bibinfo{pages}{1--26}.
+%Type = Inproceedings
+\bibitem[{Le et~al.(2017)Le, Baydin and Wood}]{le2017inference}
+\bibinfo{author}{Le, T.A.}, \bibinfo{author}{Baydin, A.G.},
+  \bibinfo{author}{Wood, F.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Inference compilation and universal probabilistic
+  programming}, in: \bibinfo{booktitle}{Artificial Intelligence and
+  Statistics}, \bibinfo{organization}{PMLR}. pp. \bibinfo{pages}{1338--1348}.
+%Type = Misc
+\bibitem[{{Mulan}()}]{mulan}
+\bibinfo{author}{{Mulan}}, .
+\newblock \bibinfo{title}{Mulan: A java library for multi-label learning}.
+\newblock
+  \bibinfo{howpublished}{\url{http://mulan.sourceforge.net/datasets.html}}.
+\newblock \bibinfo{note}{Accessed: 2020-04-15}.
+%Type = Book
+\bibitem[{Murphy(2023)}]{murphy2023probabilistic}
+\bibinfo{author}{Murphy, K.P.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Probabilistic machine learning: Advanced topics}.
+\newblock \bibinfo{publisher}{MIT press}.
+%Type = Misc
+\bibitem[{{OpenML}()}]{openml}
+\bibinfo{author}{{OpenML}}, .
+\newblock \bibinfo{title}{Openml}.
+\newblock \bibinfo{howpublished}{\url{https://www.openml.org}}.
+\newblock \bibinfo{note}{Accessed: 2020-04-15}.
 %Type = Article
 \bibitem[{Plumb et~al.(2018)Plumb, Molitor and Talwalkar}]{plumb2018model}
 \bibinfo{author}{Plumb, G.}, \bibinfo{author}{Molitor, D.},
@@ -136,11 +152,6 @@
   ACM-IMS on Foundations of Data Science Conference}, \bibinfo{publisher}{ACM}.
 \newblock \URLprefix \url{http://dx.doi.org/10.1145/3412815.3416893},
   \DOIprefix\doi{10.1145/3412815.3416893}.
-%Type = Manual
-\bibitem[{Therneau(2017)}]{survival-package}
-\bibinfo{author}{Therneau, T.M.}, \bibinfo{year}{2017}.
-\newblock \bibinfo{title}{A Package for Survival Analysis in R}.
-\newblock \URLprefix \url{https://CRAN.R-project.org/package=survival}.
 %Type = Article
 \bibitem[{Zhao et~al.(2019)Zhao, Wu, Lee and Cui}]{Zhao_2019}
 \bibinfo{author}{Zhao, X.}, \bibinfo{author}{Wu, Y.}, \bibinfo{author}{Lee,

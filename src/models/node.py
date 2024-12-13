@@ -41,7 +41,7 @@ class Node:
 
 
 class VNode:
-    def __init__(self, depth=0, num_instances=0, root=False):
+    def __init__(self, descriptive_values, depth=0, num_instances=0, root=False):
         self.left = None
         self.right = None
         self.prototype = None   
@@ -51,7 +51,9 @@ class VNode:
         self.depth = depth
         self.is_root = root
         self.param_store = None
+        self.losses = None
         self.num_instances = num_instances
+        self.descriptive_values = descriptive_values
 
     def is_leaf(self): return self.left is None and self.right is None
 
@@ -68,7 +70,7 @@ class VNode:
                 if splits <= 0.5: return self.left.predict(x)
                 else: return self.right.predict(x)
 
-    def mc_predict(self, x, num_samples=10):
+    def mc_predict(self, x, num_samples=30):
         pred_lst = []
         for i in range(num_samples):
             pred_lst.append(self.predict(x))

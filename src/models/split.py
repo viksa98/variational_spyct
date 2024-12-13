@@ -34,14 +34,21 @@ DIR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 # def weighted_variance(values, weights, weight_sum):
 #     values = torch.nan_to_num(values, nan=0.0)
-#     weighted_squares = torch.matmul(weights, values) / weight_sum
-#     return -torch.sum(weighted_squares*weighted_squares)
+#     mean = torch.matmul(weights, values) / weight_sum
+#     return -torch.sum(mean*mean)
+
+# def weighted_variance(values, weights, weight_sum):
+#     values = torch.nan_to_num(values, nan=0.0)
+#     weights = weights.view(weights.shape[0], 1)
+#     weighted_squares = weights*values
+#     return torch.sum((weighted_squares-weighted_squares.mean(axis=0))**2)/ weight_sum
 
 def weighted_variance(values, weights, weight_sum):
-    values = torch.nan_to_num(values, nan=0.0)
-    weights = weights.view(weights.shape[0], 1)
-    weighted_squares = weights*values
-    return torch.sum((weighted_squares-weighted_squares.mean(axis=0))**2)/ weight_sum
+    mean = torch.matmul(weights, values) / weight_sum
+    squared_diff = (values - mean) ** 2
+    weighted_var = torch.sum(torch.matmul(weights, squared_diff)) / weight_sum
+    return weighted_var
+
 
 class MC_Dropout_Linear(nn.Module):
     def __init__(self, input_dim, output_dim, dropout_prob=0.2):
@@ -73,10 +80,9 @@ class Impurity(PyroModule):
         self.linear.weight = PyroSample(dist.Normal(0, 1).expand([self.output_dim, self.input_dim]).to_event(2))
         self.linear.bias = PyroSample(dist.Normal(0, 1).expand([self.output_dim]).to_event(1))
 
-    #fix this with the guide
     def forward(self, descriptive_data, clustering_data):
-        # sigma = pyro.sample("sigma", dist.Normal(1., 10.))
-        right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()
+        # sigma = pyro.sample("sigma", dist.Normal(0., 1.))
+        right_selection = self.linear(descriptive_data).reshape(-1).sigmoid()   
         left_selection = torch.tensor(1., device=self.device) - right_selection
 
         right_weight_sum = torch.sum(right_selection)
@@ -85,19 +91,17 @@ class Impurity(PyroModule):
         var_left = weighted_variance(clustering_data, left_selection, left_weight_sum)
         var_right = weighted_variance(clustering_data, right_selection, right_weight_sum)
         
-        impurity = (left_weight_sum * var_left + right_weight_sum * var_right) + torch.norm(self.linear.weight, p=0.5)
-        
+        impurity = (left_weight_sum * var_left + right_weight_sum * var_right)#+ torch.norm(self.linear.weight, p=0.5)
 
-        #fix this -> impurity cannot be NAN
+        
         try:
-            # Define a likelihood term with observed=0
             with pyro.plate("data", descriptive_data.shape[0]):
-                # registriraj ja varijansata kako parametar
-                obs = pyro.sample("obs", dist.Normal(impurity, 1.0), obs=torch.tensor(0.))
-        except: print('NAN!')
+                obs = pyro.sample("obs", dist.Normal(impurity, 1.0), obs=impurity/3)#torch.tensor(0.))
+        except: print('NAN!')   
         
         
         return impurity
+    
 
 class EarlyStopping:
     def __init__(self, patience=5, min_delta=0.0):
@@ -116,6 +120,7 @@ class EarlyStopping:
             if self.counter >= self.patience:
                 self.early_stop = True
         return self.early_stop
+    
         
 def learn_split(rows, descriptive_data, clustering_data, device, epochs, bs, lr, subspace_size):
     selected_attributes = np.random.choice(a=[False, True],
@@ -145,29 +150,29 @@ def learn_split(rows, descriptive_data, clustering_data, device, epochs, bs, lr,
 
     return model.to(device).eval()
 
-def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, lr, subspace_size, patience=4, enable_validation=False):
+def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, lr, subspace_size, patience=5, enable_validation=False):
     pyro.enable_validation(enable_validation)
     selected_attributes = np.random.choice(a=[False, True],
-                                           size=descriptive_data.size(1),
-                                           p=[1-subspace_size, subspace_size])
+                                            size=descriptive_data.size(1),
+                                            p=[1-subspace_size, subspace_size])
     descriptive_subset = descriptive_data[:, selected_attributes]
 
     pyro.clear_param_store()
     model = Impurity(input_dim=descriptive_subset.size(1), output_dim=1).to(device)
-    print(model)
     guide = AutoDiagonalNormal(model)
-    adam_params = {"lr": lr }#, "betas": (0.90, 0.999)}
-    optimizer = pyro.optim.Adam(adam_params)
+    # adam_params = {"lr": lr }#, "betas": (0.90, 0.999)}
+    optimizer = torch.optim.Adam
+    scheduler = pyro.optim.LinearLR({'optimizer': optimizer, 'optim_args': {'lr': lr}})
 
     early_stopping = EarlyStopping(patience=patience, min_delta=0.1)
 
     # Setup SVI
     svi = infer.SVI(model,
                     guide,
-                    optimizer,
-                    loss=infer.TraceMeanField_ELBO(num_particles=10))
+                    scheduler,
+                    loss=infer.TraceMeanField_ELBO(num_particles=5))
     losses = []
-    _steps = 0
+    # _steps = 0
     if bs is None: bs = rows.size(0)
     num_batches = math.ceil(rows.size(0) / bs)
     for epoch in trange(epochs, desc="Epochs"):
@@ -176,13 +181,14 @@ def learn_split_vb(rows, descriptive_data, clustering_data, device, epochs, bs, 
             descr = descriptive_subset[b*bs:(b+1)*bs]
             clustr = clustering_data[b*bs:(b+1)*bs]
             train_loss += svi.step(descr, clustr)
-            if _steps<1:
-                param_store = pyro.get_param_store()['AutoDiagonalNormal.loc']
-            _steps+=1
+            # if _steps<1:
+            #     param_store = pyro.get_param_store()['AutoDiagonalNormal.loc']
+            # _steps+=1
         if early_stopping.is_converged(train_loss):
-            print(f"Early stopping at epoch {epoch}.")
-            break
+              print(f"Early stopping at epoch {epoch}.")
+              break
         losses.append(train_loss)
+        scheduler.step()
         # print("[iteration %04d] loss: %.4f" % (epoch+1, train_loss))
     print(model)
-    return (model, guide, param_store)
+    return (model, guide, losses)
