@@ -112,3 +112,4 @@ models/vspyct_reduced_v1.pcl
 *.soc
 *.synctex.gz
 *.pytxcode
+reports/paper/*.pdf

@@ -542,9 +542,9 @@ In this way, the final importance assessment accounts for both the strength and 
 
 \section{Experimental setting}
 
-The experimental evaluation was conducted to compare the \gls{vspyct} model with several benchmarks, including the \gls{spyct} model, \glspl{opct}, and ensemble of \glspl{pct}.
+The experimental evaluation was conducted to compare the \gls{vspyct} model with several benchmarks, including the \gls{spyct} model, \glspl{opct}~\citep{Stepisnik_2020}, and ensemble of \glspl{pct}.
 Specifically, we considered both a single \gls{spyct} and an ensemble of \glspl{spyct}, as well as a single \gls{opct} and an ensemble of \glspl{pct}.
-We chose these methods as primary comparisons because they have been extensively evaluated in the literature, demonstrating strong performance across various \gls{sop} tasks~\citep{Andonovikj_2024}.
+We chose these methods as primary comparisons because they have been extensively evaluated in the literature, demonstrating strong performance across various \gls{sop} tasks~\citep{Andonovikj_2024, Stepi_nik_2021}.
 
 The comparison encompassed a range of predictive modelling tasks, including single-target regression, multi-target regression, binary classification, and multi-class classification.
 By evaluating not only a single \gls{spyct} tree, but also an ensemble of \glspl{spyct}, a single \gls{opct} tree, and an ensemble of \glspl{pct}, we aimed to assess how \gls{vspyct}'s predictive performance compares against a spectrum of models, from single decision trees to more complex ensembles and option-based trees.
@@ -553,33 +553,94 @@ This comprehensive approach allowed us to rigorously evaluate \gls{vspyct}'s eff
 
 \subsection{Data}
 
-The experiments were conducted on a diverse set of datasets, encompassing different types of predictive modelling tasks, including single-target regression, multi-target regression, and classification (binary and multi-class).
-The general characteristics of the datasets are summarised in Table~\ref{tab:datasets}.
-The table includes the number of examples \(N\), the number of features \(D\), the number of targets \(T\), and the number of classes \(C\), with \(C\) being applicable only to classification tasks.
+The experimental evaluation was performed on a diverse collection of datasets, each reflecting a distinct predictive modelling task: single-target regression (STR), multi-target regression (MTR), binary classification (BC), and multi-class classification (MCC).
+The properties of these benchmark datasets are detailed in Tables~\ref{tab:str} through \ref{tab:mcc}, respectively.
+Each table lists the number of examples (\(N\)) and the number of features (\(D\)) for all datasets, along with the number of targets (\(T\)) for MTR datasets and the number of classes (\(C\)) for MCC datasets.
 
 \begin{table}[h!]
 \centering
-\caption{Summary of the datasets used in the experiments.}
-\label{tab:datasets}
-\begin{tabular}{@{}lcccccc@{}}
+\caption{Properties of the benchmark STR datasets}
+\label{tab:str}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Dataset} & \textbf{Type of Task}          & \textbf{N} & \textbf{D} & \textbf{T} & \textbf{C} \\ \midrule
-rf1~\citep{mulan}             & Multi-target regression        & 9125         & 64         & 8         &        \\
-rf2~\citep{mulan}             & Multi-target regression        & 9125         & 576         & 8         &        \\
-atp1d~\citep{mulan}           & Multi-target regression        & 337         & 411         & 6         &        \\
-atp7d~\citep{mulan}           & Multi-target regression        & 296         & 411         & 6         &        \\
-scm1d~\citep{mulan}           & Multi-target regression        & 9803         & 280         & 16         &        \\
-house\_8L~\citep{openml}       & Single-target regression       &  22784        & 8         & 1          &        \\
-puma8NH~\citep{openml}         & Single-target regression       & 8192         & 8         & 1          &        \\
-diabetes~\citep{openml}        & Binary classification          & 768         & 8         & 1          & 2          \\
-banknote~\citep{openml} & Binary classification          & 1372         & 4         & 1          & 2          \\
-gas-drift~\citep{openml}  & Multi-class classification     & 13910         & 128         & 1          & 6         \\
-balance~\citep{openml}         & Multi-class classification     & 625         & 4         & 1          & 3         \\ \bottomrule
+\textbf{Dataset}   & \textbf{N} & \textbf{D} \\ \midrule
+era~\citep{openml}                  & 1000         & 5          \\
+cpmp~\citep{openml}                     & 2108         & 27          \\
+qsar234~\citep{openml}                   & 2145         & 1026             \\
+concrete\_compressive\_strength~\citep{openml}                   & 1030         & 9          \\
+yprop~\citep{openml}                   & 8885         & 252       \\
+puma8NH~\citep{openml}                & 8192         & 8        \\
+spacega~\citep{openml}                  & 3107         & 6             \\
+bike\_sharing~\citep{openml}           & 17379         & 6            \\
+quake~\citep{openml}       & 2178         & 3         \\
+ailerons~\citep{openml}         & 13750         & 40           \\ \bottomrule
 \end{tabular}
 \end{table}
 
-For multi-target regression, the target variable is a vector, while for single-target regression, it is a scalar.
-In binary classification, there are two possible classes, and for multi-class classification, the number of classes is dataset-dependent.
+\begin{table}[h!]
+\centering
+\caption{Properties of the benchmark MTR datasets}
+\label{tab:mtr}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Dataset}   & \textbf{N} & \textbf{D} & \textbf{T}     \\ \midrule
+wq~\citep{openml}                  & 1060         & 16         & 14 \\
+atp1d~\citep{openml}               &       337         & 411   &  6     \\
+atp7d~\citep{openml}                   & 296         & 411       &  6    \\
+scpf~\citep{openml}                   & 1137         & 23       &  3  \\
+osales~\citep{openml}                   & 639         & 411   &  12  \\
+sf1~\citep{openml}             &  323        & 10       &  3   \\
+sf2~\citep{openml}                & 1066         & 10     & 3  \\
+rf1~\citep{openml}                  & 9125         & 64       &  8    \\
+rf2~\citep{openml}           &  9125        & 576       &  8   \\
+slump~\citep{openml}       & 103         & 7   &  3    \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Properties of the benchmark BC datasets}
+\label{tab:str}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Dataset}   & \textbf{N} & \textbf{D} \\ \midrule
+scene~\citep{mulan}                  & 2407         & 299          \\
+ova\_breast~\citep{openml}                     & 1545         & 10935          \\
+ova\_lung~\citep{openml}                   & 1545         & 10935             \\
+bio\_response~\citep{openml}                   & 3751         & 1777          \\
+chronic\_kidney\_disease~\citep{openml}                   & 400         & 25       \\
+compas\_two\_years~\citep{openml}             &  5278        & 13          \\
+spambase~\citep{openml}                & 4601         & 57        \\
+gina\_agnostic~\citep{openml}                  & 3468         & 970             \\
+credit-g~\citep{openml}           & 1000         & 20            \\
+diabetes\citep{openml}       & 768         & 8         \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Properties of the benchmark MCC datasets}
+\label{tab:mcc}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Dataset}   & \textbf{N} & \textbf{D} & \textbf{C}     \\ \midrule
+amazon\_reviews~\citep{openml}                  & 1500         & 10000   &  50     \\
+dermatology~\citep{openml}                     & 366         & 34     &  6   \\
+micro\_mass~\citep{openml}                   & 360         & 1300      &   10    \\
+balance~\citep{openml}                   & 625         & 4       & 3  \\
+yeast~\citep{mulan}                   & 1484         & 8    & 10  \\
+wine~\citep{openml}             &  178        & 13     &  3   \\
+mfeat\_zernike~\citep{openml}                & 2000         & 47   &  10   \\
+har~\citep{openml}                  & 10299         & 561        &  6   \\
+gas\_drift~\citep{openml}           & 13910         & 128      &   6   \\
+semeion~\citep{openml}       & 1593         & 257    &   10  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+In STR tasks, the output is a single continuous variable, while in MTR tasks, the output comprises multiple continuous target variables.
+BC tasks involve two possible classes, and MCC tasks extend to multiple classes, with the exact number of classes depending on the specific dataset.
+This comprehensive range of datasets ensures a robust evaluation of the models across varying complexity and output structures.  
+
 
 \subsection{Evaluation}
 
@@ -608,6 +669,7 @@ All evaluations were conducted using 5-fold cross-validation, to ensure a compre
 \section{Results}
 
 Figure~\ref{fig:avg_rank} shows the average rankings of the evaluated methods—\gls{vspyct}, \gls{opct}, single \gls{spyct}, ensemble of \glspl{spyct}, and ensemble of \glspl{pct}—across four task types: binary classification (BC), multi-class classification (MCC), single-target regression (STR), and multi-target regression (MTR).
+For improved readability, the actual performance of the models on each dataset is given in the Appendix.
 
 \begin{figure}[h!]
     \centering
