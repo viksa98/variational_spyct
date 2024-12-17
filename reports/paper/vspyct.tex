@@ -823,44 +823,97 @@ The authors also acknowledge the funding received from the European Union's Hori
 \bibliographystyle{elsarticle-harv}
 \bibliography{bibliography}
 
-\begin{comment}
 \section*{Appendix}
 
-The evaluation scores on the regression datasets are presented in Table~\ref{tab:regression_results}.
+\begin{table}[h!]
+\centering
+\caption{\textit{MAE} scores for STR (lowest is best)}
+\label{tab:str_results}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Dataset & SPYCT-single & SPYCT-ensemble & VSPYCT & PCT-Ensemble & OPCT \\ \midrule
+era                             & 1.296625 & \textbf{1.249352} & 1.287840 & 1.277622 & 1.277424 \\
+cpmp2015                        & 384.377425 & 326.497515 & \textbf{285.105799} & 1211.124409 & 848.721320 \\
+qsar234                         & 0.572577 & \textbf{0.415656} & 0.428724 & 0.428721 & 0.441020 \\
+puma8NH                         & 2.795463 & \textbf{2.632242} & 2.711678 & - & - \\
+yprop                           & 0.020126 & 0.019693 & 0.019969 & \textbf{0.019682} & 0.023687 \\
+space\_ga                       & 0.105716 & 0.090193 & 0.104501 & \textbf{0.084793} & 0.099387 \\
+bike\_sharing                   & 7.866288 & 3.101784 & 11.288880 & 10.610927 & \textbf{2.509829} \\
+quake                           & 0.144549 & 0.143972 & \textbf{0.143805} & 0.147743 & 0.172350 \\
+concrete\_compressive\_strength & 4.500918 & \textbf{4.121670} & 7.740371 & 4.164038 & 4.216046 \\
+ailerons                        & 0.000135 & \textbf{0.000124} & 0.000127 & 0.000133 & 0.000161 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 \begin{table}[h!]
 \centering
-\caption{\textit{MAE} Scores for Regression Datasets}
+\caption{\textit{NMAE} scores for MTR (lowest is best)}
 \label{tab:regression_results}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lccccc@{}}
 \toprule
-Dataset & SPYCT-single tree & SPYCT-ensemble & VSPYCT \\ \midrule
-rf1             & 29.38                            & \textbf{29.34}                        & 29.37                \\
-rf2             & 29.37                            & 29.49                        & \textbf{29.36}                \\
-atp1d           & 95.17                            & \textbf{70.93}                        &  77.24               \\
-atp7d           & 115.54                            & \textbf{73.08}                        & 91.28                \\
-scm1d           & 205.99                            & 206.01                        & \textbf{205.72}                \\
-house\_8L       & 25378.02                            & \textbf{19817.56}                        & 22992.24                \\
-puma8NH         & 2.80                            & \textbf{2.62}                        & 2.74                \\ \bottomrule
+Dataset & SPYCT-single & SPYCT-ensemble & VSPYCT & PCT-Ensemble & OPCT \\ \midrule
+wq       & 0.184654 & \textbf{0.167491} & 0.183236 & 0.169793 & 0.175325 \\
+atp7d    & 0.321386 & 0.157284 & 0.167780 & \textbf{0.147780} & 0.176141 \\
+atp1d    & 0.229711 & \textbf{0.104547} & 0.125300 & 0.106302 & 0.115277 \\
+scpf     & 0.031613 & 0.027816 & \textbf{0.027291} & 0.047811 & 0.052046 \\
+osales   & 0.068986 & 0.064457 & \textbf{0.057865} & 0.060054 & 0.058278 \\
+sf2      & 0.042276 & 0.038311 & \textbf{0.037199} & 0.039234 & 0.041858 \\
+sf1      & 0.097729 & 0.095937 & \textbf{0.092266} & 0.108493 & 0.109708 \\
+slump    & 0.182132 & \textbf{0.165759} & 0.239199 & 0.175965 & 0.243881 \\
+rf1      & 0.197493 & 0.183436 & \textbf{0.166669} & 0.167392 & 0.168493 \\
+rf2      & 0.212579 & \textbf{0.176247} & 0.193914 & 0.177062 & 0.194180 \\
+\bottomrule
 \end{tabular}
 \end{table}
+
+
 
 \begin{table}[h!]
 \centering
-\caption{F1 Scores for Classification Datasets}
+\caption{\textit{F1} scores for BC (highest is best)}
 \label{tab:classification_results}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lccccc@{}}
 \toprule
-Dataset & SPYCT-single tree & SPYCT-ensemble & VSPYCT \\ \midrule
-diabetes              & 0.53                            & \textbf{0.60}                        & 0.59                \\
-banknote       & 0.97                            & \textbf{0.99}                        & 0.98                \\
-gas-drift        & 0.98                            & 0.99                        & \textbf{0.99}                \\
-balance               & 0.60                            & 0.66                        & \textbf{0.73}                \\ \bottomrule
+Dataset & SPYCT-single & SPYCT-ensemble & VSPYCT & PCT-Ensemble & OPCT \\ \midrule
+scene                  & 0.944059 & \textbf{0.986098} & 0.972439 & 0.882295 & 0.935982 \\
+ova\_breast            & 0.928256 & 0.946192 & 0.959834 & \textbf{0.966468} & 0.956409 \\
+bioresponse            & 0.729417 & 0.777438 & 0.768986 & \textbf{0.777509} & 0.753144 \\
+ova\_lung              & 0.802281 & 0.905439 & \textbf{0.920463} & 0.886492 & 0.904865 \\
+chronic\_kidney\_disease & 0.961777 & 0.991777 & \textbf{1.000000} & 0.997178 & 0.997178 \\
+compas\_two\_years     & 0.645271 & 0.641390 & 0.652540 & \textbf{0.666824} & 0.615251 \\
+spambase               & 0.903289 & \textbf{0.934069} & 0.926491 & 0.924987 & 0.912740 \\
+gina\_agnostic         & 0.856799 & 0.885768 & 0.858579 & 0.909199 & \textbf{0.922184} \\
+credit-g               & 0.632353 & 0.657097 & \textbf{0.681566} & 0.615338 & 0.547619 \\
+diabetes               & 0.698525 & 0.739710 & 0.715029 & \textbf{0.778026} & 0.694843 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
-The performance of the models on the classification datasets is shown in Table~\ref{tab:classification_results}.
 
-\end{comment}
+
+\begin{table}[h!]
+\centering
+\caption{\textit{F1} scores for MCC (highest is best)}
+\label{tab:mcc_results}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Dataset & SPYCT-single & SPYCT-ensemble & VSPYCT & PCT-Ensemble & OPCT \\ \midrule
+amazon\_reviews & 0.143184 & 0.331889 & 0.172791 & \textbf{0.333139} & 0.293184 \\
+dermatology      & 0.852633 & 0.978408 & \textbf{0.980117} & 0.893882 & 0.922443 \\
+micro\_mass      & 0.845445 & 0.940100 & \textbf{0.954908} & 0.940397 & 0.905830 \\
+balance          & 0.645499 & 0.618803 & \textbf{0.825152} & 0.595340 & 0.585561 \\
+yeast            & 0.443345 & 0.535824 & 0.471005 & \textbf{0.575664} & 0.443048 \\
+wine             & 0.975580 & 0.965350 & 0.966350 & \textbf{1.000000} & 0.945825 \\
+mfeat\_zernike   & 0.786454 & \textbf{0.804786} & 0.792283 & 0.759459 & 0.693469 \\
+har              & 0.969661 & 0.982193 & \textbf{0.984686} & 0.942095 & 0.942095 \\
+gas\_drift        & 0.974804 & \textbf{0.993256} & 0.988948 & 0.988421 & 0.981730 \\
+semeion          & 0.846045 & \textbf{0.923838} & 0.868518 & 0.897004 & 0.811956 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 
 \end{document}
