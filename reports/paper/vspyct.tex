@@ -174,7 +174,7 @@
 	\ead{saso.dzeroski@ijs.si}
 	\author[1,3]{Biljana Mileva Boshkoska}
 	\ead{biljana.mileva@ijs.si}
-	\author[1]{Pavle Boškoski}
+	\author[1,3]{Pavle Boškoski}
 	\ead{pavle.boskoski@ijs.si}
 	\address[1]{Jožef Stefan Institute, Jamova cesta 39, 1000 Ljubljana, Slovenia}
 	\address[2]{Jožef Stefan International Postgraduate School, Jamova cesta 39, 1000 Ljubljana, Slovenia}
@@ -200,16 +200,16 @@ Finally, we present a method to visually interpret the model's decision making p
 %PARAGRAF ZA ENSEMBLE MODEL VS BAYESIAN MODEL
 
 In the evolving field of machine learning, the fusion of semi-supervised learning and decision tree models has led to the development of models like \glspl{pct}~\citep{Kocev_2013} and their advanced variant, \glspl{spyct}~\citep{Stepi_nik_2021}.
-These models leverage both labeled and unlabelled data to enhance prediction accuracy and efficiency.
+These models leverage labeled and unlabelled data to enhance prediction accuracy and efficiency.
 \Glspl{spyct}, in particular, have pioneered the use of oblique splits for \gls{sop}, allowing for more intricate decision boundaries beyond the capabilities of traditional axis-parallel splits.
 Despite their advantages, a significant challenge with \glspl{spyct} is their reliance on ensemble methods for optimal performance.
-While effective in improving accuracy, ensembles tend to obscure the model's interpretability—a fundamental attribute of decision trees—and do not inherently provide a means to quantify prediction uncertainty, crucial for informed decision-making across various applications.
+While effective in improving accuracy, ensembles tend to obscure the model's interpretability—a fundamental attribute of decision trees—and do not inherently provide a means to quantify prediction uncertainty, which is crucial for informed decision-making across various applications.
 
 To address these limitations, we introduce the \gls{vspyct} model.
 \gls{vspyct} integrates the variational Bayes method~\citep{Blei_2017} to facilitate complex decision-making within a singular model framework, thus maintaining the interpretability inherent to decision trees without necessitating ensembles.
 Furthermore, by embedding model-specific uncertainty quantification directly into the decision tree structure through Bayesian inference, \gls{vspyct} enhances the depth of insight into the model's decision process and confidence levels.
 %This approach not only elevates the explainability of semi-supervised decision trees by consolidating predictive capabilities into a single model but also marks a significant advancement in machine learning, particularly within semi-supervised learning domains.
-By combining the robustness of \gls{spyct} ensembles with the clarity and interpretability of a single tree model, alongside introducing uncertainty quantification, our research provides a comprehensive tool aimed to overcome current limitations of predictive clustering methodologies.
+Combining the robustness of \gls{spyct} ensembles with the clarity and interpretability of a single tree model, alongside introducing uncertainty quantification, our research provides a comprehensive tool to overcome the current limitations of predictive clustering methodologies.
 
 \begin{figure}[h!]
     \centering
@@ -220,9 +220,11 @@ By combining the robustness of \gls{spyct} ensembles with the clarity and interp
 
 Our proposed \gls{vspyct} framework diverges from traditional ensemble approaches by directly incorporating Bayesian principles into oblique decision trees' architecture.
 This model avoids conventional ensemble strategies, which aggregate multiple trees' outputs, for a probabilistic treatment of model parameters, offering refined mechanisms for uncertainty quantification and predictive performance.
-The core of \gls{vspyct}'s innovation lies in applying the variational Bayes method for optimising parameters defining the oblique splits, modelling these parameters as random variables with probability distributions.
+The core of \gls{vspyct}'s innovation lies in applying the variational Bayes method for optimising parameters defining the oblique splits, and modelling these parameters as random variables with probability distributions.
 This represents a paradigm shift toward a probabilistic understanding of decision-making processes within tree-based models, significantly enhancing interpretability, especially in uncertainty estimation domains.
 It sets a new benchmark for interpretable, efficient, and reliable machine learning models.
+\pbnote{Check Bayesian Additive Regression Trees (BART). Maybe add a comment/reference what is different}
+
 
 %citiraj community detection (nasiot trud), rise of gen-ai/black-box ai/llms (llama, bert, gpt), post-hoc explainability (shap),  vb metodot, 
 
@@ -230,24 +232,24 @@ It sets a new benchmark for interpretable, efficient, and reliable machine learn
 
 %references for VB applications in ML and Survival analysis models. Cite pavles paper.
 
-\Glspl{pct} have been an essential development in extending decision tree capabilities to a variety of predictive modelling tasks, including structured output prediction.
+\Glspl{pct} have been an essential development in extending decision tree capabilities to various predictive modelling tasks, including structured output prediction.
 \Glspl{pct} are versatile and can be combined into ensembles to achieve state-of-the-art performance~\citep{Kocev_2013}.
 However, as the dimensionality of the output space increases, the learning time of \glspl{pct} scales poorly, posing challenges in tasks like hierarchical multi-label classification where outputs can consist of hundreds of potential labels.
 
-\Glspl{pct} are celebrated for their interpretability and efficiency, yet they often fall short in predictive performance due to their myopic, greedy nature of selecting splits.
-The introduction of option predictive clustering trees (OPCTs)~\citep{Stepisnik_2020} aimed to address this limitation by incorporating multiple alternative splits within option nodes.
-This approach mitigates the inherent myopia and achieves competitive performance with ensemble methods like bagging and random forests, while still maintaining a degree of interpretability.
-OPCTs, despite mitigating myopia and enhancing performance, still face challenges in maintaining interpretability when extended to complex tasks.
+\Glspl{pct} are celebrated for their interpretability and efficiency, yet they often fall short in predictive performance due to their myopic, greedy selection of splits.
+The introduction of option predictive clustering trees \pbnote*{use gls}{(OPCTs)}~\citep{Stepisnik_2020} aimed to address this limitation by incorporating multiple alternative splits within option nodes.
+This approach mitigates the inherent myopia and achieves competitive performance with ensemble methods like bagging and random forests while still maintaining a degree of interpretability.
+\pbnote*{use gls}{OPCTs}, despite mitigating myopia and enhancing performance, still face challenges in maintaining interpretability when extended to complex tasks.
 
 On the other hand, \glspl{spyct}~\citep{Stepi_nik_2021} utilise oblique splits that incorporate linear combinations of features, allowing splits to correspond to arbitrary hyperplanes in the input space.
 This makes \glspl{spyct} highly efficient for high-dimensional data and capable of leveraging data sparsity.
 Experimental evaluations on numerous benchmark datasets have shown that \glspl{spyct} achieve performance on par with state-of-the-art methods while being significantly faster than standard \glspl{pct}~\citep{Andonovikj_2024}.
 %Moreover, meaningful feature importance scores can be extracted from SPYCT models, enhancing their interpretability.
 
-Despite these advancements, ensemble models such as random forests and gradient boosting machines remain popular due to their superior predictive accuracy.
+Despite these advancements, ensemble models such as random forests and gradient-boosting machines remain popular due to their superior predictive accuracy.
 However, their complexity often obscures interpretability, making it challenging for users to understand the model’s decision-making process.
 Efforts to bridge this gap include the iForest visual analytics system~\citep{Zhao_2019}, which summarises decision paths and tree structures within random forests, thereby making the ensemble's decisions more transparent.
-Additionally, the Tree Space Prototypes approach~\citep{Tan_2020} uses representative points (prototypes) for each class, offering a more intuitive understanding of ensemble classifiers compared to traditional feature-based explanations.
+Additionally, the Tree Space Prototypes approach~\citep{Tan_2020} uses representative points (prototypes) for each class, offering a more intuitive understanding of ensemble classifiers than traditional feature-based explanations.
 Visual analytics systems like iForest and prototype-based approaches offer some clarity but do not fully resolve the complexity issue.
 
 In critical applications, such as medical diagnosis, the need for transparent and trustworthy predictions is paramount.
@@ -277,15 +279,13 @@ For observations $x$ produced by a system defined by parameters $\theta$, Bayes'
 p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}
 \label{eq:bayes_rule}
 \end{equation}
-
-Here, the model-prescribed likelihood $p(x|\theta)$ and the selected prior $p(\theta)$ are generally well-defined.
+The model-prescribed likelihood $p(x|\theta)$ and the selected prior $p(\theta)$ are generally well-defined.
 The primary computational challenge arises in determining the posterior distribution $p(\theta|x)$ due to the denominator $p(x)$, which is derived as:
 
 \begin{equation}
 p(x)=\int_{\theta} p(x|\theta)p(\theta) \,dx,
 \label{eq:evidence}
 \end{equation}
-
 This integral rarely yields a closed-form solution.
 For cases with multiple dimensions, the computational burden often renders Monte Carlo methods infeasible.
 The VB approach offers an approximation to this issue by closely mimicking the true posterior $p(\theta|x)$ with an approximate distribution $q_{\omega^*}(\theta)$. This variational distribution is part of a family of distributions $q_\omega(\theta)\in \mathcal{Q}$, parameterised by $\omega \in \Omega$, where $\Omega$ represents the potential latent parameter values.
@@ -299,11 +299,10 @@ To find the optimal $\omega^*$, one minimises the \gls{kl} divergence $KL(q_\ome
 
 Given the unknown nature of the true posterior, a rearrangement is needed to compute the \gls{kl} divergence, simplifying to~\citep[Chapter~10]{murphy2023probabilistic}:
 
-\begin{align*}
-KL(q_\omega(\theta) \parallel p(\theta|x)) = - & \mathbb{E}_q\left[\log p(x,\theta) - \log q_\omega(\theta)\right] + \log p(x)\\
-& \underbrace{\phantom{\mathbb{E}_q\left[\log p(x,\theta) - \log q_\omega(\theta)\right]}}_{\text{ELBO}}
+\begin{equation}
+KL(q_\omega(\theta) \parallel p(\theta|x)) = -\underbrace{\mathbb{E}_q\left[\log p(x,\theta) - \log q_\omega(\theta)\right]}_{\text{ELBO}}+ \log p(x)\\
 \label{eq:kl_divergence}
-\end{align*}
+\end{equation}
 
 Maximising the \gls{elbo} serves to inversely minimise the \gls{kl} divergence between the approximate posterior \(q_\omega(\theta)\) and the true posterior \(p_\omega(\theta)\).
 In the decomposition of the KL divergence, the term \(\log p(x)\), known as the marginal likelihood or evidence, remains constant with respect to the variational parameters \(\theta\).
@@ -313,7 +312,7 @@ Typically, the \gls{elbo} maximisation criterion is non-convex, with no assuranc
 Various algorithms have been proposed for this challenge, including variational EM \citep{bernardo2003variational}, stochastic variational inference~\citep{hoffman2013stochastic, sashank2018convergence}, amortised variational inference~\citep{gershman2014amortized, le2017inference}, and semi-amortised inference~\citep{kim2018semi}.
 
 The adoption of an approximate variational distribution introduces bias contingent on the chosen variational family $\mathcal{Q}$, necessitating a decision grounded in empirical evidence or expert knowledge.
-This bias arises because the family \(\mathcal{Q}\) may not be capable of capturing the true complexity of the posterior distribution \(p_\omega(\theta)\).
+This bias arises because the family \(\mathcal{Q}\) may not be capable of capturing the true complexity of the posterior distribution~\(p_\omega(\theta)\).
 As a result, the accuracy of the approximation depends significantly on how well \(\mathcal{Q}\) aligns with the true underlying distribution.
 The choice of \(\mathcal{Q}\) thus not only affects the efficiency of the inference but also the quality and reliability of the model.
 Despite this bias, VB's computational efficiency significantly surpasses traditional methods like Markov Chain Monte Carlo (MCMC).
@@ -327,8 +326,10 @@ Similar to \gls{spyct}, \gls{vspyct} constructs a decision tree with an oblique 
 
 The key distinction between \gls{vspyct} and \gls{spyct} lies in the optimisation step used to determine the parameters of these oblique splits.
 While \gls{spyct} utilises a deterministic approach to optimise split parameters, \gls{vspyct} introduces a probabilistic framework through variational Bayes (VB) optimisation.
+\pbnote*{Maybe remove this whole part and merge it with the paragraph below since it repeats below~\eqref{eq:linear_model}.}{
 In \gls{vspyct}, the parameters of the linear combination at each split—specifically, the weight vector \(\mathbf{w}\) and the bias term \(b\)—are modelled as random variables with Gaussian distributions.
 This probabilistic representation of split parameters not only enhances the model's ability to handle uncertainty and noise in the data but also provides a measure of predictive uncertainty.
+}
 
 The construction of the \gls{vspyct} begins with a root node and proceeds iteratively, expanding the tree by adding internal nodes or leaf nodes in a manner identical to \gls{spyct}. Each node in the tree represents a binary decision point, where instances are split based on the oblique hyperplane defined by the linear model:
 
@@ -363,9 +364,8 @@ The VB method aims to approximate the true posterior distributions of these para
 We assume a simpler distributional form - a diagonal Gaussian:
 
 \begin{equation}
-q(\mathbf{w}, b|\mathcal{D}) = \mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w) \mathcal{N}(b|\mu_b, \sigma_b^2)
+q(\mathbf{w}, b|\mathcal{D}) = \mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_w, \boldsymbol{\Sigma}_w) \mathcal{N}(b|\mu_b, \sigma_b^2),
 \end{equation}
-
 where \(\boldsymbol{\mu}_w\), \(\boldsymbol{\Sigma}_w\), \(\mu_b\), and \(\sigma_b^2\) are the parameters of the variational distribution, learned through the optimisation process.
 
 The optimisation of the variational parameters is performed by maximising the \gls{elbo}, which serves as a lower bound to the log marginal likelihood \(\log p(\mathcal{D})\).
@@ -381,14 +381,11 @@ The first term represents the expected log-likelihood of the data under the vari
 The quality of a split is assessed using an impurity function, which is defined as:
 
 \begin{equation}
-\text{Impurity} = \sum_{i=1}^{N} \left(\rho_i \cdot \text{Var}_{\rho}(\mathbf{Y}) + \lambda_i \cdot \text{Var}_{\lambda}(\mathbf{Y})\right)
+\text{Impurity} = \sum_{i=1}^{N} \left(\rho_i \text{Var}_{\rho}(\mathbf{Y}) + \lambda_i  \text{Var}_{\lambda}(\mathbf{Y})\right),
 \end{equation}
-
 where \(\rho_i = \sigma(\mathbf{w}^\top \mathbf{x}_i + b)\) is the probability of an instance being routed to the right child node, and \(\lambda_i = 1 - \rho_i\) is the probability of routing to the left child node.
 The variances \(\text{Var}_{\rho}(\mathbf{Y})\) and \(\text{Var}_{\lambda}(\mathbf{Y})\) represent the variance of the target variables in the right and left child nodes, respectively, weighted by their selection probabilities.
-
 The objective is to minimise the impurity by optimising the parameters \(\mathbf{w}\) and \(b\) using the VB method, thereby ensuring that the split at each node effectively separates the data into homogeneous subsets.
-
 The overall procedure for learning a split in \gls{vspyct} is detailed in Algorithm~\ref{alg:learn_split_vb}.
 The algorithm involves initialising the variational parameters, performing Monte Carlo sampling to estimate the \gls{elbo}, and iteratively updating the parameters until convergence.
 
@@ -432,7 +429,7 @@ The algorithm involves initialising the variational parameters, performing Monte
 \subsection{Making a prediction}
 
 The procedure for making a prediction for a new instance using the \gls{vspyct} model is detailed in Algorithm~\ref{alg:make_pred}.
-The process involves traversing the tree from the root node to a leaf node, with decisions at each internal node being made probabilistically based on the parameters sampled from the learned variational posterior distributions.
+The process involves traversing the tree from the root node to a leaf node, with decisions at each internal node being made \pbnote*{what do you mean by this? Are you referring to line 16 in algorithm 2?}{probabilistically} based on the parameters sampled from the learned variational posterior distributions.
 The final prediction is determined by the prototype value stored in the reached leaf node.
 
 Mathematically, at each internal node, the oblique split is determined by evaluating the linear combination of input features, with the parameters \(\Theta = (\mathbf{w}, b)\) drawn from their respective variational posterior distributions. The decision to branch left or right is based on the probability computed using the sigmoid function applied to this linear combination. This method accounts for the uncertainty in the model parameters, providing a probabilistic framework for decision-making.
@@ -513,6 +510,7 @@ Let \(\mathbb{E}[\mathbf{w}_s]\) and \(\text{Var}(\mathbf{w}_s)\) denote the ele
 \mathbf{u}_s = \frac{\mathbb{E}[\mathbf{w}_s]}{\text{Var}(\mathbf{w}_s) + \epsilon}
 \]
 where \(\epsilon\) is a small constant added for numerical stability.
+\pbnote{$\text{Var}(\mathbf{w}_s) > 0$, why do you need $\epsilon$? I know that we were talking about this, but there is a concept called coefficient of variation and it is defined as $\sigma/\mu$, std. (not variance) vs mean. We have to discuss this.}
 
 The feature importance vector \(\text{Imp}(T)\) is then computed as:
 \begin{equation}\label{eq:fimp}
@@ -525,13 +523,14 @@ The expected value of the weights, $\mathbb{E}[\mathbf{w}_s]$, is computed throu
 This integrates the stochastic nature of the model parameters into the calculation of feature importance.
 The repeated sampling and averaging process ensures that the estimated importance reflects both the central tendency and the variability of the weight parameters, crucial for interpreting the model's decision-making process under uncertainty.
 
-
+\pbnote{For the toy example below, I would suggest to change the name from toy example to something else. Or completely remove the title.
+Instead of using \emph{age} and \emph{salary} you can use $x_1$ and $x_2$.}
 \paragraph{Toy Example}
 Consider a simple dataset where two features, \textit{age} and \textit{salary}, predict the likelihood of purchasing a car.
 In a \gls{vspyct} model, the influence of each feature at a node depends not only on the magnitude of its mean weight but also on how this mean compares to the feature’s weight variance.
 
 Suppose that at the root node, the mean weights associated with \textit{age} and \textit{salary} are \( \mathbb{E}[w_{\text{age}}] = 0.2 \) and \( \mathbb{E}[w_{\text{salary}}] = 0.8 \), and their respective variances are \( \text{Var}(w_{\text{age}}) \) and \( \text{Var}(w_{\text{salary}}) \).
-The importance at this node will now reflect the ratio \( \frac{\mathbb{E}[w]}{\text{Var}(w)} \), such that a feature with a relatively high mean weight but also a high variance will not necessarily dominate one with a slightly lower mean but substantially more stable (lower variance) weights.
+The importance at this node will now reflect the ratio \( \frac{\mathbb{E}[w]}{\text{Var}(w)} \), such that a feature with a relatively high mean weight but also a high variance will not necessarily dominate one with a slightly lower mean but substantially more \pbnote*{I don't know wheter the word stable is a correct one. May be precise because precission is the inverse of the variance.}{stable} (lower variance) weights.
 Thus, if \textit{salary} maintains a higher \(\frac{\mathbb{E}[w]}{\text{Var}(w)}\) ratio than \textit{age}, it indicates that \textit{salary} is not only influential but also more reliably so at this particular node.
 
 However, the overall feature importance is derived by aggregating these normalised ratios across all splits within the tree.
@@ -541,7 +540,7 @@ In this way, the final importance assessment accounts for both the strength and 
 
 
 \section{Experimental setting}
-
+\pbnote{The paragraph below is a little messy. I assume the idea is to say that we compare VBSPYCT on all benchmarks where OPCT and ensemble PCT were evaluated? If so write it like that.}
 The experimental evaluation was conducted to compare the \gls{vspyct} model with several benchmarks, including the \gls{spyct} model, \glspl{opct}~\citep{Stepisnik_2020}, and ensemble of \glspl{pct}.
 Specifically, we considered both a single \gls{spyct} and an ensemble of \glspl{spyct}, as well as a single \gls{opct} and an ensemble of \glspl{pct}.
 We chose these methods as primary comparisons because they have been extensively evaluated in the literature, demonstrating strong performance across various \gls{sop} tasks~\citep{Andonovikj_2024, Stepi_nik_2021}.
@@ -637,9 +636,9 @@ semeion~\citep{openml}       & 1593         & 257    &   10  \\ \bottomrule
 \end{tabular}
 \end{table}
 
-In STR tasks, the output is a single continuous variable, while in MTR tasks, the output comprises multiple continuous target variables.
+\mpop{In STR tasks, the output is a single continuous variable, while in MTR tasks, the output comprises multiple continuous target variables.
 BC tasks involve two possible classes, and MCC tasks extend to multiple classes, with the exact number of classes depending on the specific dataset.
-This comprehensive range of datasets ensures a robust evaluation of the models across varying complexity and output structures.  
+This comprehensive range of datasets ensures a robust evaluation of the models across varying complexity and output structures.}{}  
 
 
 \subsection{Evaluation}
@@ -668,8 +667,8 @@ All evaluations were conducted using 5-fold cross-validation, to ensure a compre
 
 \section{Results}
 
-Figure~\ref{fig:avg_rank} shows the average rankings of the evaluated methods—\gls{vspyct}, \gls{opct}, single \gls{spyct}, ensemble of \glspl{spyct}, and ensemble of \glspl{pct}—across four task types: binary classification (BC), multi-class classification (MCC), single-target regression (STR), and multi-target regression (MTR).
-For improved readability, the actual performance of the models on each dataset is given in the Appendix.
+Figure~\ref{fig:avg_rank} shows the average rankings of the evaluated methods \gls{vspyct}, \gls{opct}, single \gls{spyct}, ensemble of \glspl{spyct}, and ensemble of \glspl{pct} across four task types.
+For improved readability, the actual performance of the models on each dataset is given in~\ref{app:res}.
 
 \begin{figure}[h!]
     \centering
@@ -717,6 +716,27 @@ Nevertheless, \gls{vspyct} provides a single-tree model that narrows the perform
 
 
 \subsection{Feature importance scores}
+\pbnote{Here you are missing some introduction why do you need this subsection.
+Furthermore, when reading the complete subsection you have to clarify how did you add noisy features. What is the distribution of these features with respect to the original features?
+Does this means that we have fearures that are completely useless in the original data, that even noise that does not influence the output is more important (since we have blue dots below the orange ones)?
+One would expect only cases like in columns 2 and 3. 
+}
+
+\pbnote{
+Just to be clear, originally you have this true model:
+$$y=model(\mathcal{F}).$$
+Based on this you fit one tree.
+The you make
+$$y_1=y+0\cdot\mathcal{F}'.$$
+Now when I wrote it, it seems rather stupid notation.
+Anyway, my question is how did you introduce this features.
+Did you just add columns in the dataset with noise which in essence makes my model with $0\cdot\mathcal{F}'$ the correct explenation how you added the additional features?
+}
+
+\pbnote{
+Is there a citation that can be used that discribes this way of thinking, how to evaluate feature importance metrics?
+Or this is completely your idea?
+}
 
 \begin{figure}[h!]
     \centering
@@ -823,7 +843,9 @@ The authors also acknowledge the funding received from the European Union's Hori
 \bibliographystyle{elsarticle-harv}
 \bibliography{bibliography}
 
-\section*{Appendix}
+\appendix
+\section{Detailed results}
+\label{app:res}
 
 \begin{table}[h!]
 \centering
