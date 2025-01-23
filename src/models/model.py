@@ -262,6 +262,7 @@ class VSpyct:
         
         _traverse(self.root_node)
         weights = []
+        vars = []
         for node in non_leaves:
             predictive = Predictive(model=node.split_model.to(self.device),
                                     guide=node.guide,
@@ -269,12 +270,13 @@ class VSpyct:
                                     return_sites=(["linear.weight"]))
             data = predictive(node.descriptive_values)['linear.weight']
             weights.append(data.mean(axis=0).numpy())
+            vars.append(data.var(axis=0).numpy())
         weights = np.abs(np.array(weights))
         weights = weights.reshape(weights.shape[0], -1)
         weights_normalized = weights # (weights - weights.min()) / (weights.max() - weights.min() + 0.0001)
         importances = torch.zeros((weights_normalized.shape[1]))
         for i, node in enumerate(non_leaves):
-            importances += (node.num_instances/self.num_training_instances)*(weights_normalized[i, :]/(np.linalg.norm(weights_normalized[i, :])+ 0.0001))
+            importances += (node.num_instances/self.num_training_instances)*(weights_normalized[i, :]/(vars[i]+ 0.0001))
         if k is not None: return dict(zip(torch.topk(importances, k=k).indices.tolist(), torch.topk(importances, k=k).values.tolist()))
         else: return importances
         
