@@ -256,7 +256,7 @@ class ReducedDataset:
 
     def __init__(self, path, filename, random_state=11):
         self.dataset = pd.read_pickle(os.path.join(path, filename))
-        self.dataset = self.dataset.sample(frac=0.005)
+        self.dataset = self.dataset.sample(frac=0.1)
         self.random_state = random_state
         self.skp = pd.read_csv(os.path.join(DIR_PATH, '../../data/raw/dimSKP08.csv'))[['IDpoklicaSKP','SFpoklicaSKP']]
         self.skp.SFpoklicaSKP = self.skp.SFpoklicaSKP.astype(int).astype(str).str.zfill(4)
@@ -392,6 +392,7 @@ class ReducedDataset:
     def rsf_split(self, test = 0.2, to_pcl = False):
         X = self.rsf_dataset().drop(columns=['duration', 'truncated'])
         y = self.get_survival_vector()
+        # y = torch.tensor(self.rsf_dataset().duration.fillna(self.rsf_dataset().duration.mean()).values)
         from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test, random_state = self.random_state)
         print(X_train.shape, y_train.shape)
@@ -425,7 +426,7 @@ class ReducedDataset:
         time_tensor = torch.empty((survival_time.shape[0], time_upper_limit))
         for i,el in enumerate(survival_time):
             for j in range(time_tensor.shape[1]):
-                if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = np.nan
+                if (survival_status[i] == 1) and (j>=el): time_tensor[i][j] = 0 #np.nan
                 elif j<el: time_tensor[i][j] = 1
                 else: time_tensor[i][j] = 0
         return time_tensor

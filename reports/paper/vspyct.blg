@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: vspyct.aux
+The style file: elsarticle-harv.bst
+Database file #1: bibliography.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty pages in gershman2014amortized
+Warning--empty pages in sashank2018convergence
+Warning--empty pages in Tan_2020
+You've used 18 entries,
+            2990 wiz_defined-function locations,
+            758 strings with 8846 characters,
+and the built_in function-call counts, 12204 in all, are:
+= -- 943
+> -- 500
+< -- 8
++ -- 194
+- -- 174
+* -- 1337
+:= -- 1794
+add.period$ -- 58
+call.type$ -- 18
+change.case$ -- 148
+chr.to.int$ -- 18
+cite$ -- 21
+duplicate$ -- 910
+empty$ -- 873
+format.name$ -- 228
+if$ -- 2290
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 172
+newline$ -- 109
+num.names$ -- 72
+pop$ -- 329
+preamble$ -- 1
+purify$ -- 129
+quote$ -- 0
+skip$ -- 284
+stack$ -- 0
+substring$ -- 437
+swap$ -- 643
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 159
+warning$ -- 3
+while$ -- 67
+width$ -- 0
+write$ -- 281
+(There were 3 warnings)
