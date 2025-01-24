@@ -273,6 +273,8 @@ class VSpyct:
             vars.append(data.var(axis=0).numpy())
         weights = np.abs(np.array(weights))
         weights = weights.reshape(weights.shape[0], -1)
+        vars = np.abs(np.array(vars))
+        vars = vars.reshape(vars.shape[0], -1)
         weights_normalized = weights # (weights - weights.min()) / (weights.max() - weights.min() + 0.0001)
         importances = torch.zeros((weights_normalized.shape[1]))
         for i, node in enumerate(non_leaves):
