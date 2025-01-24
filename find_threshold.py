@@ -49,7 +49,7 @@ def train_and_evaluate_model(X_train, y_train, X_test, y_test, features):
     )
 
     # Fit
-    vspyct.fit(torch.Tensor(X_train_sub.values), torch.Tensor(y_train.values))
+    vspyct.fit(torch.Tensor(X_train_sub.values), torch.Tensor(y_train))
 
     # Predict
     vspyct_preds = vspyct.predict(torch.Tensor(X_test_sub.values))
