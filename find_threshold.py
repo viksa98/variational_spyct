@@ -1,5 +1,6 @@
 import pickle
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error, f1_score
+from sklearn.preprocessing import OneHotEncoder
 
 import os
 import sys
@@ -49,14 +50,15 @@ def train_and_evaluate_model(X_train, y_train, X_test, y_test, features):
     )
 
     # Fit
-    vspyct.fit(torch.Tensor(X_train_sub.values), torch.Tensor(y_train.values))
+    vspyct.fit(torch.Tensor(X_train_sub.values), torch.Tensor(y_train))
 
     # Predict
     vspyct_preds = vspyct.predict(torch.Tensor(X_test_sub.values))
     vspyct_preds_mean = vspyct_preds.mean(axis=1).numpy()
+    vsp_preds = np.argmax(vspyct_preds_mean,axis=1)
 
     # Score
-    score = mean_absolute_error(y_test.values, vspyct_preds_mean)
+    score = f1_score(y_test, vsp_preds)
     return score
 
 
@@ -75,6 +77,10 @@ def main():
     with open(args.feature_importance_pickle, 'rb') as f:
         feature_importance_scores = pickle.load(f)
 
+    encoder = OneHotEncoder()
+    y_train = encoder.fit_transform(y_train).toarray()
+    y_test_f1 = np.argmax(encoder.transform(y_test).toarray(),axis=1)
+
     feature_names = X_train.columns.tolist()
     features_dict = dict(zip(feature_names, feature_importance_scores))
 
@@ -90,7 +96,7 @@ def main():
 
     # Select features to keep
     features_to_keep = sorted_features_least_first[args.num_features_to_remove:]
-    score = train_and_evaluate_model(X_train, y_train, X_test, y_test, features_to_keep)
+    score = train_and_evaluate_model(X_train, y_train, X_test, y_test_f1, features_to_keep)
     print(f"Removed {args.num_features_to_remove} features; New MAE: {score:.4f}")
 
 
