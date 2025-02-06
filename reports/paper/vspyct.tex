@@ -538,15 +538,13 @@ In this way, the final importance assessment accounts for both the strength and 
 
 
 \section{Experimental setting}
-\pbnote{The paragraph below is a little messy. I assume the idea is to say that we compare VBSPYCT on all benchmarks where OPCT and ensemble PCT were evaluated? If so write it like that.}
+
 The experimental evaluation was conducted to compare the \gls{vspyct} model with several benchmarks, including the \gls{spyct} model, \glspl{opct}~\citep{Stepisnik_2020}, and ensemble of \glspl{pct}.
-Specifically, we considered both a single \gls{spyct} and an ensemble of \glspl{spyct}, as well as a single \gls{opct} and an ensemble of \glspl{pct}.
+Specifically, we considered both a single \gls{spyct} and an ensemble of \glspl{spyct}, an ensemble of \glspl{pct}, and the \gls{opct} model.
 We chose these methods as primary comparisons because they have been extensively evaluated in the literature, demonstrating strong performance across various \gls{sop} tasks~\citep{Andonovikj_2024, Stepi_nik_2021}.
 
 The comparison encompassed a range of predictive modelling tasks, including single-target regression, multi-target regression, binary classification, and multi-class classification.
-By evaluating not only a single \gls{spyct} tree, but also an ensemble of \glspl{spyct}, a single \gls{opct} tree, and an ensemble of \glspl{pct}, we aimed to assess how \gls{vspyct}'s predictive performance compares against a spectrum of models, from single decision trees to more complex ensembles and option-based trees.
-This comprehensive approach allowed us to rigorously evaluate \gls{vspyct}'s effectiveness across different modelling scenarios and relative to both well-established baseline models and state-of-the-art tree-based methods.
-
+By evaluating against a single \gls{spyct} tree, an ensemble of \glspl{spyct}, \gls{opct} tree, and an ensemble of \glspl{pct}, we aimed to assess how \gls{vspyct}'s predictive performance compares against a spectrum of models, from single decision trees to more complex ensembles and option trees.
 
 \subsection{Data}
 
@@ -675,7 +673,7 @@ For improved readability, the actual performance of the models on each dataset i
         \label{fig:subfig2}
     } \\
     \subfloat[STR]{%
-        \includegraphics{critical_distance_str.pdf}
+        \includegraphics{critical_distance_str_2.pdf}
         \label{fig:subfig3}
     }
     \subfloat[MTR]{%
@@ -732,13 +730,13 @@ Or this is completely your idea?
 
 A critical step in validating the proposed \gls{vspyct} model is to test its robustness against spurious features. 
 In many real-world scenarios, the data may contain variables that do not contribute to the predictive task at hand -- hence, it is paramount to ensure that the model assigns low importance to such non-informative features. 
-Accordingly, this subsection investigates whether \gls{vspyct} can distinguish relevant features from artificially generated noise.
+Accordingly, this subsection delves into whether \gls{vspyct} can distinguish relevant features from artificially generated noise.
 
 \begin{figure}[h!]
     \centering
     \includegraphics{../figures/feat_importances.pdf}
-    \caption{Feature importance scores for both the original and noise-augmented datasets.
-    Orange markers represent the importance of original features, whereas blue markers indicate the importance of noise features.}
+    \caption{Feature importance scores for both the original and noise-augmented features.
+    Blue markers represent the importance of original features, while orange markers correspond to noise features. The horizontal threshold line marks the point where removing additional features starts degrading model performance. Features below this threshold are non-essential, as their removal improves the evaluation score—demonstrating that noise features (orange) contribute little to model performance. In contrast, features above the threshold are crucial, as removing them further degrades performance.}
     \label{fig:feature_importances}
 \end{figure}
 
@@ -870,7 +868,7 @@ The authors also acknowledge the funding received from the European Union's Hori
 \toprule
 Dataset & SPYCT-single & SPYCT-ensemble & VSPYCT & PCT-Ensemble & OPCT \\ \midrule
 era                             & 1.296625 & \textbf{1.249352} & 1.287840 & 1.277622 & 1.277424 \\
-cpmp2015                        & 384.377425 & 326.497515 & \textbf{285.105799} & 1211.124409 & 848.721320 \\
+cpmp2015                        & 1137.738259 & 997.261786 & \textbf{918.481147} & 1211.124409 & 848.721320 \\
 qsar234                         & 0.572577 & \textbf{0.415656} & 0.428724 & 0.428721 & 0.441020 \\
 puma8NH                         & 2.795463 & \textbf{2.632242} & 2.711678 & - & - \\
 yprop                           & 0.020126 & 0.019693 & 0.019969 & \textbf{0.019682} & 0.023687 \\
