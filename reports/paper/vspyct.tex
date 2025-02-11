@@ -202,12 +202,14 @@ Finally, we present a method to visually interpret the model's decision making p
 In the evolving field of machine learning, the fusion of semi-supervised learning and decision tree models has led to the development of models like \glspl{pct}~\citep{Kocev_2013} and their advanced variant, \glspl{spyct}~\citep{Stepi_nik_2021}.
 These models leverage labeled and unlabelled data to enhance predictive accuracy and efficiency.
 \Glspl{spyct}, in particular, have pioneered the use of oblique splits for \gls{sop}, allowing for more intricate decision boundaries beyond the capabilities of traditional axis-parallel splits.
-Despite their advantages, a significant challenge with \glspl{spyct} is their reliance on ensemble methods for optimal predictive performance. \vanote{Ensemble methods, such as random forests and gradient-boosted trees, achieve high predictive performance by reducing variance and/or bias through the aggregation of diverse models. These techniques ensure robustness by capturing slightly different patterns or residuals from the data.}
+Despite their advantages, a significant challenge with \glspl{spyct} is their reliance on ensemble methods for optimal predictive performance.
+Ensemble methods, such as random forests and gradient-boosted trees, achieve high predictive performance by reducing variance and/or bias through the aggregation of diverse models~\cite{Breiman_2001, Kocev_2020, Friedman_2001}.
+These methods ensure robustness by capturing slightly different patterns or residuals from the data.
 While effective in improving accuracy, ensembles tend to obscure the model's interpretability—a fundamental attribute of decision trees—and do not inherently provide a means to quantify prediction uncertainty, which is crucial for informed decision-making across various applications.
 
 To address these limitations, we introduce the \gls{vspyct} model.
 \gls{vspyct} integrates the variational Bayes method~\citep{Blei_2017} to facilitate complex decision-making within a singular model framework, thus maintaining the interpretability inherent to decision trees without necessitating ensembles.
-\vanote{Unlike ensembles, which explicitly combine multiple \gls{spyct} trees, a single \gls{vspyct} attempts to incorporate uncertainty by sampling from the posterior distribution of tree parameters.}
+Unlike ensembles, which explicitly combine multiple \gls{spyct} trees, a single \gls{vspyct} attempts to incorporate uncertainty by sampling from the posterior distribution of tree parameters.
 Furthermore, by embedding model-specific uncertainty quantification directly into the decision tree structure through Bayesian inference, \gls{vspyct} enhances the depth of insight into the model's decision process and confidence levels.
 %This approach not only elevates the explainability of semi-supervised decision trees by consolidating predictive capabilities into a single model but also marks a significant advancement in machine learning, particularly within semi-supervised learning domains.
 Combining the robustness of \gls{spyct} ensembles with the clarity and interpretability of a single tree model, alongside introducing uncertainty quantification, our research provides a comprehensive tool as an alternative with a goal to overcome the current limitations of predictive clustering methodologies.
@@ -245,7 +247,6 @@ This approach mitigates the inherent myopia and achieves competitive performance
 On the other hand, \glspl{spyct}~\citep{Stepi_nik_2021} utilise oblique splits that incorporate linear combinations of features, allowing splits to correspond to arbitrary hyperplanes in the input space.
 This makes \glspl{spyct} highly efficient for high-dimensional data and capable of leveraging data sparsity.
 Experimental evaluations on numerous benchmark datasets have shown that \glspl{spyct} achieve performance on par with state-of-the-art methods while being significantly faster than standard \glspl{pct}~\citep{Andonovikj_2024}.
-%Moreover, meaningful feature importance scores can be extracted from SPYCT models, enhancing their interpretability.
 
 Despite these advancements, ensemble models such as random forests and gradient-boosting machines remain popular due to their superior predictive accuracy.
 However, their complexity often obscures interpretability, making it challenging for users to understand the model’s decision-making process.
@@ -263,15 +264,12 @@ While significant progress has been made in improving decision tree models and t
 Many of these approaches lack inherent mechanisms for uncertainty quantification, which is crucial for applications requiring high reliability and decision certainty.
 
 Our proposed \gls{vspyct} model addresses these critical challenges by integrating Bayesian principles directly into the predictive clustering tree framework.
-%Unlike traditional ensemble strategies, \glspl{vspyct} employs a probabilistic treatment of model parameters through the variational Bayes method, which enhances interpretability and provides inherent uncertainty quantification.
-This approach maintains the clarity and simplicity of a single tree model while achieving state-of-the-art performance, thus offering a significant improvement over existing methods.
+Such example where Bayesian principles, specifically the variational Bayes method, have been directly integrated in a predictive model can be found in~\cite{Bo_koski_2021, lopez2023informative}
+This approach maintains the clarity and simplicity of a single tree model while achieving on-par performance with the state-of-the-art methods.
 By introducing uncertainty quantification directly into the decision-making process, \gls{vspyct} enhances the reliability and applicability of the model across various domains where decision certainty is crucial.
-%This advancement bridges the gap between theoretical developments and practical applications, marking a significant step forward in making complex decision trees more accessible, interpretable, and effective.
 
 
 \section{The variational Bayes method}
-
-% optional slika - Optimisation process of finding the closest variational distribution qω(θ) over the set of latent variables ω. (da se generira vo python)
 
 In conducting a stochastic analysis, the process of inferring model parameters hinges on applying Bayes' theorem.
 For observations $x$ produced by a system defined by parameters $\theta$, Bayes' theorem is given as:
@@ -384,10 +382,10 @@ The objective is to minimise the impurity by optimising the parameters \(\mathbf
 The overall procedure for learning a split in \gls{vspyct} is detailed in Algorithm~\ref{alg:learn_split_vb}.
 The algorithm involves initialising the variational parameters, performing Monte Carlo sampling to estimate the \gls{elbo}, and iteratively updating the parameters until convergence.
 
-\vanote{While parameter uncertainty is effectively addressed, structural uncertainty is inherently more challenging to capture in a single tree. The variational Bayes approach approximates the posterior over parameters, but the inclusion of priors on tree structure (e.g., split selection) is an area for further exploration.}
+While parameter uncertainty is effectively addressed, structural uncertainty is inherently more challenging to capture in a single tree. The variational Bayes approach approximates the posterior over parameters, but the inclusion of priors on tree structure (e.g., split selection) is an area for further exploration.
 
 \begin{algorithm}[h!]
-\caption{Variational Learning of Split Parameters in \gls{vspyct} with Impurity Minimization}
+\caption{Variational Learning of Split Parameters in \gls{vspyct} with Impurity Minimisation}
 \label{alg:learn_split_vb}
 \begin{algorithmic}[1]
     \State \textbf{Input:} $\mathcal{D} = \{\mathbf{X}, \mathbf{Y}\}$ (dataset), $\theta = \{\mathbf{w}_0, b_0\}$ (initial parameters), $E$ (epochs), $\lambda$ (learning rate), $\beta$ (batch size), $\sigma$ (selection probability)
@@ -432,10 +430,10 @@ The final prediction is determined by the prototype value stored in the reached 
 Mathematically, at each internal node, the oblique split is determined by evaluating the linear combination of input features, with the parameters \(\Theta = (\mathbf{w}, b)\) drawn from their respective variational posterior distributions. The decision to branch left or right is based on the probability computed using the sigmoid function applied to this linear combination. This method accounts for the uncertainty in the model parameters, providing a probabilistic framework for decision-making.
 The prediction \(\hat{y}\) returned by the model is the prototype of the reached leaf node, where the prototype is defined as the mean of the target values associated with the training instances that were routed to that leaf during training.
 
-\vanote{The posterior sampling allows the model to integrate over the uncertainty of the parameters at each node, providing smoothed and robust decision boundaries.
+The posterior sampling allows the model to integrate over the uncertainty of the parameters at each node, providing smoothed and robust decision boundaries.
 The model captures variability in the decision process, reducing the risk of overfitting to a single parameter set.
 While this approach effectively accounts for parameter uncertainty, the reliance on a single tree structure limits the model’s ability to replicate the diversity inherent in ensemble methods.
-Ensembles, achieve variance reduction by combining predictions from multiple distinct structures, a capability that a single \gls{vspyct} cannot fully emulate.}
+Ensembles, achieve variance reduction by combining predictions from multiple distinct structures, a capability that a single \gls{vspyct} cannot fully emulate.
 
 \begin{equation}
 \hat{y} = \frac{1}{|\mathbf{Y}|} \sum_{i=1}^{|\mathbf{Y}|} y_i
@@ -511,7 +509,6 @@ Let \(\mathbb{E}[\mathbf{w}_s]\) and \(\text{Var}(\mathbf{w}_s)\) denote the ele
 \mathbf{u}_s = \frac{\mathbb{E}[\mathbf{w}_s]}{\text{Var}(\mathbf{w}_s) + \epsilon}
 \]
 where \(\epsilon\) is a small constant added for numerical stability.
-\pbnote{$\text{Var}(\mathbf{w}_s) > 0$, why do you need $\epsilon$? I know that we were talking about this, but there is a concept called coefficient of variation and it is defined as $\sigma/\mu$, std. (not variance) vs mean. We have to discuss this.}
 
 The feature importance vector \(\text{Imp}(T)\) is then computed as:
 \begin{equation}\label{eq:fimp}
@@ -730,7 +727,7 @@ Or this is completely your idea?
 
 A critical step in validating the proposed \gls{vspyct} model is to test its robustness against spurious features. 
 In many real-world scenarios, the data may contain variables that do not contribute to the predictive task at hand -- hence, it is paramount to ensure that the model assigns low importance to such non-informative features. 
-Accordingly, this subsection delves into whether \gls{vspyct} can distinguish relevant features from artificially generated noise.
+%Accordingly, this subsection delves into whether \gls{vspyct} can distinguish relevant features from artificially generated noise.
 
 \begin{figure}[h!]
     \centering
@@ -752,9 +749,19 @@ f_{d + j} \sim \mathcal{N}(0, 1),
 \]
 Hence, the total number of features in the augmented dataset is \(2d\).
 
+
+
 Figure~\ref{fig:feature_importances} reveals that most of the original (real) features exhibit a broad range of importance values.
 This heterogeneity is expected because many real-world datasets naturally include some highly informative predictors, as well as others that provide minimal predictive power.
-Importantly, the noise features typically receive lower importance values, confirming that \gls{vspyct} can detect their lack of relevance.
+
+To assess the significance of individual features in our model, we conducted an iterative feature removal process inspired by~\cite{guyon2003introduction}.
+We aim to identify the subset of features that meaningfully contribute to the model’s predictive performance while eliminating those that do not.
+Starting with the full set of features, we trained our model and recorded its evaluation score.
+Then, we systematically removed features in ascending order of their importance scores—starting with the least important feature and retraining the model after each removal.
+This iterative process continued until all features were removed.
+We set a threshold, which distinguishes important from non-important features, as the feature importance score at which the model performance begins to degrade.
+
+Importantly, the noise features in Figure~\ref{fig:feature_importances} typically receive lower importance values, confirming that \gls{vspyct} can detect their lack of relevance.
 Formally, if \(I(f)\) denotes the estimated importance of a feature \(f\), then
 \[
 I(f_j) \ll I(f_k)
@@ -764,7 +771,7 @@ In other words, noise features \(\{f_{d+1}, \ldots, f_{2d}\}\) are consistently 
 
 Noteworthy, a few original features may show importance values that are comparable to or even lower than those of some noise features. 
 This outcome does not necessarily imply that the noise features carry genuine signal; rather, it highlights that certain original features are also uninformative for the target variable.
-Overall, these results confirm that the \gls{vspyct}-derived feature importance measures reliably rank truly predictive variables above most spurious ones, underscoring the model's robustness to irrelevant inputs.
+These results confirm that the \gls{vspyct}-derived feature importance scores reliably rank truly predictive variables above most spurious ones, underscoring the model's robustness to irrelevant inputs.
 
 
 \subsection{Interpretability}
@@ -811,24 +818,24 @@ The horizontal bars show the relative importance of each feature, with \textit{E
 \end{figure}
 
 
-\vanote{Figure~\ref{fig:inter_tree} presents the visual representation of the \gls{vspyct} applied to the Unemployment dataset.
+Figure~\ref{fig:inter_tree} presents the visual representation of the \gls{vspyct} applied to the Unemployment dataset.
 It provides clear insights into how different feature groups influence predictions of unemployment duration.
 Each node represents a decision point, with the edges coloured based on the dominant feature group—\textit{ISCO} (occupational classifications), \textit{P16} (education-related features), or demographic features—used in the split.
-This colour-coded representation highlights the relative importance of feature groups across different levels of the tree.}
+This colour-coded representation highlights the relative importance of feature groups across different levels of the tree.
 
-\vanote{Demographic features dominate higher levels of the tree, indicating their broad and primary influence on unemployment duration.
+Demographic features dominate higher levels of the tree, indicating their broad and primary influence on unemployment duration.
 Features such as \textit{Months of work experience} and \textit{Age} frequently appear at the root or upper nodes, suggesting that prior professional experience and age are strong, general predictors of re-employment likelihood.
-For instance, individuals with less work experience are often routed towards branches with longer unemployment times, reflecting the challenges faced by those lacking experience in securing jobs.}
+For instance, individuals with less work experience are often routed towards branches with longer unemployment times, reflecting the challenges faced by those lacking experience in securing jobs.
 
-\vanote{In contrast, ISCO features become more prominent in lower-level splits, capturing occupation-specific influences on unemployment.
+In contrast, ISCO features become more prominent in lower-level splits, capturing occupation-specific influences on unemployment.
 Branches dominated by ISCO-related splits suggest that certain occupational groups have distinct re-employment trends.
-For example, occupations such as \textit{Health associate professionals} or \textit{Labourers in mining, construction, manufacturing, and transport} are likely associated with specific labor market demands that either shorten or extend unemployment durations.}
+For example, occupations such as \textit{Health associate professionals} or \textit{Labourers in mining, construction, manufacturing, and transport} are likely associated with specific labor market demands that either shorten or extend unemployment durations.
 
-\vanote{P16 features emerge in intermediate levels of the tree, reflecting the nuanced role of education in employment outcomes.
-For instance, splits involving education levels such as \textit{Business, administration, and law} or \textit{Services} suggest that individuals’ educational backgrounds influence their unemployment duration in ways that interact with occupational or demographic factors.}
+P16 features emerge in intermediate levels of the tree, reflecting the nuanced role of education in employment outcomes.
+For instance, splits involving education levels such as \textit{Business, administration, and law} or \textit{Services} suggest that individuals’ educational backgrounds influence their unemployment duration in ways that interact with occupational or demographic factors.
 
-\vanote{The leaf nodes, representing the predicted expected survival times (i.e., unemployment duration in days), provide a clear endpoint for each pathway.
-Branches leading to longer survival times often involve demographic splits, highlighting structural barriers such as insufficient work experience or higher age, while branches associated with shorter durations often incorporate ISCO and P16 splits, reflecting the effect of occupation- and education-specific factors.}
+The leaf nodes, representing the predicted expected survival times (i.e., unemployment duration in days), provide a clear endpoint for each pathway.
+Branches leading to longer survival times often involve demographic splits, highlighting structural barriers such as insufficient work experience or higher age, while branches associated with shorter durations often incorporate ISCO and P16 splits, reflecting the effect of occupation- and education-specific factors.
 
 In essence, the \gls{vspyct} model's tree structure, with its intuitive colour-coded feature categories and quantified predictions at the leaf nodes, offers a powerful tool for understanding the multifaceted nature of unemployment.
 It bridges the gap between complex machine learning models and practical socio-economic applications, providing a clear, actionable framework for addressing unemployment through informed, data-driven strategies.
@@ -843,7 +850,7 @@ Our results demonstrate that the \gls{vspyct} model is competitive with, and on 
 By employing the variational Bayes method, we introduce a mechanism for uncertainty quantification directly into the decision-making process, enhancing the reliability and applicability of the model across various domains where decision certainty is paramount.
 
 The model opens new possibilities for research in semi-supervised learning and Bayesian inference, promising to bridge the gap between theoretical advancements and practical applications.
-\vanote{Future work will focus on further refining the model's performance, exploring the inclusion of soft splits to enable smoother decision boundaries and probabilistic routing, and extending its applications in diverse predictive tasks.}
+Future work will focus on further refining the model's performance, exploring the inclusion of soft splits to enable smoother decision boundaries and probabilistic routing, and extending its applications in diverse predictive tasks.
 
 \begin{comment}
 \section*{Acknowledgement}
@@ -949,6 +956,34 @@ semeion          & 0.846045 & \textbf{0.923838} & 0.868518 & 0.897004 & 0.811956
 \end{tabular}
 \end{table}
 
+\section{Evaluation score in relation to the number of removed features}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics{loss_rf2.pdf}
+    \caption{Dataset: rf2}
+    \label{fig:loss_rf2}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{loss_cpm.pdf}
+    \caption{Dataset: cpmp2015}
+    \label{fig:loss_cpm}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{loss_mfeat.pdf}
+    \caption{Dataset: mfeat\_zernike}
+    \label{fig:loss_mfeat}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{loss_chronic.pdf}
+    \caption{Dataset: chronic\_kidney\_disease}
+    \label{fig:loss_chronic}
+\end{figure}
 
 \end{document}

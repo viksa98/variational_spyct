@@ -1,4 +1,4 @@
-\begin{thebibliography}{18}
+\begin{thebibliography}{24}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -44,6 +44,33 @@
   \bibinfo{volume}{112}, \bibinfo{pages}{859–877}.
 \newblock \URLprefix \url{http://dx.doi.org/10.1080/01621459.2017.1285773},
   \DOIprefix\doi{10.1080/01621459.2017.1285773}.
+%Type = Article
+\bibitem[{Boškoski et~al.(2021)Boškoski, Perne, Rameša and
+  Boshkoska}]{Bo_koski_2021}
+\bibinfo{author}{Boškoski, P.}, \bibinfo{author}{Perne, M.},
+  \bibinfo{author}{Rameša, M.}, \bibinfo{author}{Boshkoska, B.M.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Variational bayes survival analysis for unemployment
+  modelling}.
+\newblock \bibinfo{journal}{Knowledge-Based Systems} \bibinfo{volume}{229},
+  \bibinfo{pages}{107335}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.knosys.2021.107335},
+  \DOIprefix\doi{10.1016/j.knosys.2021.107335}.
+%Type = Article
+\bibitem[{Breiman(2001)}]{Breiman_2001}
+\bibinfo{author}{Breiman, L.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{journal}{Machine Learning} \bibinfo{volume}{45},
+  \bibinfo{pages}{5–32}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1023/A:1010933404324},
+  \DOIprefix\doi{10.1023/a:1010933404324}.
+%Type = Article
+\bibitem[{Friedman(2001)}]{Friedman_2001}
+\bibinfo{author}{Friedman, J.H.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{title}{Greedy function approximation: A gradient boosting
+  machine.}
+\newblock \bibinfo{journal}{The Annals of Statistics} \bibinfo{volume}{29}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1214/aos/1013203451},
+  \DOIprefix\doi{10.1214/aos/1013203451}.
 %Type = Inproceedings
 \bibitem[{Gershman and Goodman(2014)}]{gershman2014amortized}
 \bibinfo{author}{Gershman, S.}, \bibinfo{author}{Goodman, N.},
@@ -51,6 +78,13 @@
 \newblock \bibinfo{title}{Amortized inference in probabilistic reasoning}, in:
   \bibinfo{booktitle}{Proceedings of the annual meeting of the cognitive
   science society}.
+%Type = Article
+\bibitem[{Guyon and Elisseeff(2003)}]{guyon2003introduction}
+\bibinfo{author}{Guyon, I.}, \bibinfo{author}{Elisseeff, A.},
+  \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{An introduction to variable and feature selection}.
+\newblock \bibinfo{journal}{Journal of machine learning research}
+  \bibinfo{volume}{3}, \bibinfo{pages}{1157--1182}.
 %Type = Article
 \bibitem[{Hoffman et~al.(2013)Hoffman, Blei, Wang and
   Paisley}]{hoffman2013stochastic}
@@ -73,6 +107,16 @@
 \newblock \bibinfo{title}{Adam: A method for stochastic optimization}.
 \newblock \bibinfo{journal}{arXiv preprint arXiv:1412.6980} .
 %Type = Article
+\bibitem[{Kocev et~al.(2020)Kocev, Ceci and Stepišnik}]{Kocev_2020}
+\bibinfo{author}{Kocev, D.}, \bibinfo{author}{Ceci, M.},
+  \bibinfo{author}{Stepišnik, T.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Ensembles of extremely randomized predictive
+  clustering trees for predicting structured outputs}.
+\newblock \bibinfo{journal}{Machine Learning} \bibinfo{volume}{109},
+  \bibinfo{pages}{2213–2241}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1007/s10994-020-05894-4},
+  \DOIprefix\doi{10.1007/s10994-020-05894-4}.
+%Type = Article
 \bibitem[{Kocev et~al.(2013)Kocev, Vens, Struyf and Džeroski}]{Kocev_2013}
 \bibinfo{author}{Kocev, D.}, \bibinfo{author}{Vens, C.},
   \bibinfo{author}{Struyf, J.}, \bibinfo{author}{Džeroski, S.},
@@ -89,6 +133,13 @@
 \newblock \bibinfo{title}{Inference compilation and universal probabilistic
   programming}, in: \bibinfo{booktitle}{Artificial Intelligence and
   Statistics}, \bibinfo{organization}{PMLR}. pp. \bibinfo{pages}{1338--1348}.
+%Type = Article
+\bibitem[{Lopez et~al.(2023)Lopez, Rudner and Shamout}]{lopez2023informative}
+\bibinfo{author}{Lopez, L.}, \bibinfo{author}{Rudner, T.G.},
+  \bibinfo{author}{Shamout, F.E.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Informative priors improve the reliability of
+  multimodal clinical data classification}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2312.00794} .
 %Type = Misc
 \bibitem[{{Mulan}()}]{mulan}
 \bibinfo{author}{{Mulan}}, .
