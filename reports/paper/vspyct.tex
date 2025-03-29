@@ -703,6 +703,37 @@ Its capability to handle intricate class boundaries and its flexibility in repre
 In continuous-output scenarios, ensembles still exhibit an edge, suggesting that if raw predictive precision is paramount and interpretability or uncertainty modeling are secondary considerations, ensemble models may remain the preferred choice.
 Nevertheless, \gls{vspyct} provides a single-tree model that narrows the performance gap considerably and is particularly appealing when balancing predictive accuracy with the need for more direct insight into the model’s decision process.
 
+\subsection{Analysis of VSPYCT Performance under Varying Dataset Properties}
+
+In order to identify which types of datasets and predictive tasks \gls{vspyct} handles well or struggles with, we correlated each dataset’s final performance metric (MAE/NMAE or F1) against its size (\(N\)) and number of features (\(D\)), as summarised in Table~\ref{tab:vspyct_correlation}.
+
+\begin{table}[h!]
+\centering
+\caption{Spearman correlation between dataset size ($N$), number of features ($D$), and \gls{vspyct} performance (MAE/NMAE for regression and F1 for classification).}
+\label{tab:vspyct_correlation}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Task} & \multicolumn{2}{c}{\textbf{Corr.\ w.r.t. }$N$} & \multicolumn{2}{c}{\textbf{Corr.\ w.r.t. }$D$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & $\rho$ & $p$ & $\rho$ & $p$ \\
+\midrule
+\textbf{STR} & $-0.345$ & $0.328$ & $-0.188$ & $0.602$\\
+\textbf{MTR} & $-0.231$ & $0.521$ & $0.068$ & $0.853$\\
+\textbf{BC}  & $0.286$  & $0.424$ & $-0.456$ & $0.185$\\
+\textbf{MCC} & $-0.152$ & $0.676$ & $-0.055$ & $0.881$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+Using Spearman correlation to relate \gls{vspyct}’s scores to $N$ and $D$, we observed only weak or moderate (and statistically insignificant) relationships overall.
+For single-target regression, for instance, a small negative correlation with $N$ and $D$ indicates that increasing dataset size or dimensionality does not systematically improve or degrade \gls{vspyct}’s predictive error -- exemplified by its success on both large, high-dimensional tasks such as \emph{qsar234}, as well as on relatively smaller, simpler problems like \emph{quake}.
+In multi-target regression, similarly negligible correlations suggest that \gls{vspyct}’s performance does not critically depend on the sheer scale of the data; it produces low NMAE on cases such as \emph{scpf} (modest size and dimensionality) as well as \emph{rf1} and \emph{rf2} (substantial size and feature counts), revealing that its oblique splits can effectively model multiple continuous targets even when dimensionality is high.
+Turning to binary classification, where higher F1 scores are better, a slight positive correlation with $N$ implies that larger datasets might offer marginal gains, while a mild negative correlation with $D$ reflects that \gls{vspyct} can maintain robust performance despite high-dimensional problems (e.g., \emph{ova\_lung} with over $10\,000$ features).
+Finally, the multi-class classification results also show near-zero correlation with both $N$ and $D$, meaning \gls{vspyct} can handle diverse complexities without clear dependence on data size or feature count alone, as seen by strong F1 on both smaller sets (e.g., \emph{dermatology}) and larger ones (e.g., \emph{gas\_drift}).
+Across all four predictive tasks, the absence of any strong or statistically significant correlation with $N$ or $D$ underscores that \gls{vspyct}’s method of oblique, probabilistic splits adapts broadly: it is more successful in classification tasks, and less consistently dominant in single-target regression problems demanding extremely low errors (for example, on \emph{bike\_sharing} where ensembles tend to excel).
+Nonetheless, even in regression, \gls{vspyct} frequently remains competitive, especially on datasets with moderate variance, making it an appealing single-model alternative when interpretability and uncertainty quantification are valued. 
+
 
 \subsection{Robustness to Spurious Features}%
 \label{sec:noise_features}
@@ -956,7 +987,12 @@ semeion          & 0.846045 & \textbf{0.923838} & 0.868518 & 0.897004 & 0.811956
 \end{tabular}
 \end{table}
 
+\clearpage
 \section{Evaluation score in relation to the number of removed features}
+
+The following graphs show how the predictive performance of the VSPYCT model changes as features are iteratively removed, starting from the least important.
+
+Figure~\ref{fig:loss_rf2} illustrates the effect of iterative feature removal on the \textit{rf2} dataset.
 
 \begin{figure}[h!]
     \centering
@@ -965,12 +1001,16 @@ semeion          & 0.846045 & \textbf{0.923838} & 0.868518 & 0.897004 & 0.811956
     \label{fig:loss_rf2}
 \end{figure}
 
+Figure~\ref{fig:loss_cpm} shows the performance degradation on the \textit{cpmp2015} dataset.
+
 \begin{figure}[h!]
     \centering
     \includegraphics{loss_cpm.pdf}
     \caption{Dataset: cpmp2015}
     \label{fig:loss_cpm}
 \end{figure}
+
+Figure~\ref{fig:loss_mfeat} depicts the model’s predictive performance as features are removed from the \textit{mfeat\_zernike} dataset.
 
 \begin{figure}[h!]
     \centering
@@ -979,11 +1019,15 @@ semeion          & 0.846045 & \textbf{0.923838} & 0.868518 & 0.897004 & 0.811956
     \label{fig:loss_mfeat}
 \end{figure}
 
+Figure~\ref{fig:loss_chronic} demonstrates the impact of feature removal on predictive accuracy for the \textit{chronic\_kidney\_disease} dataset.
+
 \begin{figure}[h!]
     \centering
     \includegraphics{loss_chronic.pdf}
     \caption{Dataset: chronic\_kidney\_disease}
     \label{fig:loss_chronic}
 \end{figure}
+
+
 
 \end{document}
