@@ -185,7 +185,7 @@
 
 \Glspl{spyct} are semi-supervised multi-target prediction models mainly used for \gls{sop} problems.
 They are computationally efficient and when combined in ensembles they achieve state-of-the-art results.
-However, one major issue is that it's challenging to interpret an ensemble of \glspl{spyct} without the use of a model-agnostic method.
+However, one major issue is that it is challenging to interpret an ensemble of \glspl{spyct} without the use of a model-agnostic method.
 We propose variational oblique predictive clustering trees, which address this challenge.
 The parameters of each split node are treated as random variables, described with a probability distribution, and they are learned through the Variational Bayes method.
 We evaluate the model on several benchmark datasets of different sizes.
@@ -196,13 +196,14 @@ Finally, we present a method to visually interpret the model's decision making p
 %\maketitle
 \end{frontmatter}
 \glsresetall
-
+	
 \section{Introduction}
 %PARAGRAF ZA ENSEMBLE MODEL VS BAYESIAN MODEL
 
 In the evolving field of machine learning, the fusion of semi-supervised learning and decision tree models has led to the development of models like \glspl{pct}~\citep{Kocev_2013} and their advanced variant, \glspl{spyct}~\citep{Stepi_nik_2021}.
 These models leverage labeled and unlabelled data to enhance predictive accuracy and efficiency.
 \Glspl{spyct}, in particular, have pioneered the use of oblique splits for \gls{sop}, allowing for more intricate decision boundaries beyond the capabilities of traditional axis-parallel splits.
+\added[id=r1, comment=C4]{In this work we use the term SOP to denote predictive tasks where each example’s label is itself a vector, set or hierarchy (e.g., multi-target regression, hierarchical multi-label, multi-output classification).}
 Despite their advantages, a significant challenge with \glspl{spyct} is their reliance on ensemble methods for optimal predictive performance.
 Ensemble methods, such as random forests and gradient-boosted trees, achieve high predictive performance by reducing variance and/or bias through the aggregation of diverse models~\cite{Breiman_2001, Kocev_2020, Friedman_2001}.
 These methods ensure robustness by capturing slightly different patterns or residuals from the data.
@@ -218,27 +219,43 @@ Combining the robustness of \gls{spyct} ensembles with the clarity and interpret
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1.0\textwidth]{main_flowchart.pdf}
-    \caption{Ensemble of trees vs. Variational tree}
+    \caption{Visual contrast between a bagged ensemble of oblique predictive clustering trees (left) and the proposed single Variational SPYCT (right). The shading of hyper-planes illustrates parameter uncertainty that is captured by the variational posterior, rather than by averaging many independent trees.}
     \label{fig:main_flowchart}
 \end{figure}
 
 Our proposed \gls{vspyct} framework diverges from traditional ensemble approaches by directly incorporating Bayesian principles into oblique decision trees' architecture.
 This model avoids conventional ensemble strategies, which aggregate multiple trees' outputs, for a probabilistic treatment of model parameters, offering refined mechanisms for uncertainty quantification and predictive performance.
+
+\added[id=r2, comment=C4]{Despite the progress in predictive clustering methods, existing approaches either sacrifice interpretability by relying on ensembles or fail to directly incorporate uncertainty quantification.
+Recent works, such as \glspl{spyct}~\citep{Stepi_nik_2021} and \glspl{opct}~\citep{Stepisnik_2020}, have addressed some limitations but lack the integrated capability of uncertainty quantification, critical for real-world decision-making contexts.
+Hence, there is a clear research gap in developing methods that simultaneously ensure interpretability, accuracy, and robust uncertainty estimation.}
+
+\begin{comment}
 The core of \gls{vspyct}'s innovation lies in applying the variational Bayes method for optimising parameters defining the oblique splits, and modelling these parameters as random variables with probability distributions.
 This represents a paradigm shift toward a probabilistic understanding of decision-making processes within tree-based models, significantly enhancing interpretability, especially in uncertainty estimation domains.
 It sets a new benchmark for interpretable, efficient, and reliable machine learning models.
+\end{comment}
+
+\added[id=r2, comment=C1C6]{In contrast to prior work, \glspl{vspyct} combine oblique splits from predictive clustering trees with a Bayesian inference framework using variational Bayes.
+Unlike traditional ensemble methods or single deterministic trees, \glspl{vspyct} explicitly model uncertainty in split parameters, providing inherent uncertainty quantification without sacrificing interpretability.
+This integration represents a significant novelty by directly embedding probabilistic modeling into oblique splits, ensuring a single interpretable model can achieve performance comparable to or surpassing state-of-the-art ensembles across various prediction tasks.}
+
+
 %\pbnote{Check Bayesian Additive Regression Trees (BART). Maybe add a comment/reference what is different}
 
 
 %citiraj community detection (nasiot trud), rise of gen-ai/black-box ai/llms (llama, bert, gpt), post-hoc explainability (shap),  vb metodot, 
 
+\added[id=r1, comment=C8]{The complete implementation is available at \url{https://github.com/viksa98/variational_spyct}.}
+
 \section{Related work}
 
-%references for VB applications in ML and Survival analysis models. Cite pavles paper.
+\added[id=r2, comment=C14]{Advanced modeling methods, including fractional calculus and artificial neural networks, have been applied extensively across diverse domains for solving complex modeling and prediction problems~\cite{Abbas_2024,Abbas_2025,Ramzan_2025,Abbas_2025_2, Andonovikj_2022}.}
 
 \Glspl{pct} have been an essential development in extending decision tree capabilities to various predictive modelling tasks, including structured output prediction.
 \Glspl{pct} are versatile and can be combined into ensembles to achieve state-of-the-art performance~\citep{Kocev_2013}.
 However, as the dimensionality of the output space increases, the learning time of \glspl{pct} scales poorly, posing challenges in tasks like hierarchical multi-label classification where outputs can consist of hundreds of potential labels.
+
 
 \Glspl{pct} are celebrated for their interpretability and efficiency, yet they often fall short in predictive performance due to their myopic, greedy selection of splits.
 The introduction of \glspl{opct}~\citep{Stepisnik_2020} aimed to address this limitation by incorporating multiple alternative splits within option nodes.
@@ -260,6 +277,28 @@ Methods for explaining classifier predictions and estimating the reliability of 
 Similarly, the MAPLE~\citep{plumb2018model} model combines local linear modelling with a dual interpretation of random forests, offering faithful self-explanations and maintaining high predictive accuracy.
 MAPLE addresses the accuracy-interpretability trade-off and provides both example-based and local explanations, making it a comprehensive tool for understanding model behaviour.
 Methods like MAPLE and other interpretability frameworks strike a balance between accuracy and transparency, but they often fall short in handling high-dimensional, sparse data efficiently.
+
+\added[id=r1, comment=C3]{To provide a clearer overview of the related predictive clustering approaches discussed, we summarise and contrast their interpretability, capability to handle high-dimensional data, and uncertainty quantification properties in Table~\ref{tab:model_comparison}.}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparative summary of predictive clustering methods}
+\label{tab:model_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Interpretability} & \textbf{Handles High-dimensional Data} & \textbf{Uncertainty Quantification}\\
+\midrule
+PCT~\citep{Kocev_2013} & High & Limited & No \\
+OPCT~\citep{Stepisnik_2020} & Moderate to High & Moderate & No \\
+SPYCT~\citep{Stepi_nik_2021} & Moderate & High & No \\
+Ensemble methods & Low & High & Partial (via variance) \\
+\textbf{VSPYCT (ours)} & \textbf{Moderate to High} & \textbf{High} & \textbf{Yes (inherent, Bayesian)} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
 
 While significant progress has been made in improving decision tree models and their ensembles, several weaknesses remain.
 Many of these approaches lack inherent mechanisms for uncertainty quantification, which is crucial for applications requiring high reliability and decision certainty.
@@ -383,6 +422,10 @@ The objective is to minimise the impurity by optimising the parameters \(\mathbf
 The overall procedure for learning a split in \gls{vspyct} is detailed in Algorithm~\ref{alg:learn_split_vb}.
 The algorithm involves initialising the variational parameters, performing Monte Carlo sampling to estimate the \gls{elbo}, and iteratively updating the parameters until convergence.
 
+\added[id=r2, comment=C8C9]{We selected Gaussian priors for split parameters due to their computational tractability and effectiveness in Bayesian inference frameworks.
+The impurity function used for evaluating splits leverages the variance reduction weighted by selection probabilities, a common choice ensuring effective partitioning of data into homogeneous subsets.
+Feature importance is calculated using the normalised expected weight-to-variance ratio, reflecting both the strength and reliability of each feature's contribution.}
+
 While parameter uncertainty is effectively addressed, structural uncertainty is inherently more challenging to capture in a single tree. The variational Bayes approach approximates the posterior over parameters, but the inclusion of priors on tree structure (e.g., split selection) is an area for further exploration.
 
 \begin{algorithm}[h!]
@@ -402,7 +445,8 @@ While parameter uncertainty is effectively addressed, structural uncertainty is 
                 \[
                 \Omega(\mathbf{X}, \mathbf{Y}; \mathbf{w}, b) = \sum_{\text{right}} \rho(\mathbf{w}^\top \mathbf{x} + b) \cdot \text{Var}_\rho(\mathbf{Y}) + \sum_{\text{left}} (1 - \rho(\mathbf{w}^\top \mathbf{x} + b)) \cdot \text{Var}_\lambda(\mathbf{Y})
                 \]
-                \State Set the observed impurity value: $\Omega_\text{obs} = \frac{\Omega(\mathbf{X}, \mathbf{Y}; \mathbf{w}, b)}{2}$
+                \State Set the observed impurity value: $\Omega_\text{obs} = \frac{\Omega(\mathbf{X}, \mathbf{Y}; \mathbf{w}, b)}{2}$ \Comment{Scaled to remain lower than current impurity and guide minimisation}
+
                 \State Condition on the observed impurity using:
                 \[
                 \log p(\Omega_\text{obs}|\Omega(\mathbf{X}, \mathbf{Y}; \mathbf{w}, b))
@@ -543,6 +587,27 @@ We chose these methods as primary comparisons because they have been extensively
 
 The comparison encompassed a range of predictive modelling tasks, including single-target regression, multi-target regression, binary classification, and multi-class classification.
 By evaluating against a single \gls{spyct} tree, an ensemble of \glspl{spyct}, \gls{opct} tree, and an ensemble of \glspl{pct}, we aimed to assess how \gls{vspyct}'s predictive performance compares against a spectrum of models, from single decision trees to more complex ensembles and option trees.
+
+\subsection{Parameter Configuration Summary}
+\added[id=r2, comment=C12]{}
+
+Table~\ref{tab:parameter_ranges} summarises the parameter ranges tested in this study and their relevance to the optimisation of \gls{vspyct}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lll}
+Parameter & Range tested & Description \\ \hline
+Monte Carlo samples ($M$) & 10 - 100 & Approximation of posterior distributions \\
+Variational iterations ($I_{vb}$) & 50 - 500 & Convergence of ELBO optimization \\
+Batch size ($\beta$) & 32 - 256 & Mini-batch size for optimization \\
+Learning rate ($\lambda$) & 0.001 - 0.01 & Step size for gradient updates \\
+\end{tabular}
+\caption{Investigated parameter configurations for VSPYCT.}
+\label{tab:parameter_ranges}
+\end{table}
+
+After evaluating performance and computational trade-offs, the final chosen parameter values were set to $M=100$, $I_{vb}=100$, $\beta=128$, and $\lambda=0.01$.
+
 
 \subsection{Data}
 
@@ -704,6 +769,26 @@ Its capability to handle intricate class boundaries and its flexibility in repre
 In continuous-output scenarios, ensembles still exhibit an edge, suggesting that if raw predictive precision is paramount and interpretability or uncertainty modeling are secondary considerations, ensemble models may remain the preferred choice.
 Nevertheless, \gls{vspyct} provides a single-tree model that narrows the performance gap considerably and is particularly appealing when balancing predictive accuracy with the need for more direct insight into the model’s decision process.
 
+\added[id=r1, comment=C7]{While the present work marginalises only over split-parameter posteriors, future work will adopt Bayesian non-parametric priors over tree topologies to capture structural, as well as parameter, uncertainty. This would allow the model to reason not only about decision-boundary uncertainty, but also about the tree structure itself (i.e., how many splits to create and where to place them). Possible approaches include integrating structural priors, or developing ensemble-like variational methods that maintain a distribution over multiple plausible tree structures. Such extensions would provide a more comprehensive Bayesian treatment of decision trees and further enhance both predictive reliability and interpretability.}
+
+
+\added[id=r1, comment=C6]{An explicit empirical comparison of training time and scalability between \gls{vspyct} and deterministic approaches was beyond the scope of this study, due to implementation-specific and hardware-dependent factors.}
+
+\textit{Advantages of VSPYCT:}
+\added[id=r2, comment=C10]{}
+\begin{itemize}
+    \item Integrated interpretability and uncertainty quantification.
+    \item Competitive predictive performance compared to ensembles.
+    \item Effective handling of complex classification boundaries.
+\end{itemize}
+
+\textit{Disadvantages and Limitations:}
+\begin{itemize}
+    \item Higher computational complexity due to variational inference.
+    \item Potential scalability issues with extremely large or high-dimensional datasets.
+    \item Limited capability to represent structural uncertainty compared to ensembles.
+\end{itemize}
+
 \subsection{Analysis of VSPYCT Performance under Varying Dataset Properties}
 
 In order to identify which types of datasets and predictive tasks \gls{vspyct} handles well or struggles with, we correlated each dataset’s final performance metric (MAE/NMAE or F1) against its size (\(N\)) and number of features (\(D\)), as summarised in Table~\ref{tab:vspyct_correlation}.
@@ -806,6 +891,18 @@ This outcome does not necessarily imply that the noise features carry genuine si
 These results confirm that the \gls{vspyct}-derived feature importance scores reliably rank truly predictive variables above most spurious ones, underscoring the model's robustness to irrelevant inputs.
 
 
+\subsection{Practical Interpretation of Results}
+\added[id=r2, comment=C7]{}
+The empirical results presented earlier can be further understood by considering their practical implications and physical meaning in real-world contexts.
+For regression tasks, such as predicting concrete compressive strength, the improved accuracy of \gls{vspyct} indicates that probabilistic modeling of uncertainty in feature weights enables better handling of measurement variability or experimental errors common in physical systems.
+This modeling approach allows practitioners, for example civil engineers, to better anticipate the reliability of material properties predicted by the model.
+
+Similarly, classification results can be interpreted from a practical perspective by analysing the decision boundaries constructed by \gls{vspyct}.
+For instance, in medical diagnosis (such as chronic kidney disease), the high predictive performance reflects the model’s capacity to clearly delineate clinically meaningful groups, effectively capturing critical diagnostic thresholds that physicians rely on for clinical decision-making.
+
+Moreover, the results obtained for employment duration prediction offer a direct practical interpretation: demographic and occupational splits made by \gls{vspyct} align closely with known socio-economic factors affecting employment outcomes.
+Thus, the proposed model effectively incorporates and reveals practically meaningful dynamics from the data, enhancing both interpretability and applicability.
+
 \subsection{Interpretability}
 
 The dataset used for the interpretability analysis consists of $74,086$ anonymised instances of jobseekers from the Slovenian Public Employment Service (PES).
@@ -872,9 +969,21 @@ Branches leading to longer survival times often involve demographic splits, high
 In essence, the \gls{vspyct} model's tree structure, with its intuitive colour-coded feature categories and quantified predictions at the leaf nodes, offers a powerful tool for understanding the multifaceted nature of unemployment.
 It bridges the gap between complex machine learning models and practical socio-economic applications, providing a clear, actionable framework for addressing unemployment through informed, data-driven strategies.
 
+\paragraph{Practical use for domain experts}
+
+\added[id=r1, comment=C9]{}
+After training, VSPYCT provides three complementary outputs that can be inspected with standard analysis tools:
+\begin{enumerate}
+  \item \textbf{Node summaries:} for every split we report the posterior mean, standard deviation, and $95\%$ credible interval of each coefficient, allowing analysts to verify which variables dominate within a specific branch.
+  \item \textbf{Tree file:} the complete tree is exported in a plain, machine-readable graph format so that users can open it in any network-visualisation environment and interactively traverse, fold, or unfold decision paths.
+  \item \textbf{Global relevance ranking:} the importance scores (see Figure~\ref{fig:feature_importance}) order the features by their expected effect on the prediction, helping experts prioritise factors for monitoring or intervention.
+\end{enumerate}
+
+
 
 \section{Conclusion}
 
+\begin{comment}
 We introduced the \gls{vspyct} model, an approach that combines the benefits of oblique splits, variational Bayes, and Bayesian inference within a single, interpretable predictive framework.
 The \gls{vspyct} model addresses the trade-off between the performance of ensemble models and the interpretability of single decision trees, while also tackling the absence of inherent uncertainty quantification in predictions.
 
@@ -883,6 +992,20 @@ By employing the variational Bayes method, we introduce a mechanism for uncertai
 
 The model opens new possibilities for research in semi-supervised learning and Bayesian inference, promising to bridge the gap between theoretical advancements and practical applications.
 Future work will focus on further refining the model's performance, exploring the inclusion of soft splits to enable smoother decision boundaries and probabilistic routing, and extending its applications in diverse predictive tasks.
+\end{comment}
+
+\added[id=r2, comment=C2C13]{}
+We introduced \glspl{vspyct}, a novel framework combining Bayesian inference with predictive clustering trees.
+\Glspl{vspyct} uniquely incorporate variational Bayes into oblique splits, providing built-in uncertainty quantification and preserving interpretability.
+
+Our experimental evaluations demonstrated that \glspl{vspyct} outperform ensemble methods in binary and multi-class classification tasks, while remaining competitive in multi-target and single-target regression scenarios.
+For example, \gls{vspyct} achieved the highest average rank in binary classification tasks and tied for best in multi-class classification, confirming its robustness and generalisation capabilities.
+
+The primary advantages of \gls{vspyct} include inherent interpretability, integrated uncertainty quantification, and competitive predictive performance without requiring ensembles.
+However, its main disadvantage is increased computational complexity due to variational inference optimisation and Monte Carlo sampling.
+
+Future research should explore methods to reduce computational complexity, integrate structural priors to handle structural uncertainty, and extend \gls{vspyct} to broader domains and larger datasets, improving scalability and general applicability.
+
 
 \section*{Acknowledgement}
 The authors acknowledge the research core funding No.\ P2-0001, and V5-24020 financially supported by the Slovenian Research and Innovation Agency, and the Ministry of the Economy, Tourism and Sport of the Republic of Slovenia.

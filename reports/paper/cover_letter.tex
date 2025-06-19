@@ -1,0 +1,77 @@
+\documentclass{article}
+
+\usepackage{charter} % Use the Charter font for the document text
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr,graphicx}
+
+\fancypagestyle{firstpage}{%
+  \fancyhf{}% Clear header/footer
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{1pt}%
+  % Add more detail here if needed
+}
+\fancypagestyle{otherpages}{%
+  \fancyhf{}% Clear header/footer
+  \renewcommand{\headrulewidth}{1pt}%
+  \renewcommand{\footrulewidth}{1pt}%
+  % Add more detail here if needed
+}
+
+\AtBeginDocument{\thispagestyle{firstpage}}
+\pagestyle{otherpages}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+
+\begin{document}
+
+\vspace*{\dimexpr-\headsep-\headheight-1pt}
+
+%\includegraphics[width=2.1in]{logo.png}
+
+\rule{\linewidth}{1pt}
+
+\bigskip\bigskip
+
+\hfill
+\begin{tabular}{ l @{} }
+  \today \\[12pt] % Date
+\end{tabular}
+
+\bigskip
+
+\begin{tabular}{ @{} l }
+  Viktor Andonovikj \\ % Addressee of the letter above the to address
+  Young researcher \\ % To address
+  Jožef Stefan Institute \\
+  Jamova cesta 39 \\
+  1000 Ljubljana\\
+  Slovenia
+\end{tabular}
+
+\bigskip
+
+Dear Editor,
+
+\bigskip
+
+On behalf of my co-authors, I am submitting our paper titled ``Variational oblique predictive clustering trees''.
+
+
+The paper presents a novel model that integrates Bayesian inference into oblique predictive clustering trees to enhance predictive performance, interpretability, and uncertainty quantification within a single-tree framework. Our results show that the proposed model achieves performance competitive with ensemble methods while retaining the transparency of interpretable models.
+
+We believe that the paper provides a valuable contribution to the field, and we hope that it will be of interest to the readership of Expert Systems with Applications.
+
+Thank you for considering our submission.
+
+\bigskip
+
+Sincerely yours,
+
+\vspace{50pt}
+
+Viktor Andonovikj
+
+\end{document}
+

@@ -11,7 +11,6 @@ def nanvar(tensor, dim=None, keepdim=False):
     output = (tensor - tensor_mean).square().nanmean(dim=dim, keepdim=keepdim)
     return output
 
-# Adjusted function to handle multiple target variables
 def multi_target_impurity(tensor, target_dim=1):
     """
     Compute impurity for multiple target variables.
@@ -19,14 +18,11 @@ def multi_target_impurity(tensor, target_dim=1):
     tensor: Input tensor where each row represents a sample and each column represents a different target variable.
     target_dim: The dimension along which the targets are stored (e.g., 1 if columns are different targets).
     """
-    # Remove NaN values and check for empty tensor
     if tensor.isnan().all():
         return float('inf')
     
-    # Compute variances for each target variable (along target_dim)
     variances = nanvar(tensor, dim=0 if target_dim == 1 else 1)
     
-    # Return the sum of variances across all target variables
     total_variance = torch.sum(variances)
 
     return total_variance
