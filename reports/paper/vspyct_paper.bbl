@@ -1,0 +1,279 @@
+\begin{thebibliography}{29}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Abbas et~al.(2025a)Abbas, Ahmad, Nazar, Saleem, Isyanov, Aljedani and
+  Garalleh}]{Abbas_2025}
+\bibinfo{author}{Abbas, S.}, \bibinfo{author}{Ahmad, M.},
+  \bibinfo{author}{Nazar, M.}, \bibinfo{author}{Saleem, S.},
+  \bibinfo{author}{Isyanov, R.}, \bibinfo{author}{Aljedani, J.},
+  \bibinfo{author}{Garalleh, H.A.}, \bibinfo{year}{2025}a.
+\newblock \bibinfo{title}{Artificial neural network analysis of heat and mass
+  transfer in fractional casson flow}.
+\newblock \bibinfo{journal}{Case Studies in Thermal Engineering}
+  \bibinfo{volume}{69}, \bibinfo{pages}{105946}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.csite.2025.105946},
+  \DOIprefix\doi{10.1016/j.csite.2025.105946}.
+%Type = Article
+\bibitem[{Abbas et~al.(2025b)Abbas, Inam, Alharthi, AL-Khasawneh, Az-Zo’bi
+  and Garalleh}]{Abbas_2025_2}
+\bibinfo{author}{Abbas, S.}, \bibinfo{author}{Inam, I.},
+  \bibinfo{author}{Alharthi, A.M.}, \bibinfo{author}{AL-Khasawneh, M.A.S.},
+  \bibinfo{author}{Az-Zo’bi, E.A.}, \bibinfo{author}{Garalleh, H.A.},
+  \bibinfo{year}{2025}b.
+\newblock \bibinfo{title}{Fractional magnetohydrodynamic casson fluid flow with
+  thermal radiation and buoyancy effects: a constant proportional caputo
+  model}.
+\newblock \bibinfo{journal}{Boundary Value Problems} \bibinfo{volume}{2025}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1186/s13661-025-02036-4},
+  \DOIprefix\doi{10.1186/s13661-025-02036-4}.
+%Type = Article
+\bibitem[{Abbas and Nazar(2024)}]{Abbas_2024}
+\bibinfo{author}{Abbas, S.}, \bibinfo{author}{Nazar, M.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Fractional analysis of unsteady magnetohydrodynamics
+  jeffrey flow over an infinite vertical plate in the presence of hall
+  current}.
+\newblock \bibinfo{journal}{Mathematical Methods in the Applied Sciences}
+  \bibinfo{volume}{48}, \bibinfo{pages}{253–272}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1002/mma.10326},
+  \DOIprefix\doi{10.1002/mma.10326}.
+%Type = Article
+\bibitem[{Andonovikj et~al.(2022)Andonovikj, Boskoski, Evkoski, Redek and
+  Mileva~Boshkoska}]{Andonovikj_2022}
+\bibinfo{author}{Andonovikj, V.}, \bibinfo{author}{Boskoski, P.},
+  \bibinfo{author}{Evkoski, B.}, \bibinfo{author}{Redek, T.},
+  \bibinfo{author}{Mileva~Boshkoska, B.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Community analysis in slovenian labour network
+  2010-2020}.
+\newblock \bibinfo{journal}{Journal of Decision Systems} \bibinfo{volume}{31},
+  \bibinfo{pages}{308–318}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1080/12460125.2022.2070944},
+  \DOIprefix\doi{10.1080/12460125.2022.2070944}.
+%Type = Article
+\bibitem[{Andonovikj et~al.(2024)Andonovikj, Boškoski, Džeroski and
+  Boshkoska}]{Andonovikj_2024}
+\bibinfo{author}{Andonovikj, V.}, \bibinfo{author}{Boškoski, P.},
+  \bibinfo{author}{Džeroski, S.}, \bibinfo{author}{Boshkoska, B.M.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Survival analysis as semi-supervised multi-target
+  regression for time-to-employment prediction using oblique predictive
+  clustering trees}.
+\newblock \bibinfo{journal}{Expert Systems with Applications}
+  \bibinfo{volume}{235}, \bibinfo{pages}{121246}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.eswa.2023.121246},
+  \DOIprefix\doi{10.1016/j.eswa.2023.121246}.
+%Type = Article
+\bibitem[{Bernardo et~al.(2003)Bernardo, Bayarri, Berger, Dawid, Heckerman,
+  Smith, West et~al.}]{bernardo2003variational}
+\bibinfo{author}{Bernardo, J.}, \bibinfo{author}{Bayarri, M.},
+  \bibinfo{author}{Berger, J.}, \bibinfo{author}{Dawid, A.},
+  \bibinfo{author}{Heckerman, D.}, \bibinfo{author}{Smith, A.},
+  \bibinfo{author}{West, M.}, et~al., \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{The variational bayesian em algorithm for incomplete
+  data: with application to scoring graphical model structures}.
+\newblock \bibinfo{journal}{Bayesian statistics} \bibinfo{volume}{7},
+  \bibinfo{pages}{210}.
+%Type = Article
+\bibitem[{Blei et~al.(2017)Blei, Kucukelbir and McAuliffe}]{Blei_2017}
+\bibinfo{author}{Blei, D.M.}, \bibinfo{author}{Kucukelbir, A.},
+  \bibinfo{author}{McAuliffe, J.D.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Variational inference: A review for statisticians}.
+\newblock \bibinfo{journal}{Journal of the American Statistical Association}
+  \bibinfo{volume}{112}, \bibinfo{pages}{859–877}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1080/01621459.2017.1285773},
+  \DOIprefix\doi{10.1080/01621459.2017.1285773}.
+%Type = Article
+\bibitem[{Boškoski et~al.(2021)Boškoski, Perne, Rameša and
+  Boshkoska}]{Bo_koski_2021}
+\bibinfo{author}{Boškoski, P.}, \bibinfo{author}{Perne, M.},
+  \bibinfo{author}{Rameša, M.}, \bibinfo{author}{Boshkoska, B.M.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Variational bayes survival analysis for unemployment
+  modelling}.
+\newblock \bibinfo{journal}{Knowledge-Based Systems} \bibinfo{volume}{229},
+  \bibinfo{pages}{107335}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.knosys.2021.107335},
+  \DOIprefix\doi{10.1016/j.knosys.2021.107335}.
+%Type = Article
+\bibitem[{Breiman(2001)}]{Breiman_2001}
+\bibinfo{author}{Breiman, L.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{journal}{Machine Learning} \bibinfo{volume}{45},
+  \bibinfo{pages}{5–32}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1023/A:1010933404324},
+  \DOIprefix\doi{10.1023/a:1010933404324}.
+%Type = Article
+\bibitem[{Friedman(2001)}]{Friedman_2001}
+\bibinfo{author}{Friedman, J.H.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{title}{Greedy function approximation: A gradient boosting
+  machine.}
+\newblock \bibinfo{journal}{The Annals of Statistics} \bibinfo{volume}{29}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1214/aos/1013203451},
+  \DOIprefix\doi{10.1214/aos/1013203451}.
+%Type = Inproceedings
+\bibitem[{Gershman and Goodman(2014)}]{gershman2014amortized}
+\bibinfo{author}{Gershman, S.}, \bibinfo{author}{Goodman, N.},
+  \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Amortized inference in probabilistic reasoning}, in:
+  \bibinfo{booktitle}{Proceedings of the annual meeting of the cognitive
+  science society}.
+%Type = Article
+\bibitem[{Guyon and Elisseeff(2003)}]{guyon2003introduction}
+\bibinfo{author}{Guyon, I.}, \bibinfo{author}{Elisseeff, A.},
+  \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{An introduction to variable and feature selection}.
+\newblock \bibinfo{journal}{Journal of machine learning research}
+  \bibinfo{volume}{3}, \bibinfo{pages}{1157--1182}.
+%Type = Article
+\bibitem[{Hoffman et~al.(2013)Hoffman, Blei, Wang and
+  Paisley}]{hoffman2013stochastic}
+\bibinfo{author}{Hoffman, M.D.}, \bibinfo{author}{Blei, D.M.},
+  \bibinfo{author}{Wang, C.}, \bibinfo{author}{Paisley, J.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Stochastic variational inference}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research} .
+%Type = Inproceedings
+\bibitem[{Kim et~al.(2018)Kim, Wiseman, Miller, Sontag and Rush}]{kim2018semi}
+\bibinfo{author}{Kim, Y.}, \bibinfo{author}{Wiseman, S.},
+  \bibinfo{author}{Miller, A.}, \bibinfo{author}{Sontag, D.},
+  \bibinfo{author}{Rush, A.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Semi-amortized variational autoencoders}, in:
+  \bibinfo{booktitle}{International Conference on Machine Learning},
+  \bibinfo{organization}{PMLR}. pp. \bibinfo{pages}{2678--2687}.
+%Type = Article
+\bibitem[{Kingma and Ba(2014)}]{kingma2014adam}
+\bibinfo{author}{Kingma, D.P.}, \bibinfo{author}{Ba, J.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Adam: A method for stochastic optimization}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:1412.6980} .
+%Type = Article
+\bibitem[{Kocev et~al.(2020)Kocev, Ceci and Stepišnik}]{Kocev_2020}
+\bibinfo{author}{Kocev, D.}, \bibinfo{author}{Ceci, M.},
+  \bibinfo{author}{Stepišnik, T.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Ensembles of extremely randomized predictive
+  clustering trees for predicting structured outputs}.
+\newblock \bibinfo{journal}{Machine Learning} \bibinfo{volume}{109},
+  \bibinfo{pages}{2213–2241}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1007/s10994-020-05894-4},
+  \DOIprefix\doi{10.1007/s10994-020-05894-4}.
+%Type = Article
+\bibitem[{Kocev et~al.(2013)Kocev, Vens, Struyf and Džeroski}]{Kocev_2013}
+\bibinfo{author}{Kocev, D.}, \bibinfo{author}{Vens, C.},
+  \bibinfo{author}{Struyf, J.}, \bibinfo{author}{Džeroski, S.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Tree ensembles for predicting structured outputs}.
+\newblock \bibinfo{journal}{Pattern Recognition} \bibinfo{volume}{46},
+  \bibinfo{pages}{817–833}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.patcog.2012.09.023},
+  \DOIprefix\doi{10.1016/j.patcog.2012.09.023}.
+%Type = Inproceedings
+\bibitem[{Le et~al.(2017)Le, Baydin and Wood}]{le2017inference}
+\bibinfo{author}{Le, T.A.}, \bibinfo{author}{Baydin, A.G.},
+  \bibinfo{author}{Wood, F.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Inference compilation and universal probabilistic
+  programming}, in: \bibinfo{booktitle}{Artificial Intelligence and
+  Statistics}, \bibinfo{organization}{PMLR}. pp. \bibinfo{pages}{1338--1348}.
+%Type = Article
+\bibitem[{Lopez et~al.(2023)Lopez, Rudner and Shamout}]{lopez2023informative}
+\bibinfo{author}{Lopez, L.}, \bibinfo{author}{Rudner, T.G.},
+  \bibinfo{author}{Shamout, F.E.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Informative priors improve the reliability of
+  multimodal clinical data classification}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2312.00794} .
+%Type = Misc
+\bibitem[{{Mulan}()}]{mulan}
+\bibinfo{author}{{Mulan}}, .
+\newblock \bibinfo{title}{Mulan: A java library for multi-label learning}.
+\newblock
+  \bibinfo{howpublished}{\url{http://mulan.sourceforge.net/datasets.html}}.
+\newblock \bibinfo{note}{Accessed: 2020-04-15}.
+%Type = Book
+\bibitem[{Murphy(2023)}]{murphy2023probabilistic}
+\bibinfo{author}{Murphy, K.P.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Probabilistic machine learning: Advanced topics}.
+\newblock \bibinfo{publisher}{MIT press}.
+%Type = Misc
+\bibitem[{{OpenML}()}]{openml}
+\bibinfo{author}{{OpenML}}, .
+\newblock \bibinfo{title}{Openml}.
+\newblock \bibinfo{howpublished}{\url{https://www.openml.org}}.
+\newblock \bibinfo{note}{Accessed: 2020-04-15}.
+%Type = Article
+\bibitem[{Plumb et~al.(2018)Plumb, Molitor and Talwalkar}]{plumb2018model}
+\bibinfo{author}{Plumb, G.}, \bibinfo{author}{Molitor, D.},
+  \bibinfo{author}{Talwalkar, A.S.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Model agnostic supervised local explanations}.
+\newblock \bibinfo{journal}{Advances in neural information processing systems}
+  \bibinfo{volume}{31}.
+%Type = Article
+\bibitem[{Ramzan et~al.(2025)Ramzan, Shafique, Abbas, Ali, Lamoudan, Jan,
+  Norberdiyeva, Turabova and Garalleh}]{Ramzan_2025}
+\bibinfo{author}{Ramzan, M.}, \bibinfo{author}{Shafique, A.},
+  \bibinfo{author}{Abbas, S.}, \bibinfo{author}{Ali, R.},
+  \bibinfo{author}{Lamoudan, T.}, \bibinfo{author}{Jan, R.},
+  \bibinfo{author}{Norberdiyeva, M.}, \bibinfo{author}{Turabova, B.},
+  \bibinfo{author}{Garalleh, H.A.}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Mathematical analysis of prandtl number with
+  artificial neural network and fractional operator for nanofluid flow}.
+\newblock \bibinfo{journal}{Case Studies in Thermal Engineering}
+  \bibinfo{volume}{71}, \bibinfo{pages}{106164}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.csite.2025.106164},
+  \DOIprefix\doi{10.1016/j.csite.2025.106164}.
+%Type = Inproceedings
+\bibitem[{Sashank et~al.(2018)Sashank, Satyen and
+  Sanjiv}]{sashank2018convergence}
+\bibinfo{author}{Sashank, J.R.}, \bibinfo{author}{Satyen, K.},
+  \bibinfo{author}{Sanjiv, K.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{On the convergence of adam and beyond}, in:
+  \bibinfo{booktitle}{International conference on learning representations}.
+%Type = Article
+\bibitem[{Stepisnik et~al.(2020)Stepisnik, Osojnik, Dzeroski and
+  Kocev}]{Stepisnik_2020}
+\bibinfo{author}{Stepisnik, T.}, \bibinfo{author}{Osojnik, A.},
+  \bibinfo{author}{Dzeroski, S.}, \bibinfo{author}{Kocev, D.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Option predictive clustering trees for multi-target
+  regression}.
+\newblock \bibinfo{journal}{Computer Science and Information Systems}
+  \bibinfo{volume}{17}, \bibinfo{pages}{459–486}.
+\newblock \URLprefix \url{http://dx.doi.org/10.2298/CSIS190928006S},
+  \DOIprefix\doi{10.2298/csis190928006s}.
+%Type = Article
+\bibitem[{Stepišnik and Kocev(2021)}]{Stepi_nik_2021}
+\bibinfo{author}{Stepišnik, T.}, \bibinfo{author}{Kocev, D.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Oblique predictive clustering trees}.
+\newblock \bibinfo{journal}{Knowledge-Based Systems} \bibinfo{volume}{227},
+  \bibinfo{pages}{107228}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1016/j.knosys.2021.107228},
+  \DOIprefix\doi{10.1016/j.knosys.2021.107228}.
+%Type = Inproceedings
+\bibitem[{Tan et~al.(2020)Tan, Soloviev, Hooker and Wells}]{Tan_2020}
+\bibinfo{author}{Tan, S.}, \bibinfo{author}{Soloviev, M.},
+  \bibinfo{author}{Hooker, G.}, \bibinfo{author}{Wells, M.T.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Tree space prototypes: Another look at making tree
+  ensembles interpretable}, in: \bibinfo{booktitle}{Proceedings of the 2020
+  ACM-IMS on Foundations of Data Science Conference}, \bibinfo{publisher}{ACM}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1145/3412815.3416893},
+  \DOIprefix\doi{10.1145/3412815.3416893}.
+%Type = Article
+\bibitem[{Zhao et~al.(2019)Zhao, Wu, Lee and Cui}]{Zhao_2019}
+\bibinfo{author}{Zhao, X.}, \bibinfo{author}{Wu, Y.}, \bibinfo{author}{Lee,
+  D.L.}, \bibinfo{author}{Cui, W.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{iforest: Interpreting random forests via visual
+  analytics}.
+\newblock \bibinfo{journal}{IEEE Transactions on Visualization and Computer
+  Graphics} \bibinfo{volume}{25}, \bibinfo{pages}{407–416}.
+\newblock \URLprefix \url{http://dx.doi.org/10.1109/TVCG.2018.2864475},
+  \DOIprefix\doi{10.1109/tvcg.2018.2864475}.
+
+\end{thebibliography}
