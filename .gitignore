@@ -116,3 +116,5 @@ reports/paper/*.pdf
 reports/paper/*.blg
 notebooks/
 reports/
+final_results/
+models/*
