@@ -1,6 +1,6 @@
-Bayes_spyct is a research prototype that extends Oblique Predictive Clustering Trees (SPYCTs) with full Bayesian treatment and Monte-Carlo uncertainty estimation.
+Extension of Oblique Predictive Clustering Trees (SPYCTs) with full Bayesian treatment and Monte-Carlo uncertainty estimation.
 
-It provides:
+The code provides:
 
 * `Spyct`  – a fast, deterministic variant trained with stochastic gradient descent.
 * `VSpyct` – a Bayesian version that learns a posterior distribution over split parameters using variational inference.  At prediction time the model performs Monte-Carlo sampling which allows you to inspect both mean predictions and their epistemic uncertainty.
@@ -31,10 +31,10 @@ import torch
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
 
-# Import the Bayesian tree
+# Import VSpyct
 from src.models.model import VSpyct
 
-# 1️⃣  Prepare some toy data
+# Prepare some toy data
 X, y = load_diabetes(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
@@ -44,14 +44,14 @@ X_train = torch.tensor(X_train, dtype=torch.float32)
 X_test  = torch.tensor(X_test,  dtype=torch.float32)
 y_train = torch.tensor(y_train, dtype=torch.float32)
 
-# 2️⃣  Instantiate and fit the model
+# Instantiate and fit the model
 model = VSpyct(bs = 256,          # batch size
                 lr = 0.001,       # learning rate
                 max_depth=5,      # optional – limit tree depth
                epochs=300)        # number of variational-inference steps
 model.fit(X_train, y_train)
 
-# 3️⃣  Predict with uncertainty (100 MC samples by default)
+# Predict with uncertainty (100 MC samples by default)
 predictions = model.predict(X_test)  # shape: (n_samples, 1, mc_samples)
 
 # Aggregate across Monte-Carlo dimension
