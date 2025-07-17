@@ -5,7 +5,7 @@ It provides:
 * `Spyct`  – a fast, deterministic variant trained with stochastic gradient descent.
 * `VSpyct` – a Bayesian version that learns a posterior distribution over split parameters using variational inference.  At prediction time the model performs Monte-Carlo sampling which allows you to inspect both mean predictions and their epistemic uncertainty.
 
-Although the original motivation was **survival analysis**, the models can be applied to any tabular regression / multi-output task.
+Although the original motivation was **survival analysis**, the models can be applied to any multi-output task.
 
 ## Installation
 
@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 $ pip install -e .
 ```
 
-## Quick start
+## Example
 
 The snippet below shows the minimal steps required to fit a Bayesian tree and obtain both predictions and their standard deviation:
 
