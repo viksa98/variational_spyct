@@ -114,3 +114,4 @@ models/vspyct_reduced_v1.pcl
 *.pytxcode
 reports/paper/*.pdf
 reports/paper/*.blg
+notebooks/
