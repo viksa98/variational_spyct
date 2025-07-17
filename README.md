@@ -45,8 +45,9 @@ X_test  = torch.tensor(X_test,  dtype=torch.float32)
 y_train = torch.tensor(y_train, dtype=torch.float32)
 
 # 2️⃣  Instantiate and fit the model
-model = VSpyct(max_depth=5,      # optional – limit tree depth
-               subspace_size=0.5, # fraction of features considered at each split
+model = VSpyct(bs = 256,          # batch size
+                lr = 0.001,       # learning rate
+                max_depth=5,      # optional – limit tree depth
                epochs=300)        # number of variational-inference steps
 model.fit(X_train, y_train)
 
