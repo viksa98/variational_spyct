@@ -62,4 +62,4 @@ print(mean_pred[:5])
 print(std_pred[:5])
 ```
 
-For a deterministic tree (faster but without uncertainty) simply replace `VSpyct` with `Spyct` and drop the aggregation over Monte-Carlo samples.
+For a deterministic tree (faster but without uncertainty) simply replace `VSpyct` with `Spyct` (drop the aggregation over Monte-Carlo samples).
