@@ -11,7 +11,7 @@ Although the original motivation was **survival analysis**, the models can be ap
 
 ```bash
 # clone the repository
-$ git clone https://github.com/your_username/bayes_spyct.git
+$ git clone https://github.com/viksa98/variational_spyct.git
 $ cd bayes_spyct
 
 # create a virtual-env and install dependencies
